@@ -1,4 +1,0 @@
--- DATABASE UPGRADE FROM 1.3 to 1.4
-
-
-ALTER TABLE `app_pages` ADD `pagekey` VARCHAR(64) NOT NULL AFTER `id`;

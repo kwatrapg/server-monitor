@@ -475,24 +475,32 @@ function logSMS($mobile,$sms) { //add to sms log
 // COMMUNICATIONS FUNCTIONS
 
 function sendEmail($to,$subject,$message,$userid="0",$ccs=array()) { //send email
+	// SMTP credentials come from the environment (.env), never the database
+	// (VAPT F-04). Non-secret toggles/host may still fall back to core_config.
+	$smtpHost = sm_env('SMTP_HOST', getConfigValue("email_smtp_host"));
+	$smtpUser = sm_env('SMTP_USERNAME', getConfigValue("email_smtp_username"));
+	$smtpPass = sm_env('SMTP_PASSWORD', getConfigValue("email_smtp_password"));
+	$smtpEnabled = ($smtpHost !== '' && $smtpHost !== null)
+		|| getConfigValue("email_smtp_enable") == "true";
+
 	$mail = new PHPMailer;
 	$mail->CharSet = "UTF-8";
-	if (getConfigValue("email_smtp_enable") == "true") {
+	if ($smtpEnabled) {
 		$mail->isSMTP();
-		$mail->Host = getConfigValue("email_smtp_host");
-		$mail->SMTPAuth = getConfigValue("email_smtp_auth");
-		$mail->Username = getConfigValue("email_smtp_username");
-		$mail->Password = getConfigValue("email_smtp_password");
-		$mail->SMTPSecure = getConfigValue("email_smtp_security");
-		$mail->Port = getConfigValue("email_smtp_port");
+		$mail->Host = $smtpHost;
+		$mail->SMTPAuth = ($smtpUser !== '' && $smtpUser !== null);
+		$mail->Username = $smtpUser;
+		$mail->Password = $smtpPass;
+		$mail->SMTPSecure = sm_env('SMTP_SECURITY', getConfigValue("email_smtp_security"));
+		$mail->Port = (int) sm_env('SMTP_PORT', getConfigValue("email_smtp_port") ?: 587);
 		if (getConfigValue("email_smtp_domain") != "") {
 			$mail->AuthType = 'NTLM';
 			$mail->Realm = getConfigValue("email_smtp_domain");
 		}
 	}
 
-	$mail->From = getConfigValue("email_from_address");
-	$mail->FromName = getConfigValue("email_from_name");
+	$mail->From = sm_env('SMTP_FROM_ADDRESS', getConfigValue("email_from_address"));
+	$mail->FromName = sm_env('SMTP_FROM_NAME', getConfigValue("email_from_name"));
 	$mail->addAddress($to);
 	foreach($ccs as $cc) { $mail->AddCC($cc); }
 	$mail->Subject = $subject;
