@@ -41,7 +41,7 @@
 										<label for="avatar"><?php _e('Avatar'); ?></label>
 											<input type="file" name="avatar" accept="image/jpeg">
 											<p class="help-block"><?php _e('Square JPG image only, recommended size: 128x128px.'); ?></p>
-											<p><a href="?qa=removeAvatar"><?php _e('Remove Avatar Image'); ?></a></p>
+											<p><a href="?qa=removeAvatar&amp;csrf_token=<?php echo e(csrf_token()); ?>"><?php _e('Remove Avatar Image'); ?></a></p>
 									</div>
 
 

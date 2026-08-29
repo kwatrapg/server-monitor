@@ -4,6 +4,15 @@
 ###           ACTIONS          ###
 ##################################
 
+// Every state-changing action requires a valid CSRF token + same-origin request
+// (VAPT F-07). The action id itself was already allow-list checked in loader.php.
+csrf_check_or_die();
+
+// A user may only ever edit their OWN profile (VAPT A-3). Ignore any posted id.
+if (($_POST['action'] ?? '') === 'editProfile') {
+	$_POST['id'] = $liu['id'];
+}
+
 switch($_POST['action']) {
 
 
@@ -265,17 +274,6 @@ switch($_POST['action']) {
 	case "deleteGroup":
 		isAuthorized("deleteGroup"); $status = Group::delete($_POST['id']);
 	break;
-
-
-	// files
-	case "uploadFile":
-		isAuthorized("uploadFile"); $status = File::upload($_POST,$_FILES);
-	break;
-
-	case "deleteFile":
-		isAuthorized("deleteFile"); $status = File::delete($_POST['id']);
-	break;
-
 
 
 	// languages

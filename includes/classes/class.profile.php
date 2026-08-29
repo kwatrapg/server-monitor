@@ -7,9 +7,9 @@ class Profile extends App {
     	global $database;
     	$email = strtolower($data['email']);
 
-        $count = $database->count("core_users",["AND" => ["id" => $data['id'], "password" => sha1($data['confirmpassword'])]]);
+        $current = $database->get("core_users", "*", ["id" => $data['id']]);
 
-        if($count == 1) {
+        if ($current && sm_password_matches($data['confirmpassword'] ?? '', $current['password'])) {
 
             if ( isset($files['avatar']) && $files['avatar']['size'] > 0 ) {
                 $avatar = file_get_contents($files['avatar']['tmp_name']);
@@ -30,11 +30,13 @@ class Profile extends App {
         		return "20";
         	}
         	else {
-        		$password = sha1($data['password']);
+        		if (sm_password_policy_error($data['password']) !== null) { return "1200"; }
+        		$password = sm_password_hash($data['password']);
         		$database->update("core_users", [
         			"name" => $data['name'],
         			"email" => $email,
         			"password" => $password,
+        			"must_change_password" => 0,
         			"theme" => $data['theme'],
         			"sidebar" => $data['sidebar'],
         			"layout" => $data['layout'],

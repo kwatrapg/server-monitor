@@ -51,6 +51,51 @@ function sm_hash_equals($known, $given) {
 }
 
 // ---------------------------------------------------------------------------
+// Password hashing (VAPT F-05) — argon2id when available, else bcrypt.
+// Legacy unsalted sha1 hashes are accepted once on login and transparently
+// upgraded (see signIn()).
+// ---------------------------------------------------------------------------
+
+function sm_password_algo() {
+    if (defined('PASSWORD_ARGON2ID') && in_array('argon2id', password_algos(), true)) {
+        return PASSWORD_ARGON2ID;
+    }
+    return PASSWORD_BCRYPT;
+}
+
+function sm_password_hash($plain) {
+    return password_hash((string) $plain, sm_password_algo());
+}
+
+/** True when $plain matches $stored (modern hash or legacy sha1). */
+function sm_password_matches($plain, $stored) {
+    if (!is_string($stored) || $stored === '') return false;
+    if ($stored[0] === '$') {                       // $argon2id$ / $2y$ (bcrypt)
+        return password_verify((string) $plain, $stored);
+    }
+    if (preg_match('/^[0-9a-f]{40}$/i', $stored)) { // legacy unsalted sha1
+        return hash_equals(strtolower($stored), sha1((string) $plain));
+    }
+    return false;
+}
+
+/** True when the stored hash should be re-hashed with the current algo. */
+function sm_password_needs_upgrade($stored) {
+    if (!is_string($stored) || $stored === '' || $stored[0] !== '$') return true;
+    return password_needs_rehash($stored, sm_password_algo());
+}
+
+/** Minimal password policy. Returns null when OK, or an error string. */
+function sm_password_policy_error($plain) {
+    $plain = (string) $plain;
+    if (strlen($plain) < 12) return 'Password must be at least 12 characters.';
+    if (!preg_match('/[a-z]/', $plain) || !preg_match('/[A-Z]/', $plain) || !preg_match('/\d/', $plain)) {
+        return 'Password must contain lower-case, upper-case and numeric characters.';
+    }
+    return null;
+}
+
+// ---------------------------------------------------------------------------
 // CSRF
 // ---------------------------------------------------------------------------
 

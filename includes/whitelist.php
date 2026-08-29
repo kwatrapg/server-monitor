@@ -59,7 +59,7 @@ function sm_valid_modal($modal, $appRoot) {
 
 /** Quick-action ids accepted by includes/controllers/quickactions.php. */
 function sm_valid_qa($qa) {
-    return in_array($qa, ['setAutorefresh', 'removeAvatar', 'download'], true);
+    return in_array($qa, ['setAutorefresh', 'removeAvatar'], true);
 }
 
 /** JSON datasource ids accepted by includes/controllers/json.php. */
@@ -89,7 +89,6 @@ function sm_valid_action($action) {
         'addUser', 'editUser', 'deleteUser',
         'addRole', 'editRole', 'deleteRole',
         'addGroup', 'editGroup', 'deleteGroup',
-        'uploadFile', 'deleteFile',
         'addLanguage', 'deleteLanguage',
         'editProfile',
         'generalSettings', 'monitoringSettings', 'localisationSettings',

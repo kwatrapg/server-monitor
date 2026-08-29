@@ -51,6 +51,7 @@
 				<div class="row"><div class='col-md-12'><div class="alert alert-<?php print $statusmessage["type"]; ?> alert-auto" role="alert"><?php print $statusmessage["message"]; ?></div></div></div>
 		<?php endif; ?>
         <form action="?route=signin" method="post">
+          <?php echo csrf_field(); ?>
           <div class="form-group has-feedback">
             <input type="email" name="email" class="form-control" placeholder="<?php _e('Email'); ?>" required autofocus/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

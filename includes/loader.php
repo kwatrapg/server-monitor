@@ -100,6 +100,16 @@ if (!$isPublicRoute) {
     $liu_groups = unserialize((string) $liu['groups'], ['allowed_classes' => false]);
     if (!is_array($liu_groups)) $liu_groups = [];
     if (in_array("0", $liu_groups, true)) $liu_groups = getGroupsArray();
+
+    // F-03: accounts flagged for a forced password change may only reach their
+    // own profile page (where they can set a new password) until they do so.
+    if (!empty($liu['must_change_password'])
+        && $route !== 'profile' && $route !== 'signout'
+        && !isset($_GET['json']) && !isset($_GET['qa'])) {
+        setStatus(1201); // "you must change your password" (see core_statuses / lang)
+        header("Location:?route=profile");
+        exit;
+    }
 }
 
 ### GOOGLE MAPS ###

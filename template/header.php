@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?php if(isset($pageTitle)) echo $pageTitle . " - "; ?><?php echo strip_tags ( getConfigValue("app_name") ); ?></title>
+        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+        <title><?php if(isset($pageTitle)) echo e($pageTitle) . " - "; ?><?php echo e(strip_tags ( getConfigValue("app_name") )); ?></title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
 
@@ -375,13 +376,13 @@
                                 <li class="header text-center"><?php _e('Autorefresh'); ?></li>
                                 <li>
                                     <ul class="menu">
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=0"><i class="fa <?php if($liu['autorefresh'] == 0) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Disabled'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=30000"><i class="fa <?php if($liu['autorefresh'] == 30000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 30 Seconds'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=60000"><i class="fa <?php if($liu['autorefresh'] == 60000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 1 Minute'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=120000"><i class="fa <?php if($liu['autorefresh'] == 120000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 2 Minutes'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=300000"><i class="fa <?php if($liu['autorefresh'] == 300000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 5 Minutes'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=600000"><i class="fa <?php if($liu['autorefresh'] == 600000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 10 Minutes'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&reroute=<?php echo $route; ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=900000"><i class="fa <?php if($liu['autorefresh'] == 900000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 15 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=0"><i class="fa <?php if($liu['autorefresh'] == 0) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Disabled'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=30000"><i class="fa <?php if($liu['autorefresh'] == 30000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 30 Seconds'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=60000"><i class="fa <?php if($liu['autorefresh'] == 60000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 1 Minute'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=120000"><i class="fa <?php if($liu['autorefresh'] == 120000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 2 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=300000"><i class="fa <?php if($liu['autorefresh'] == 300000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 5 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=600000"><i class="fa <?php if($liu['autorefresh'] == 600000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 10 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=900000"><i class="fa <?php if($liu['autorefresh'] == 900000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 15 Minutes'); ?></a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -442,7 +443,7 @@
                                         <a href="?route=profile" class="btn btn-default btn-flat"><?php _e('Profile'); ?></a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="?route=signout" class="btn btn-default btn-flat"><?php _e('Sign Out'); ?></a>
+                                        <a href="?route=signout&amp;csrf_token=<?php echo e(csrf_token()); ?>" class="btn btn-default btn-flat"><?php _e('Sign Out'); ?></a>
                                     </div>
                                 </li>
                             </ul>

@@ -10,6 +10,7 @@
 
 			  <div class="modal fade" id="myModal">
 				  <form role="form" method="post" enctype="multipart/form-data">
+					  <?php echo csrf_field(); ?>
 					  <div class="modal-dialog">
 						  <div class="modal-content">
 

@@ -1,5 +1,29 @@
 $(document).ajaxStart(function() { Pace.restart(); });
 
+// --- CSRF (VAPT F-07) ------------------------------------------------------
+// Attach the per-session token to every same-origin AJAX request and inject a
+// hidden field into every form that does not already carry one.
+var SM_CSRF = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+if (SM_CSRF) {
+	$.ajaxSetup({
+		headers: { 'X-CSRF-Token': SM_CSRF },
+		crossDomain: false
+	});
+	$(function () {
+		$('form').each(function () {
+			if (!$(this).find('input[name="csrf_token"]').length) {
+				$('<input>', { type: 'hidden', name: 'csrf_token', value: SM_CSRF }).appendTo(this);
+			}
+		});
+		// Forms injected later (AdminLTE modals load content via .load()).
+		$(document).on('submit', 'form', function () {
+			if (!$(this).find('input[name="csrf_token"]').length) {
+				$('<input>', { type: 'hidden', name: 'csrf_token', value: SM_CSRF }).appendTo(this);
+			}
+		});
+	});
+}
+
 $(document).ready(function() {
 
 	window.setTimeout(function() {

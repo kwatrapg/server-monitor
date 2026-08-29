@@ -313,63 +313,109 @@ function _x($sg,$pl,$count) {
 
 function signIn($email,$password) { //login and set session
 	global $database;
-	$email = strtolower($email);
-	$people = $database->count("core_users",["AND" => ["email" => $email,"password" => sha1($password)]]);
+	$email = strtolower(trim((string) $email));
 
-	if ($people == "1") {
-		//session_start();
-		$sessionid = session_id();
-		$database->update("core_users", ["sessionid" => $sessionid], ["email" => $email]);
-		$people = $database->get("core_users","*",["email" => $email]);
-		logSystem("User Logged In - ID: " . $people['id']);
-		header("Location:?route=dashboard");
+	// F-08: throttle by IP + account. Uniform "failed" response when locked out.
+	list($allowed, ) = sm_throttle_check('login', $email);
+	if (!$allowed) {
+		logSystem("User Login blocked (rate limited) - EMAIL: " . $email);
+		setStatus(1200);
+		header("Location:?route=signin");
 		exit;
 	}
-	else {
+
+	$user  = $database->get("core_users", "*", ["email" => $email]);
+	$valid = $user && sm_password_matches($password, $user['password']);
+
+	if (!$valid) {
+		sm_throttle_hit('login', $email);
 		logSystem("User Login Failure - EMAIL: " . $email);
 		setStatus(1200);
 		header("Location:?route=signin");
 		exit;
 	}
+
+	sm_throttle_clear('login', $email);
+
+	// F-05: transparently upgrade legacy sha1 (or weak) hashes on successful login.
+	if (sm_password_needs_upgrade($user['password'])) {
+		$database->update("core_users", ["password" => sm_password_hash($password)], ["id" => $user['id']]);
+	}
+
+	// F-07: defeat session fixation — new session id bound to the account.
+	session_regenerate_id(true);
+	$database->update("core_users", [
+		"sessionid"     => session_id(),
+		"last_login_at" => date('Y-m-d H:i:s'),
+	], ["id" => $user['id']]);
+
+	logSystem("User Logged In - ID: " . $user['id']);
+	header("Location:?route=dashboard");
+	exit;
 }
 
 function resetConfirmation($email) { //set password resetkey and send confirmation email for password reset
 	global $database;
-	$email = strtolower($email);
-	$count = $database->count("core_users",["email" => $email]);
+	$email = strtolower(trim((string) $email));
 
-	if ($count == "1") {
-		$people = $database->get("core_users","*",["email" => $email]);
-		$resetkey = randomString(32);
-		$database->update("core_users", ["resetkey" => $resetkey], ["email" => $email]);
-		$resetlink = baseURL(-14) . "/?route=forgot&resetkey=" . $resetkey;
-		Notification::passwordReset($people['id'],$resetlink);
-		setStatus(1300);
-		header("Location:?route=forgot");
-		exit;
+	// F-08: same response whether or not the address exists (no user enumeration).
+	list($allowed, ) = sm_throttle_check('reset', $email);
+	if ($allowed) {
+		$people = $database->get("core_users", "*", ["email" => $email]);
+		if ($people) {
+			$token = sm_random_token(48);
+			$database->update("core_users", [
+				"resetkey"         => hash('sha256', $token),               // F-06: store only a hash
+				"resetkey_expires" => date('Y-m-d H:i:s', time() + 1800),   // F-06: 30 min TTL
+			], ["id" => $people['id']]);
+			$resetlink = rtrim(baseURL(), '/') . "/?route=forgot&resetkey=" . $token;
+			Notification::passwordReset($people['id'], $resetlink);
+		}
+		sm_throttle_hit('reset', $email);
 	}
-	else { setStatus(1400); header("Location:?route=forgot");  exit; }
+
+	setStatus(1300);
+	header("Location:?route=forgot");
+	exit;
 }
 
 function resetPassword($resetkey,$password) { //reset password
 	global $database;
-	$count = $database->count("core_users",["resetkey" => $resetkey]);
+	$hashed = hash('sha256', (string) $resetkey);
+	$people = $database->get("core_users", "*", ["resetkey" => $hashed]);
 
-	if ($count == "1") {
-		$people = $database->get("core_users","*",["resetkey" => $resetkey]);
-		$database->update("core_users", ["password" => sha1($password),"resetkey" => ""], ["resetkey" => $resetkey]);
-		logSystem("User Password Reset - ID: " . $people['id']);
-		setStatus(1600);
-		header("Location:?route=login");
+	$valid = $people
+		&& !empty($people['resetkey_expires'])
+		&& strtotime($people['resetkey_expires']) >= time();
+
+	if (!$valid) { setStatus(1500); header("Location:?route=forgot"); exit; }
+
+	if (($policyError = sm_password_policy_error($password)) !== null) {
+		setStatus(1500);
+		header("Location:?route=forgot&resetkey=" . urlencode((string) $resetkey));
 		exit;
 	}
-	else { setStatus(1500); header("Location:?route=forgot");  exit; }
+
+	$database->update("core_users", [
+		"password"             => sm_password_hash($password),
+		"resetkey"             => "",
+		"resetkey_expires"     => null,
+		"must_change_password" => 0,
+		"sessionid"            => "",   // F-06/F-07: invalidate every existing session
+	], ["id" => $people['id']]);
+
+	logSystem("User Password Reset - ID: " . $people['id']);
+	setStatus(1600);
+	header("Location:?route=signin");   // was "login" (a route that does not exist)
+	exit;
 }
 
 function signOut($id) { //unset user/admin session
 	global $database;
-	$database->update("core_users", ["sessionid" => ""], ["id" => $id]);
-	logSystem("User Signned Out - ID: " . $id);
+	if (!empty($id)) $database->update("core_users", ["sessionid" => ""], ["id" => $id]);
+	$_SESSION = [];
+	session_regenerate_id(true);
+	logSystem("User Signed Out - ID: " . $id);
 	header("Location:?route=signin");
 	exit;
 }
@@ -377,6 +423,7 @@ function signOut($id) { //unset user/admin session
 function isSignedIn() { //check if someone is logged in, if not redirect to login page
 	global $database;
 	$sessionid = session_id();
+	if (!is_string($sessionid) || strlen($sessionid) < 16) { header("Location:?route=signin"); exit; }
 	$people = $database->count("core_users", ["sessionid" => $sessionid]);
 	if($people != 1) { header("Location:?route=signin"); exit; }
 }

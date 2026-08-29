@@ -9,7 +9,7 @@ class User extends App {
     	$count = $database->count("core_users",["email" => $email]);
     	if ($count == "1") { return "11"; }
 
-    	$password = sha1($data['password']);
+    	$password = sm_password_hash($data['password']);
 
     	$lastid = $database->insert("core_users", [
     		"roleid" => $data['roleid'],

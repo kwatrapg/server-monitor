@@ -48,6 +48,7 @@
 				<div class="row"><div class='col-md-12'><div class="alert alert-<?php print $statusmessage["type"]; ?> alert-auto" role="alert"><?php print __($statusmessage["message"]); ?></div></div></div>
 		<?php endif; ?>
         <form action="?route=forgot" method="post">
+          <?php echo csrf_field(); ?>
           <div class="form-group has-feedback">
             <input type="email" name="email" class="form-control" placeholder="<?php _e('Email'); ?>" required autofocus/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -63,7 +64,7 @@
 		<input type="hidden" name="resetConfirmation"/>
         </form>
       </div><!-- /.login-box-body -->
-      <br><p class="text-center"><a href="?route=login"><?php _e('Log In'); ?></a></p>
+      <br><p class="text-center"><a href="?route=signin"><?php _e('Log In'); ?></a></p>
 <?php } ?>
 
 <?php if(isset($_GET['resetkey'])) { ?>
@@ -73,6 +74,7 @@
 				<div class="row"><div class='col-md-12'><div class="alert alert-<?php print $statusmessage["type"]; ?> alert-auto" role="alert"><?php print __($statusmessage["message"]); ?></div></div></div>
 		<?php endif; ?>
         <form action="?route=forgot" method="post">
+          <?php echo csrf_field(); ?>
             <div class="form-group has-feedback">
               <input type="password" name="password" class="form-control" placeholder="<?php _e('New Password'); ?>" required autofocus/>
               <span class="glyphicon glyphicon-lock form-control-feedback"></span>
@@ -86,10 +88,10 @@
             </div><!-- /.col -->
           </div>
 		<input type="hidden" name="resetPassword"/>
-        <input type="hidden" name="resetkey" value="<?php echo $_GET['resetkey']; ?>"/>
+        <input type="hidden" name="resetkey" value="<?php echo e($_GET['resetkey'] ?? ''); ?>"/>
         </form>
       </div><!-- /.login-box-body -->
-      <br><p class="text-center"><a href="?route=login"><?php _e('Log In'); ?></a></p>
+      <br><p class="text-center"><a href="?route=signin"><?php _e('Log In'); ?></a></p>
 <?php } ?>
     </div><!-- /.login-box -->
 
