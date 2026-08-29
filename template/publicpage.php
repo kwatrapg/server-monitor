@@ -408,7 +408,7 @@
                 <div class="pull-right hidden-xs">
                     <?php _e('All times are'); ?> <?php echo getConfigValue("timezone"); ?>.
                     <?php _e('The time now is'); ?> <?php echo dateTimeDisplay($datetime); ?>.
-                    <b><?php echo strip_tags ( getConfigValue("app_name") ); ?></b> 1.4 - <?php echo $total_time; ?><?php _e('s'); ?>
+                    <b><?php echo strip_tags ( getConfigValue("app_name") ); ?></b> <?php echo SM_APP_VERSION; ?> - <?php echo $total_time; ?><?php _e('s'); ?>
                 </div>
 
                 <strong><?php _e('Copyright'); ?> &copy; <?php echo date('Y'); ?> <?php echo getConfigValue("company_name"); ?>.</strong> <?php _e('All rights reserved.'); ?>
@@ -460,7 +460,7 @@
 		<script src="template/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 		<script src="template/assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 
-		<!-- Server-Monitor -->
+		<!-- Sentruo -->
 		<script src="template/assets/app.js" type="text/javascript"></script>
 
 		<script type="text/javascript">

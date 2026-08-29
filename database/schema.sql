@@ -38,6 +38,7 @@ CREATE TABLE `app_checks` (
   `port` varchar(12) NOT NULL,
   `timeout` int(11) NOT NULL,
   `host` varchar(512) NOT NULL,
+  `callbackkey` varchar(64) DEFAULT NULL,
   `send` text NOT NULL,
   `expect` text NOT NULL,
   `status` int(1) NOT NULL,
@@ -218,6 +219,7 @@ CREATE TABLE `app_servers` (
   `type` varchar(10) NOT NULL,
   `name` varchar(255) NOT NULL,
   `serverkey` varchar(64) NOT NULL,
+  `last_agent_nonce_at` datetime DEFAULT NULL,
   `status` int(1) NOT NULL,
   `geodata` text NOT NULL,
   `on_map` int(1) NOT NULL,
@@ -422,6 +424,16 @@ CREATE TABLE `core_activitylog` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `core_auththrottle` (
+  `throttle_key` varchar(96) NOT NULL,
+  `fail_count` int(11) NOT NULL DEFAULT 0,
+  `last_fail` datetime NOT NULL,
+  PRIMARY KEY (`throttle_key`),
+  KEY `last_fail` (`last_fail`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_config` (
   `name` varchar(128) NOT NULL,
   `value` varchar(512) NOT NULL,
@@ -471,6 +483,14 @@ CREATE TABLE `core_languages` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `core_migrations` (
+  `filename` varchar(191) NOT NULL,
+  `applied_at` datetime NOT NULL,
+  PRIMARY KEY (`filename`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -529,6 +549,9 @@ CREATE TABLE `core_users` (
   `notes` text NOT NULL,
   `sessionid` varchar(255) NOT NULL,
   `resetkey` varchar(255) NOT NULL,
+  `resetkey_expires` datetime DEFAULT NULL,
+  `must_change_password` tinyint(1) NOT NULL DEFAULT 0,
+  `last_login_at` datetime DEFAULT NULL,
   `lang` varchar(2) NOT NULL,
   `avatar` mediumblob NOT NULL,
   `autorefresh` int(11) NOT NULL,

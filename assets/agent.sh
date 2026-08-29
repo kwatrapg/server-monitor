@@ -3,8 +3,8 @@
 # Set environment
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-GATEWAY=$(cat /opt/server-monitor/gateway)
-SERVERKEY=$(cat /opt/server-monitor/serverkey)
+GATEWAY=$(cat /opt/sentruo/gateway)
+SERVERKEY=$(cat /opt/sentruo/serverkey)
 
 #============
 # Functions
@@ -80,11 +80,11 @@ agent_version="1.2"
 POST="$POST{agent_version}$agent_version{/agent_version}"
 
 # serverkey
-serverkey=$(cat /opt/server-monitor/serverkey)
+serverkey=$(cat /opt/sentruo/serverkey)
 POST="$POST{serverkey}$serverkey{/serverkey}"
 
 # serverkey
-gateway=$(cat /opt/server-monitor/gateway)
+gateway=$(cat /opt/sentruo/gateway)
 POST="$POST{gateway}$gateway{/gateway}"
 
 # hostname

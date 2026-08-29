@@ -40,7 +40,7 @@
 								<div class="form-group">
 									<label for="app_url" class="control-label"><?php _e('Application URL'); ?></label>
 									<input class="form-control" id="app_url" value="<?php echo getConfigValue("app_url"); ?>" placeholder="Application URL" type="text" name="app_url" required>
-									<p class="help-block"><?php _e('Full installation URL including http:// or https:// (eg. http://mydomain.com/nmon/)'); ?></p>
+									<p class="help-block"><?php _e('Full installation URL including http:// or https:// (eg. https://monitor.example.com/)'); ?></p>
 								</div>
 
 								<div class="form-group">
@@ -407,8 +407,8 @@
 								<br>
 
 								<h3>Alerts</h3>
-								<a onClick='showM("?modal=notifications/edit&id=3&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Server-Monitor Incident Alert'); ?></a>
-								<a onClick='showM("?modal=notifications/edit&id=3&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Server-Monitor Incident Unresolved'); ?></a>
+								<a onClick='showM("?modal=notifications/edit&id=3&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Incident Alert'); ?></a>
+								<a onClick='showM("?modal=notifications/edit&id=3&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Incident Unresolved'); ?></a>
 							</div>
 							<br>
 

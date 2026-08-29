@@ -2,7 +2,7 @@
 #
 #////////////////////////////////////////////////////////////
 #===========================================================
-# Server-Monitor - Installer v1.1
+# Sentruo - Installer v1.1
 #===========================================================
 # Set environment
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -12,16 +12,16 @@ clear
 
 #SERVERKEY=$1
 #GATEWAY=$2
-LOG=/tmp/server-monitor.log
+LOG=/var/log/sentruo-agent.log
 
 echo "--------------------------------"
-echo " Welcome to Server-Monitor Agent Installer"
+echo " Welcome to Sentruo Agent Installer"
 echo "--------------------------------"
 echo " "
 
 # Are we running as root
 if [ $(id -u) != "0" ]; then
-	echo "Server-Monitor Agent installer needs to be run with root priviliges"
+	echo "Sentruo Agent installer needs to be run with root priviliges"
 	echo "Try again with root privilileges"
 	exit 1;
 fi
@@ -210,49 +210,49 @@ if [  ! -n "$(command -v curl)" ]; then
 fi
 
 # Remove previous installation
-if [ -f /opt/server-monitor/agent.sh ]; then
+if [ -f /opt/sentruo/agent.sh ]; then
 	# Remove folder
-	rm -rf /opt/server-monitor
+	rm -rf /opt/sentruo
 	# Remove crontab
-	crontab -r -u server-monitoragent >> $LOG 2>&1
+	crontab -r -u sentruo-agent >> $LOG 2>&1
 	# Remove user
-	userdel server-monitoragent >> $LOG 2>&1
+	userdel sentruo-agent >> $LOG 2>&1
 fi
 
 ### Install ###
-mkdir -p /opt/server-monitor >> $LOG 2>&1
-wget -N --no-check-certificate -O /opt/server-monitor/agent.sh $2/assets/agent.sh >> $LOG 2>&1
-wget -N --no-check-certificate -O /opt/server-monitor/uninstall.sh $2/assets/uninstall.sh >> $LOG 2>&1
+mkdir -p /opt/sentruo >> $LOG 2>&1
+wget -N --no-check-certificate -O /opt/sentruo/agent.sh $2/assets/agent.sh >> $LOG 2>&1
+wget -N --no-check-certificate -O /opt/sentruo/uninstall.sh $2/assets/uninstall.sh >> $LOG 2>&1
 
-echo "$1" > /opt/server-monitor/serverkey
-echo "$2/agent.php" > /opt/server-monitor/gateway
+echo "$1" > /opt/sentruo/serverkey
+echo "$2/agent.php" > /opt/sentruo/gateway
 
 # Did it download ?
-if ! [ -f /opt/server-monitor/agent.sh ]; then
+if ! [ -f /opt/sentruo/agent.sh ]; then
 	echo "Unable to install!"
 	echo "Exiting installer"
 	exit 1;
 fi
 
-#useradd server-monitoragent -r -d /opt/server-monitor -s /bin/false >> $LOG 2>&1
-#groupadd server-monitoragent >> $LOG 2>&1
-#usermod -a -G sudo server-monitoragent
+#useradd sentruo-agent -r -d /opt/sentruo -s /bin/false >> $LOG 2>&1
+#groupadd sentruo-agent >> $LOG 2>&1
+#usermod -a -G sudo sentruo-agent
 
-crontab -r -u server-monitoragent >> $LOG 2>&1
-userdel server-monitoragent >> $LOG 2>&1
+crontab -r -u sentruo-agent >> $LOG 2>&1
+userdel sentruo-agent >> $LOG 2>&1
 
-# Disable cagefs for server-monitor
+# Disable cagefs for sentruo
 if [ -f /usr/sbin/cagefsctl ]; then
-	/usr/sbin/cagefsctl --disable server-monitoragent >> $LOG 2>&1
+	/usr/sbin/cagefsctl --disable sentruo-agent >> $LOG 2>&1
 fi
 
 # Modify user permissions
-#chown -R server-monitoragent:server-monitoragent /opt/server-monitor && chmod -R 700 /opt/server-monitor >> $LOG 2>&1
+#chown -R sentruo-agent:sentruo-agent /opt/sentruo && chmod -R 700 /opt/sentruo >> $LOG 2>&1
 
 # Configure cron
-if ! crontab -u root -l | grep '* * * * * bash /opt/server-monitor/agent.sh > /opt/server-monitor/cron.log 2>&1' &> /dev/null
+if ! crontab -u root -l | grep '* * * * * bash /opt/sentruo/agent.sh > /opt/sentruo/cron.log 2>&1' &> /dev/null
 then
-	crontab -u root -l 2>/dev/null | { cat; echo "* * * * * bash /opt/server-monitor/agent.sh > /opt/server-monitor/cron.log 2>&1"; } | crontab -u root -
+	crontab -u root -l 2>/dev/null | { cat; echo "* * * * * bash /opt/sentruo/agent.sh > /opt/sentruo/cron.log 2>&1"; } | crontab -u root -
 fi
 
 

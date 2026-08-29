@@ -5,6 +5,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once __DIR__ . '/security.php';
 require_once __DIR__ . '/whitelist.php';
 
+define('SM_APP_VERSION', '2.0.0');
+
 // ----------------------------------------------------------------------------------------------
 // GENERAL FUNCTIONS
 

@@ -1126,7 +1126,7 @@ msgid "Install Instructions"
 msgstr ""
 
 #: modals/servers/install-linux.php:3 modals/servers/install-windows.php:3
-msgid "Install Server-Monitor Server Agent"
+msgid "Install Monitoring Agent"
 msgstr ""
 
 #: modals/servers/install-linux.php:9
@@ -2656,7 +2656,7 @@ msgid "Password Reset"
 msgstr ""
 
 #: pages/system/settings.php:395
-msgid "Server-Monitor Incident Alert"
+msgid "Incident Alert"
 msgstr ""
 
 #: pages/system/settings.php:407

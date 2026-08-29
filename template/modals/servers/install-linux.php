@@ -1,12 +1,12 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title"><?php _e('Install Server-Monitor Server Agent'); ?></h4>
+    <h4 class="modal-title"><?php _e('Install Monitoring Agent'); ?></h4>
 </div>
 
 <div class="modal-body">
 
 
-    <p><?php _e('Please run the following command as root to install or reinstall the Server-Monitor agent on server'); ?> <?php echo e($server['name']); ?></p>
+    <p><?php _e('Please run the following command as root to install or reinstall the monitoring agent on server'); ?> <?php echo e($server['name']); ?></p>
     <pre>wget -N --no-check-certificate <?php echo baseURL(); ?>assets/install.sh && bash install.sh <?php echo e($server['serverkey']); ?> <?php echo rtrim(baseURL(), '/') ?></pre>
 
 

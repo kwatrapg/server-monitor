@@ -1130,7 +1130,7 @@ msgid "Install Instructions"
 msgstr "Instructions d'installation"
 
 #: modals/servers/install-linux.php:3 modals/servers/install-windows.php:3
-msgid "Install Server-Monitor Server Agent"
+msgid "Install Monitoring Agent"
 msgstr "Installer l'agent Server-Monitor Server"
 
 #: modals/servers/install-linux.php:9
@@ -2455,7 +2455,7 @@ msgid ""
 "server-monittor/)"
 msgstr ""
 "URL d'installation complète, y compris http:// ou https:// (par exemple "
-"http://mydomain.com/server-monitor/)"
+"https://monitor.example.com/)"
 
 #: pages/system/settings.php:43
 msgid "Company Name"
@@ -2689,7 +2689,7 @@ msgid "Password Reset"
 msgstr "Réinitialiser le mot de passe"
 
 #: pages/system/settings.php:395
-msgid "Server-Monitor Incident Alert"
+msgid "Incident Alert"
 msgstr "alerte incident"
 
 #: pages/system/settings.php:407

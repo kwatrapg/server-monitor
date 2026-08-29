@@ -1,7 +1,7 @@
 # Server Log Monitoring — Implementation Spec
 
 > **Status:** Approved design, not yet implemented.
-> **Audience:** An engineer or AI session implementing this feature in `server-monitor`.
+> **Audience:** An engineer or AI session implementing this feature in `sentruo`.
 > **Goal:** Collect application/system logs from monitored Linux servers, display them live and filterable in the app, and raise alerts from them — at ~100 servers — without degrading app or database performance.
 
 This document is self-contained. Everything in "Current Architecture" and "Codebase Conventions" has been **verified against the live codebase and database**; trust it rather than re-deriving it.
@@ -10,13 +10,13 @@ This document is self-contained. Everything in "Current Architecture" and "Codeb
 
 ## 1. Current architecture (verified)
 
-`server-monitor` today collects **metrics only**. The pipeline:
+`sentruo` today collects **metrics only**. The pipeline:
 
 ```
 install.sh <serverkey> <gateway>
-   └─ writes /opt/server-monitor/{serverkey,gateway}
-   └─ downloads /opt/server-monitor/agent.sh
-   └─ adds root crontab:  * * * * * bash /opt/server-monitor/agent.sh   (60s)
+   └─ writes /opt/sentruo/{serverkey,gateway}
+   └─ downloads /opt/sentruo/agent.sh
+   └─ adds root crontab:  * * * * * bash /opt/sentruo/agent.sh   (60s)
 
 agent.sh  (every 60s)
    └─ collects metrics into a "{tag}value{/tag}" pseudo-XML string
@@ -80,7 +80,7 @@ Logs are **100–1000× metrics volume**. Three failure modes if forced into the
                    └──────────┘
                          ▲ HTTP query (LogQL) — built server-side only
                          │
-┌───────────────── server-monitor APP ─────────────────┐
+┌───────────────── sentruo APP ─────────────────┐
 │  LogStore interface ── LokiLogStore / MysqlLogStore  │
 │  MySQL: log sources, policies, alert rules,          │
 │         incidents, agent health, users, groups       │
@@ -295,7 +295,7 @@ Applied **at the edge**, for every mode:
 
 - **Deduplication** — normalize the line (strip timestamps, numbers, UUIDs, IPs), hash it, collapse repeats within the batch window into one entry carrying `repeat_count`.
 - **Rate limiting** — per-source max lines/min. On breach, emit a synthetic marker line:
-  `[server-monitor] rate limit exceeded for <source>, dropped N lines`.
+  `[sentruo] rate limit exceeded for <source>, dropped N lines`.
   **Never drop silently** — an invisible gap destroys trust in the tool.
 - **Sampling** — optional 1-in-N for noisy sources, tagged with `sample_rate` so counts can be extrapolated honestly.
 

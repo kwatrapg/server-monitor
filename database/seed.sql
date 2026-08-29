@@ -25,7 +25,8 @@ INSERT INTO `core_statuses` (`id`, `code`, `type`, `message`) VALUES (45,10,'suc
 (55,1500,'danger','Invalid reset key!'),
 (56,1600,'success','Success. Please log in with your new password! '),
 (57,1,'danger','Unauthorized Access'),
-(58,50,'warning','Disabled in demo mode!');
+(58,50,'warning','Disabled in demo mode!'),
+(59,1201,'warning','You must set a new password before continuing.');
 /*!40000 ALTER TABLE `core_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -33,8 +34,8 @@ LOCK TABLES `core_notifications` WRITE;
 /*!40000 ALTER TABLE `core_notifications` DISABLE KEYS */;
 INSERT INTO `core_notifications` (`id`, `name`, `subject`, `message`, `info`) VALUES (1,'New User','New User','<p>Hello {contact},<br><br>Your account has been successfully created.</p><p><br>Email Address: {email}<br>Password: {password}<br><br><br>Best regards,<br>{company}<br></p>',''),
 (2,'Password Reset','Password Reset','<p>Hello {contact},<br><br>Please follow the link below to reset your password.<br>{resetlink}<br><br>Best regards,<br>{company}<br></p>',''),
-(3,'nMon Incident Alert','{subject}','<p>Hello {contact},</p><p><b>{message}</b></p><p><br>Best regards,<br>{company}<br></p>',''),
-(4,'nMon Incident Unresolved','{subject}','<p>Hello {contact},</p><p><b>{message}</b></p><p><br>Best regards,<br>{company}<br></p>','');
+(3,'Incident Alert','{subject}','<p>Hello {contact},</p><p><b>{message}</b></p><p><br>Best regards,<br>{company}<br></p>',''),
+(4,'Incident Unresolved','{subject}','<p>Hello {contact},</p><p><b>{message}</b></p><p><br>Best regards,<br>{company}<br></p>','');
 /*!40000 ALTER TABLE `core_notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,6 +69,48 @@ INSERT INTO `app_dnsbls` (`id`, `host`) VALUES (11,'b.barracudacentral.org'),
 (9,'xbl.spamhaus.org'),
 (6,'zen.spamhaus.org');
 /*!40000 ALTER TABLE `app_dnsbls` ENABLE KEYS */;
+UNLOCK TABLES;
+
+LOCK TABLES `core_config` WRITE;
+/*!40000 ALTER TABLE `core_config` DISABLE KEYS */;
+INSERT INTO `core_config` (`name`, `value`) VALUES ('app_name','Sentruo'),
+('app_url','http://server-monitor.com/'),
+('check_timeout','5'),
+('company_details',''),
+('company_name','Sentruo'),
+('date_format','Y-m-d;yyyy-mm-dd'),
+('db_version','1.11'),
+('default_contacts','a:2:{i:0;s:1:\"1\";i:1;s:1:\"2\";}'),
+('default_lang','en'),
+('email_from_address',''),
+('email_from_name','Sentruo'),
+('email_smtp_auth','true'),
+('email_smtp_domain',''),
+('email_smtp_enable','true'),
+('email_smtp_host','smtp.gmail.com'),
+('email_smtp_password',''),
+('email_smtp_port','587'),
+('email_smtp_security','TLS'),
+('email_smtp_username',''),
+('google_maps_api_key',''),
+('history_retention','90'),
+('log_retention','90'),
+('pushover_apitoken',''),
+('sms_api_id',''),
+('sms_from',''),
+('sms_password',''),
+('sms_provider','clickatell'),
+('sms_user',''),
+('table_records','50'),
+('timezone','UTC'),
+('twitter_apikey',''),
+('twitter_apisecret',''),
+('twitter_token',''),
+('twitter_tokensecret',''),
+('website_timeout','100'),
+('week_start','1'),
+('xss_filtering','true');
+/*!40000 ALTER TABLE `core_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
