@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php composer-setup.php --quiet)",
+      "Bash(php composer.phar --version)",
+      "Bash(php /tmp/claude-1000/-monitor-server-server-monitor/e4fe3641-ff14-4dc2-83b7-6296bff85488/scratchpad/composer.phar update --dry-run)",
+      "Bash(php /tmp/claude-1000/-monitor-server-server-monitor/e4fe3641-ff14-4dc2-83b7-6296bff85488/scratchpad/composer.phar update --dry-run --ignore-platform-req=ext-curl)",
+      "Bash(php /tmp/claude-1000/-monitor-server-server-monitor/e4fe3641-ff14-4dc2-83b7-6296bff85488/scratchpad/composer.phar update --ignore-platform-req=ext-curl)",
+      "Bash(php -m)",
+      "Bash(php /tmp/claude-1000/-monitor-server-server-monitor/e4fe3641-ff14-4dc2-83b7-6296bff85488/scratchpad/composer.phar update --ignore-platform-req=ext-curl --prefer-source)",
+      "Bash(apt list *)",
+      "Bash(sudo -n apt-get install -y unzip)",
+      "Bash(php /tmp/claude-1000/-monitor-server-server-monitor/e4fe3641-ff14-4dc2-83b7-6296bff85488/scratchpad/composer.phar update phpmailer/phpmailer symfony/polyfill-php56 symfony/polyfill-util --ignore-platform-req=ext-curl)",
+      "Bash(php *)"
+    ]
+  }
+}

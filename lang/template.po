@@ -1,0 +1,2894 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-05-03 17:55+0300\n"
+"PO-Revision-Date: 2018-05-03 17:55+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ../template\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets\n"
+
+#: footer.php:4 publicpage.php:405
+msgid "All times are"
+msgstr ""
+
+#: footer.php:5 publicpage.php:406
+msgid "The time now is"
+msgstr ""
+
+#: footer.php:6 pages/checks/manage.php:289 pages/websites/manage.php:101
+#: pages/websites/manage.php:235 pages/websites/manage.php:471
+#: pages/websites/manage.php:474 publicpage.php:407
+msgid "s"
+msgstr ""
+
+#: footer.php:127 footer.php:148 footer.php:169
+msgid "No entries to show"
+msgstr ""
+
+#: footer.php:128 footer.php:149 footer.php:170
+msgid "Nothing found"
+msgstr ""
+
+#: footer.php:129 footer.php:150 footer.php:171
+msgid "Showing"
+msgstr ""
+
+#: footer.php:129 footer.php:150 footer.php:171
+msgid "to"
+msgstr ""
+
+#: footer.php:129 footer.php:150 footer.php:171
+msgid "of"
+msgstr ""
+
+#: footer.php:129 footer.php:150 footer.php:171
+msgid "entries"
+msgstr ""
+
+#: footer.php:132 footer.php:153 footer.php:174
+msgid "Next"
+msgstr ""
+
+#: footer.php:133 footer.php:154 footer.php:175
+msgid "Previous"
+msgstr ""
+
+#: footer.php:134 footer.php:155 footer.php:176
+msgid "First Page"
+msgstr ""
+
+#: footer.php:135 footer.php:156 footer.php:177
+msgid "Last Page"
+msgstr ""
+
+#: forgot.php:28
+msgid "Enter email address to reset your password"
+msgstr ""
+
+#: forgot.php:34 modals/checks/add.php:42 modals/checks/edit.php:42
+#: pages/system/logs.php:60 pages/system/settings.php:21
+#: pages/system/users.php:22 signin.php:37
+msgid "Email"
+msgstr ""
+
+#: forgot.php:42 forgot.php:67
+msgid "Continue"
+msgstr ""
+
+#: forgot.php:48 forgot.php:74
+msgid "Log In"
+msgstr ""
+
+#: forgot.php:59
+msgid "New Password"
+msgstr ""
+
+#: header.php:61
+msgid "Toggle navigation"
+msgstr ""
+
+#: header.php:78 pages/dashboard.php:224
+msgid "Hooray! All servers are healthy."
+msgstr ""
+
+#: header.php:79 header.php:165 header.php:219
+msgid "You have"
+msgstr ""
+
+#: header.php:79
+msgid "server alerts."
+msgstr ""
+
+#: header.php:92 header.php:178 header.php:232 pages/checks.php:38
+#: pages/checks/manage.php:202 pages/checks/manage.php:203
+#: pages/checks/manage.php:446 pages/dashboard.php:159 pages/dashboard.php:160
+#: pages/dashboard.php:259 pages/dashboard.php:260 pages/dashboard.php:326
+#: pages/dashboard.php:327 pages/servers.php:45
+#: pages/servers/manage-linux.php:145 pages/servers/manage-linux.php:146
+#: pages/servers/manage-linux.php:904 pages/servers/manage-windows.php:133
+#: pages/servers/manage-windows.php:134 pages/servers/manage-windows.php:866
+#: pages/websites.php:38 pages/websites/manage.php:151
+#: pages/websites/manage.php:152 pages/websites/manage.php:387
+#: publicpage.php:120 publicpage.php:274 publicpage.php:338
+msgid "Warning"
+msgstr ""
+
+#: header.php:96 header.php:182 header.php:236 pages/checks.php:40
+#: pages/checks/manage.php:206 pages/checks/manage.php:207
+#: pages/checks/manage.php:450 pages/dashboard.php:163 pages/dashboard.php:164
+#: pages/dashboard.php:263 pages/dashboard.php:264 pages/dashboard.php:330
+#: pages/dashboard.php:331 pages/servers.php:47
+#: pages/servers/manage-linux.php:149 pages/servers/manage-linux.php:150
+#: pages/servers/manage-linux.php:908 pages/servers/manage-windows.php:137
+#: pages/servers/manage-windows.php:138 pages/servers/manage-windows.php:870
+#: pages/websites.php:40 pages/websites/manage.php:155
+#: pages/websites/manage.php:156 pages/websites/manage.php:391
+#: publicpage.php:122 publicpage.php:276 publicpage.php:340
+msgid "Alert"
+msgstr ""
+
+#: header.php:100 header.php:186 header.php:240 pages/checks.php:42
+#: pages/checks/manage.php:210 pages/checks/manage.php:211
+#: pages/checks/manage.php:454 pages/dashboard.php:167 pages/dashboard.php:168
+#: pages/dashboard.php:267 pages/dashboard.php:268 pages/dashboard.php:334
+#: pages/dashboard.php:335 pages/servers.php:49
+#: pages/servers/manage-linux.php:153 pages/servers/manage-linux.php:154
+#: pages/servers/manage-linux.php:912 pages/servers/manage-windows.php:141
+#: pages/servers/manage-windows.php:142 pages/servers/manage-windows.php:874
+#: pages/websites.php:42 pages/websites/manage.php:159
+#: pages/websites/manage.php:160 pages/websites/manage.php:395
+#: publicpage.php:124 publicpage.php:278 publicpage.php:342
+msgid "Unknown"
+msgstr ""
+
+#: header.php:104 modals/serveralerts/add.php:18
+#: modals/serveralerts/edit.php:15 pages/dashboard.php:173
+#: pages/servers/manage-linux.php:158 pages/servers/manage-linux.php:788
+#: pages/servers/manage-linux.php:917 pages/servers/manage-windows.php:146
+#: pages/servers/manage-windows.php:751 pages/servers/manage-windows.php:879
+msgid "No Data"
+msgstr ""
+
+#: header.php:105 modals/serveralerts/add.php:19
+#: modals/serveralerts/edit.php:16 pages/dashboard.php:174
+#: pages/servers/manage-linux.php:159 pages/servers/manage-linux.php:789
+#: pages/servers/manage-linux.php:918 pages/servers/manage-windows.php:147
+#: pages/servers/manage-windows.php:752 pages/servers/manage-windows.php:880
+msgid "CPU Usage %"
+msgstr ""
+
+#: header.php:106 modals/serveralerts/add.php:21
+#: modals/serveralerts/edit.php:18 pages/dashboard.php:175
+#: pages/servers/manage-linux.php:160 pages/servers/manage-linux.php:790
+#: pages/servers/manage-linux.php:919 pages/servers/manage-windows.php:148
+#: pages/servers/manage-windows.php:753 pages/servers/manage-windows.php:881
+msgid "CPU IO Wait %"
+msgstr ""
+
+#: header.php:107 modals/serveralerts/add.php:22
+#: modals/serveralerts/edit.php:19 pages/dashboard.php:176
+#: pages/servers/manage-linux.php:161 pages/servers/manage-linux.php:791
+#: pages/servers/manage-linux.php:920 pages/servers/manage-windows.php:149
+#: pages/servers/manage-windows.php:754 pages/servers/manage-windows.php:882
+msgid "System Load 1 Min"
+msgstr ""
+
+#: header.php:108 modals/serveralerts/add.php:23
+#: modals/serveralerts/edit.php:20 pages/dashboard.php:177
+#: pages/servers/manage-linux.php:162 pages/servers/manage-linux.php:792
+#: pages/servers/manage-linux.php:921 pages/servers/manage-windows.php:150
+#: pages/servers/manage-windows.php:755 pages/servers/manage-windows.php:883
+msgid "System Load 5 Min"
+msgstr ""
+
+#: header.php:109 modals/serveralerts/add.php:24
+#: modals/serveralerts/edit.php:21 pages/dashboard.php:178
+#: pages/servers/manage-linux.php:163 pages/servers/manage-linux.php:793
+#: pages/servers/manage-linux.php:922 pages/servers/manage-windows.php:151
+#: pages/servers/manage-windows.php:756 pages/servers/manage-windows.php:884
+msgid "System Load 15 Min"
+msgstr ""
+
+#: header.php:110 modals/serveralerts/add.php:26
+#: modals/serveralerts/edit.php:24 pages/dashboard.php:179
+#: pages/servers/manage-linux.php:164 pages/servers/manage-linux.php:794
+#: pages/servers/manage-linux.php:923 pages/servers/manage-windows.php:152
+#: pages/servers/manage-windows.php:757 pages/servers/manage-windows.php:885
+msgid "Service/Process Not Running"
+msgstr ""
+
+#: header.php:112 modals/serveralerts/add.php:30
+#: modals/serveralerts/edit.php:28 pages/dashboard.php:181
+#: pages/servers/manage-linux.php:166 pages/servers/manage-linux.php:796
+#: pages/servers/manage-linux.php:925 pages/servers/manage-windows.php:154
+#: pages/servers/manage-windows.php:759 pages/servers/manage-windows.php:887
+msgid "RAM Usage %"
+msgstr ""
+
+#: header.php:113 modals/serveralerts/add.php:31
+#: modals/serveralerts/edit.php:29 pages/dashboard.php:182
+#: pages/servers/manage-linux.php:167 pages/servers/manage-linux.php:797
+#: pages/servers/manage-linux.php:926 pages/servers/manage-windows.php:155
+#: pages/servers/manage-windows.php:760 pages/servers/manage-windows.php:888
+msgid "RAM Usage MB"
+msgstr ""
+
+#: header.php:114 modals/serveralerts/add.php:32
+#: modals/serveralerts/edit.php:30 pages/dashboard.php:183
+#: pages/servers/manage-linux.php:168 pages/servers/manage-linux.php:798
+#: pages/servers/manage-linux.php:927 pages/servers/manage-windows.php:156
+#: pages/servers/manage-windows.php:761 pages/servers/manage-windows.php:889
+msgid "Swap Usage %"
+msgstr ""
+
+#: header.php:115 modals/serveralerts/add.php:33
+#: modals/serveralerts/edit.php:31 pages/dashboard.php:184
+#: pages/servers/manage-linux.php:169 pages/servers/manage-linux.php:799
+#: pages/servers/manage-linux.php:928 pages/servers/manage-windows.php:157
+#: pages/servers/manage-windows.php:762 pages/servers/manage-windows.php:890
+msgid "Swap Usage MB"
+msgstr ""
+
+#: header.php:116 modals/serveralerts/add.php:34
+#: modals/serveralerts/edit.php:33 pages/dashboard.php:185
+#: pages/servers/manage-linux.php:170 pages/servers/manage-linux.php:800
+#: pages/servers/manage-linux.php:929 pages/servers/manage-windows.php:158
+#: pages/servers/manage-windows.php:763 pages/servers/manage-windows.php:891
+msgid "Disk Usage % (Aggregated)"
+msgstr ""
+
+#: header.php:117 modals/serveralerts/add.php:35
+#: modals/serveralerts/edit.php:34 pages/dashboard.php:186
+#: pages/servers/manage-linux.php:171 pages/servers/manage-linux.php:801
+#: pages/servers/manage-linux.php:930 pages/servers/manage-windows.php:159
+#: pages/servers/manage-windows.php:764 pages/servers/manage-windows.php:892
+msgid "Disk Usage GB (Aggregated)"
+msgstr ""
+
+#: header.php:121 modals/serveralerts/add.php:39 modals/serveralerts/add.php:46
+#: modals/serveralerts/edit.php:38 modals/serveralerts/edit.php:45
+#: pages/dashboard.php:190 pages/servers/manage-linux.php:176
+#: pages/servers/manage-linux.php:806 pages/servers/manage-linux.php:934
+#: pages/servers/manage-windows.php:164 pages/servers/manage-windows.php:769
+#: pages/servers/manage-windows.php:896
+msgid "Disk Usage %:"
+msgstr ""
+
+#: header.php:128 modals/serveralerts/add.php:40 modals/serveralerts/add.php:47
+#: modals/serveralerts/edit.php:39 modals/serveralerts/edit.php:46
+#: pages/dashboard.php:197 pages/servers/manage-linux.php:183
+#: pages/servers/manage-linux.php:813 pages/servers/manage-linux.php:941
+#: pages/servers/manage-windows.php:171 pages/servers/manage-windows.php:776
+#: pages/servers/manage-windows.php:903
+msgid "Disk Usage GB:"
+msgstr ""
+
+#: header.php:132 modals/serveralerts/add.php:55
+#: modals/serveralerts/edit.php:55 pages/dashboard.php:201
+#: pages/servers/manage-linux.php:187 pages/servers/manage-linux.php:712
+#: pages/servers/manage-linux.php:817 pages/servers/manage-linux.php:945
+#: pages/servers/manage-linux.php:1627 pages/servers/manage-windows.php:175
+#: pages/servers/manage-windows.php:780 pages/servers/manage-windows.php:907
+msgid "Connections"
+msgstr ""
+
+#: header.php:133 modals/serveralerts/add.php:56
+#: modals/serveralerts/edit.php:56 pages/dashboard.php:202
+#: pages/servers/manage-linux.php:188 pages/servers/manage-linux.php:332
+#: pages/servers/manage-linux.php:818 pages/servers/manage-linux.php:946
+#: pages/servers/manage-windows.php:176 pages/servers/manage-windows.php:781
+#: pages/servers/manage-windows.php:908
+msgid "SSH Sessions"
+msgstr ""
+
+#: header.php:134 modals/serveralerts/add.php:59
+#: modals/serveralerts/edit.php:58 pages/dashboard.php:203
+#: pages/servers/manage-linux.php:189 pages/servers/manage-linux.php:705
+#: pages/servers/manage-linux.php:819 pages/servers/manage-linux.php:947
+#: pages/servers/manage-linux.php:1588 pages/servers/manage-windows.php:177
+#: pages/servers/manage-windows.php:679 pages/servers/manage-windows.php:782
+#: pages/servers/manage-windows.php:909 pages/servers/manage-windows.php:1356
+msgid "Ping Latency"
+msgstr ""
+
+#: header.php:135 modals/serveralerts/add.php:60
+#: modals/serveralerts/edit.php:59 pages/dashboard.php:204
+#: pages/servers/manage-linux.php:190 pages/servers/manage-linux.php:820
+#: pages/servers/manage-linux.php:948 pages/servers/manage-windows.php:178
+#: pages/servers/manage-windows.php:783 pages/servers/manage-windows.php:910
+msgid "Network Download Speed MB/s"
+msgstr ""
+
+#: header.php:136 modals/serveralerts/add.php:61
+#: modals/serveralerts/edit.php:60 pages/dashboard.php:205
+#: pages/servers/manage-linux.php:191 pages/servers/manage-linux.php:821
+#: pages/servers/manage-linux.php:949 pages/servers/manage-windows.php:179
+#: pages/servers/manage-windows.php:784 pages/servers/manage-windows.php:911
+msgid "Network Upload Speed MB/s"
+msgstr ""
+
+#: header.php:164 pages/dashboard.php:291
+msgid "Hooray! All websites are healthy."
+msgstr ""
+
+#: header.php:165
+msgid "website alerts."
+msgstr ""
+
+#: header.php:190 modals/websitealerts/add.php:17
+#: modals/websitealerts/edit.php:14 pages/dashboard.php:273
+#: pages/websites/manage.php:164 pages/websites/manage.php:319
+#: pages/websites/manage.php:400
+msgid "HTTP Response Code"
+msgstr ""
+
+#: header.php:191 modals/websitealerts/add.php:18
+#: modals/websitealerts/edit.php:15 pages/checks/manage.php:138
+#: pages/checks/manage.php:518 pages/dashboard.php:274 pages/websites.php:26
+#: pages/websites/manage.php:91 pages/websites/manage.php:165
+#: pages/websites/manage.php:320 pages/websites/manage.php:401
+#: pages/websites/manage.php:458 publicpage.php:263
+msgid "Load Time"
+msgstr ""
+
+#: header.php:192 modals/websitealerts/add.php:19
+#: modals/websitealerts/edit.php:16 pages/dashboard.php:275
+#: pages/websites/manage.php:166 pages/websites/manage.php:321
+#: pages/websites/manage.php:402
+msgid "Search String Missing"
+msgstr ""
+
+#: header.php:218 pages/dashboard.php:357
+msgid "Hooray! All checks are healthy."
+msgstr ""
+
+#: header.php:219
+msgid "checks alerts."
+msgstr ""
+
+#: header.php:244 modals/checkalerts/add.php:18 modals/checkalerts/edit.php:16
+#: pages/checks/manage.php:215 pages/checks/manage.php:377
+#: pages/checks/manage.php:459 pages/dashboard.php:340
+msgid "Check Offline"
+msgstr ""
+
+#: header.php:245 modals/checkalerts/add.php:19 modals/checkalerts/edit.php:17
+#: pages/checks/manage.php:216 pages/checks/manage.php:378
+#: pages/checks/manage.php:460 pages/dashboard.php:341
+msgid "Response Time"
+msgstr ""
+
+#: header.php:246 modals/checkalerts/add.php:23 modals/checkalerts/edit.php:21
+#: pages/checks/manage.php:217 pages/checks/manage.php:379
+#: pages/checks/manage.php:461 pages/dashboard.php:342
+msgid "Listed In Blacklist"
+msgstr ""
+
+#: header.php:247 modals/checkalerts/add.php:27 modals/checkalerts/edit.php:25
+#: pages/checks/manage.php:218 pages/checks/manage.php:380
+#: pages/checks/manage.php:462 pages/dashboard.php:343
+msgid "DNS Lookup Failed"
+msgstr ""
+
+#: header.php:273
+msgid "Autorefresh"
+msgstr ""
+
+#: header.php:276
+msgid "Disabled"
+msgstr ""
+
+#: header.php:277
+msgid "Every 30 Seconds"
+msgstr ""
+
+#: header.php:278
+msgid "Every 1 Minute"
+msgstr ""
+
+#: header.php:279
+msgid "Every 2 Minutes"
+msgstr ""
+
+#: header.php:280
+msgid "Every 5 Minutes"
+msgstr ""
+
+#: header.php:281
+msgid "Every 10 Minutes"
+msgstr ""
+
+#: header.php:282
+msgid "Every 15 Minutes"
+msgstr ""
+
+#: header.php:292
+msgid "Quick actions"
+msgstr ""
+
+#: header.php:296 modals/servers/add.php:3 modals/servers/add.php:95
+msgid "Add Server"
+msgstr ""
+
+#: header.php:300 modals/websites/add.php:3 modals/websites/add.php:97
+msgid "Add Website"
+msgstr ""
+
+#: header.php:304 modals/checks/add.php:3 modals/checks/add.php:166
+msgid "Add Service"
+msgstr ""
+
+#: header.php:308 modals/contacts/add.php:3 modals/contacts/add.php:60
+msgid "Add Contact"
+msgstr ""
+
+#: header.php:312 modals/pages/add.php:3 modals/pages/add.php:69
+msgid "Add Page"
+msgstr ""
+
+#: header.php:338
+msgid "Profile"
+msgstr ""
+
+#: header.php:341
+msgid "Sign Out"
+msgstr ""
+
+#: header.php:361 pages/checks/manage.php:156
+msgid "Online"
+msgstr ""
+
+#: header.php:368
+msgid "Search..."
+msgstr ""
+
+#: header.php:379
+msgid "MAIN NAVIGATION"
+msgstr ""
+
+#: header.php:383 pages/dashboard.php:5 pages/dashboard.php:6
+msgid "Dashboard"
+msgstr ""
+
+#: header.php:389 modals/pages/add.php:19 modals/pages/edit.php:19
+#: pages/dashboard.php:27 pages/search.php:34 pages/servers.php:4
+#: pages/servers/manage-linux.php:7 pages/servers/manage-windows.php:7
+#: publicpage.php:90
+msgid "Servers"
+msgstr ""
+
+#: header.php:395 modals/pages/add.php:30 modals/pages/edit.php:30
+#: pages/dashboard.php:41 pages/search.php:50 pages/websites.php:4
+#: pages/websites/manage.php:7 publicpage.php:251
+msgid "Websites"
+msgstr ""
+
+#: header.php:401 modals/pages/add.php:41 modals/pages/edit.php:41
+#: pages/checks.php:4 pages/checks/manage.php:7 pages/dashboard.php:55
+#: pages/search.php:66 publicpage.php:315
+msgid "Check Services"
+msgstr ""
+
+#: header.php:407 pages/checks/manage.php:24 pages/servers/manage-linux.php:30
+#: pages/servers/manage-windows.php:30 pages/websites/manage.php:24
+msgid "Alerting"
+msgstr ""
+
+#: header.php:411 modals/checkalerts/add.php:73 modals/checkalerts/edit.php:72
+#: modals/serveralerts/add.php:108 modals/serveralerts/edit.php:107
+#: modals/websitealerts/add.php:64 modals/websitealerts/edit.php:61
+#: pages/alerting/contacts.php:4 pages/dashboard.php:70
+msgid "Contacts"
+msgstr ""
+
+#: header.php:412 pages/alerting/log.php:4
+msgid "Log"
+msgstr ""
+
+#: header.php:418 pages/pages.php:4
+msgid "Pages"
+msgstr ""
+
+#: header.php:431 modals/serveralerts/add.php:17
+#: modals/serveralerts/edit.php:14 pages/servers/manage-windows.php:317
+#: pages/system/logs.php:5 pages/system/settings.php:5
+#: pages/system/users/edit.php:7
+msgid "System"
+msgstr ""
+
+#: header.php:435 pages/system/users.php:4 pages/system/users/edit.php:7
+msgid "Users"
+msgstr ""
+
+#: header.php:436 pages/system/roles.php:4 pages/system/roles/add.php:5
+#: pages/system/roles/add.php:6 pages/system/roles/edit.php:5
+#: pages/system/roles/edit.php:6
+msgid "Roles"
+msgstr ""
+
+#: header.php:437
+msgid "Groups"
+msgstr ""
+
+#: header.php:439 pages/system/logs.php:4 pages/system/logs.php:5
+msgid "Logs"
+msgstr ""
+
+#: header.php:440 pages/system/settings.php:4 pages/system/settings.php:5
+msgid "Settings"
+msgstr ""
+
+#: modals/checkalerts/add.php:3
+msgid "Add Check Alert"
+msgstr ""
+
+#: modals/checkalerts/add.php:14 modals/checkalerts/edit.php:11
+#: modals/serveralerts/add.php:14 modals/serveralerts/edit.php:11
+#: modals/websitealerts/add.php:14 modals/websitealerts/edit.php:11
+msgid "Alert Type"
+msgstr ""
+
+#: modals/checkalerts/add.php:35 modals/checkalerts/edit.php:34
+#: modals/serveralerts/add.php:70 modals/serveralerts/edit.php:69
+#: modals/websitealerts/add.php:26 modals/websitealerts/edit.php:23
+#: pages/checks/manage.php:367 pages/checks/manage.php:433
+#: pages/servers/manage-linux.php:778 pages/servers/manage-linux.php:891
+#: pages/servers/manage-windows.php:741 pages/servers/manage-windows.php:853
+#: pages/websites/manage.php:309 pages/websites/manage.php:374
+msgid "Comparison"
+msgstr ""
+
+#: modals/checkalerts/add.php:49 modals/checkalerts/edit.php:48
+#: modals/serveralerts/add.php:84 modals/serveralerts/add.php:153
+#: modals/serveralerts/edit.php:83 modals/serveralerts/edit.php:150
+msgid "Limit"
+msgstr ""
+
+#: modals/checkalerts/add.php:56 modals/checkalerts/edit.php:55
+#: modals/contacts/add.php:18 modals/contacts/edit.php:19
+#: modals/serveralerts/add.php:91 modals/serveralerts/edit.php:90
+#: modals/websitealerts/add.php:47 modals/websitealerts/edit.php:44
+#: pages/alerting/contacts.php:24 pages/checks/manage.php:94
+#: pages/checks/manage.php:139 pages/checks/manage.php:369
+#: pages/servers/manage-linux.php:780 pages/servers/manage-windows.php:743
+#: pages/websites/manage.php:199 pages/websites/manage.php:311
+msgid "Status"
+msgstr ""
+
+#: modals/checkalerts/add.php:58 modals/checkalerts/edit.php:57
+#: modals/contacts/add.php:20 modals/contacts/edit.php:21
+#: modals/serveralerts/add.php:93 modals/serveralerts/edit.php:92
+#: modals/websitealerts/add.php:49 modals/websitealerts/edit.php:46
+#: pages/alerting/contacts.php:56 pages/checks/manage.php:399
+#: pages/servers/manage-linux.php:857 pages/servers/manage-windows.php:819
+#: pages/websites/manage.php:340
+msgid "Active"
+msgstr ""
+
+#: modals/checkalerts/add.php:59 modals/checkalerts/edit.php:58
+#: modals/contacts/add.php:21 modals/contacts/edit.php:22
+#: modals/serveralerts/add.php:94 modals/serveralerts/edit.php:93
+#: modals/websitealerts/add.php:50 modals/websitealerts/edit.php:47
+#: pages/alerting/contacts.php:59 pages/checks/manage.php:402
+#: pages/servers/manage-linux.php:860 pages/servers/manage-windows.php:822
+#: pages/websites/manage.php:343
+msgid "Inactive"
+msgstr ""
+
+#: modals/checkalerts/add.php:66 modals/checkalerts/edit.php:65
+#: modals/serveralerts/add.php:101 modals/serveralerts/edit.php:100
+#: modals/websitealerts/add.php:57 modals/websitealerts/edit.php:54
+msgid "Occurrences"
+msgstr ""
+
+#: modals/checkalerts/add.php:66 modals/checkalerts/edit.php:65
+#: modals/serveralerts/add.php:101 modals/serveralerts/edit.php:100
+msgid ""
+"If the problem occurs for more than this value an incident will be opened "
+"and the selected contacts will be notified."
+msgstr ""
+
+#: modals/checkalerts/add.php:73 modals/checkalerts/edit.php:72
+#: modals/serveralerts/add.php:108 modals/serveralerts/edit.php:107
+#: modals/websitealerts/add.php:64 modals/websitealerts/edit.php:61
+msgid "Contacts selected here will receive notifications for this alert."
+msgstr ""
+
+#: modals/checkalerts/add.php:96 modals/checkalerts/edit.php:94
+#: modals/checks/add.php:165 modals/checks/edit.php:167
+#: modals/contacts/add.php:59 modals/contacts/edit.php:62
+#: modals/groups/add.php:20 modals/groups/edit.php:22
+#: modals/languages/add.php:18 modals/notifications/edit.php:24
+#: modals/pages/add.php:68 modals/pages/edit.php:72
+#: modals/serveralerts/add.php:131 modals/serveralerts/edit.php:129
+#: modals/servers/add.php:94 modals/servers/edit.php:81 modals/users/add.php:37
+#: modals/websitealerts/add.php:87 modals/websitealerts/edit.php:83
+#: modals/websites/add.php:96 modals/websites/edit.php:99
+#: modals/files/upload.html:27
+msgid "Cancel"
+msgstr ""
+
+#: modals/checkalerts/add.php:97 modals/serveralerts/add.php:132
+#: modals/websitealerts/add.php:88
+msgid "Add Alert"
+msgstr ""
+
+#: modals/checkalerts/add.php:104 modals/checkalerts/edit.php:101
+#: modals/checks/add.php:173 modals/checks/edit.php:175 modals/pages/add.php:76
+#: modals/pages/edit.php:79 modals/serveralerts/add.php:139
+#: modals/serveralerts/edit.php:136 modals/websitealerts/add.php:95
+#: modals/websitealerts/edit.php:90 modals/websites/add.php:146
+msgid "Please select"
+msgstr ""
+
+#: modals/checkalerts/delete.php:3 modals/serveralerts/delete.php:3
+#: modals/websitealerts/delete.php:3
+msgid "Delete Alert"
+msgstr ""
+
+#: modals/checkalerts/delete.php:7 modals/serveralerts/delete.php:7
+#: modals/websitealerts/delete.php:7
+msgid "Are you sure you want to delete this alert?"
+msgstr ""
+
+#: modals/checkalerts/delete.php:17 modals/checkalerts/markResolved.php:19
+#: modals/checks/delete.php:17 modals/contacts/delete.php:17
+#: modals/groups/delete.php:17 modals/languages/delete.php:12
+#: modals/pages/delete.php:17 modals/roles/delete.php:16
+#: modals/serveralerts/delete.php:17 modals/serveralerts/markResolved.php:19
+#: modals/servers/delete.php:17 modals/users/delete.php:17
+#: modals/websitealerts/delete.php:17 modals/websitealerts/markResolved.php:19
+#: modals/websites/delete.php:17 modals/files/delete.html:14
+msgid "No"
+msgstr ""
+
+#: modals/checkalerts/delete.php:18 modals/checkalerts/markResolved.php:20
+#: modals/checks/delete.php:18 modals/contacts/delete.php:18
+#: modals/groups/delete.php:18 modals/languages/delete.php:13
+#: modals/pages/delete.php:18 modals/roles/delete.php:17
+#: modals/serveralerts/delete.php:18 modals/serveralerts/markResolved.php:20
+#: modals/servers/delete.php:18 modals/users/delete.php:18
+#: modals/websitealerts/delete.php:18 modals/websitealerts/markResolved.php:20
+#: modals/websites/delete.php:18 modals/files/delete.html:15
+msgid "Yes"
+msgstr ""
+
+#: modals/checkalerts/edit.php:3 modals/pages/edit.php:3
+msgid "Edit Check Alert"
+msgstr ""
+
+#: modals/checkalerts/edit.php:95 modals/checks/edit.php:168
+#: modals/contacts/edit.php:63 modals/groups/edit.php:23
+#: modals/notifications/edit.php:25 modals/pages/edit.php:73
+#: modals/serveralerts/edit.php:130 modals/servers/edit.php:91
+#: modals/websitealerts/edit.php:84 modals/websites/edit.php:100
+#: pages/profile.php:111 pages/system/roles/edit.php:121
+msgid "Save"
+msgstr ""
+
+#: modals/checkalerts/markResolved.php:3 modals/serveralerts/markResolved.php:3
+#: modals/websitealerts/markResolved.php:3
+msgid "Mark Resolved"
+msgstr ""
+
+#: modals/checkalerts/markResolved.php:7 modals/serveralerts/markResolved.php:7
+#: modals/websitealerts/markResolved.php:7
+msgid "Are you sure you want to mark this incident as resolved?"
+msgstr ""
+
+#: modals/checkalerts/markResolved.php:9 modals/serveralerts/markResolved.php:9
+#: modals/websitealerts/markResolved.php:9
+msgid "If the problem is not resolved a new incident will be created."
+msgstr ""
+
+#: modals/checks/add.php:11 modals/checks/edit.php:11
+#: modals/contacts/add.php:11 modals/contacts/edit.php:12
+#: modals/groups/add.php:9 modals/groups/edit.php:9 modals/languages/add.php:9
+#: modals/servers/add.php:11 modals/servers/edit.php:9 modals/users/add.php:16
+#: modals/websites/add.php:11 modals/websites/edit.php:11
+#: pages/alerting/contacts.php:22 pages/checks.php:23
+#: pages/checks/manage.php:252 pages/pages.php:22 pages/profile.php:24
+#: pages/servers.php:23 pages/servers/manage-windows.php:595
+#: pages/servers/manage-windows.php:704 pages/system/groups.php:22
+#: pages/system/roles/add.php:26 pages/system/roles/edit.php:26
+#: pages/system/settings.php:192 pages/system/users.php:21
+#: pages/system/users/edit.php:33 pages/websites.php:23
+#: pages/websites/manage.php:214 publicpage.php:99 publicpage.php:260
+#: publicpage.php:324 modals/files/upload.html:5
+msgid "Name"
+msgstr ""
+
+#: modals/checks/add.php:12 modals/checks/edit.php:12
+#: modals/websites/add.php:12 modals/websites/edit.php:12
+msgid "Name, hostname or other for easy identification"
+msgstr ""
+
+#: modals/checks/add.php:18 modals/checks/edit.php:18 modals/servers/add.php:19
+#: modals/servers/edit.php:16 modals/websites/add.php:18
+#: modals/websites/edit.php:18 pages/checks.php:25 pages/servers.php:24
+#: pages/system/groups.php:4 pages/websites.php:24 publicpage.php:100
+#: publicpage.php:261 publicpage.php:326
+msgid "Group"
+msgstr ""
+
+#: modals/checks/add.php:30 modals/checks/edit.php:30
+msgid "Common Services"
+msgstr ""
+
+#: modals/checks/add.php:33 modals/checks/edit.php:33
+msgid "Services"
+msgstr ""
+
+#: modals/checks/add.php:34 modals/checks/edit.php:34
+msgid "FTP (Monitor a FTP server)"
+msgstr ""
+
+#: modals/checks/add.php:35 modals/checks/edit.php:35
+msgid "SSH (Monitor a SSH server)"
+msgstr ""
+
+#: modals/checks/add.php:36 modals/checks/edit.php:36
+msgid "RDP (Monitor a RDP server)"
+msgstr ""
+
+#: modals/checks/add.php:37 modals/checks/edit.php:37
+msgid "HTTP (Monitor a HTTP server)"
+msgstr ""
+
+#: modals/checks/add.php:38 modals/checks/edit.php:38
+msgid "HTTPS (Monitor a HTTPS server)"
+msgstr ""
+
+#: modals/checks/add.php:39 modals/checks/edit.php:39
+msgid "DNS (Monitor a DNS server)"
+msgstr ""
+
+#: modals/checks/add.php:43 modals/checks/edit.php:43
+msgid "SMTP (Monitor a SMTP server)"
+msgstr ""
+
+#: modals/checks/add.php:44 modals/checks/edit.php:44
+msgid "POP3 (Monitor a POP3 server)"
+msgstr ""
+
+#: modals/checks/add.php:45 modals/checks/edit.php:45
+msgid "IMAP (Monitor a IMAP server)"
+msgstr ""
+
+#: modals/checks/add.php:48 modals/checks/edit.php:48
+msgid "Others"
+msgstr ""
+
+#: modals/checks/add.php:49 modals/checks/edit.php:49
+msgid "TCP (Monitor a TCP port)"
+msgstr ""
+
+#: modals/checks/add.php:50 modals/checks/edit.php:50
+msgid "UDP (Monitor a UDP port)"
+msgstr ""
+
+#: modals/checks/add.php:51 modals/checks/add.php:67 modals/checks/edit.php:51
+#: modals/checks/edit.php:67 pages/checks.php:51 pages/checks/manage.php:267
+#: publicpage.php:351
+msgid "ICMP (Ping)"
+msgstr ""
+
+#: modals/checks/add.php:52 modals/checks/edit.php:52 pages/checks.php:52
+#: pages/checks/manage.php:268 publicpage.php:352
+msgid "DNS Lookup"
+msgstr ""
+
+#: modals/checks/add.php:53 modals/checks/edit.php:53
+msgid "IP Blacklist (Check IP Blacklists for a particular IP)"
+msgstr ""
+
+#: modals/checks/add.php:63 modals/checks/edit.php:63 pages/checks.php:24
+#: pages/checks/manage.php:366 pages/checks/manage.php:432
+#: pages/servers/manage-linux.php:777 pages/servers/manage-linux.php:890
+#: pages/servers/manage-windows.php:563 pages/servers/manage-windows.php:594
+#: pages/servers/manage-windows.php:740 pages/servers/manage-windows.php:852
+#: pages/websites/manage.php:308 pages/websites/manage.php:373
+#: publicpage.php:325
+msgid "Type"
+msgstr ""
+
+#: modals/checks/add.php:65 modals/checks/edit.php:65
+#: pages/checks/manage.php:265
+msgid "TCP"
+msgstr ""
+
+#: modals/checks/add.php:66 modals/checks/edit.php:66
+#: pages/checks/manage.php:266
+msgid "UDP"
+msgstr ""
+
+#: modals/checks/add.php:68 modals/checks/edit.php:68
+msgid "DNS"
+msgstr ""
+
+#: modals/checks/add.php:69 modals/checks/edit.php:69
+msgid "IP Blacklist"
+msgstr ""
+
+#: modals/checks/add.php:76 modals/checks/edit.php:76
+#: pages/checks/manage.php:275
+msgid "Port"
+msgstr ""
+
+#: modals/checks/add.php:83 modals/checks/edit.php:83
+msgid "Timeout (s)"
+msgstr ""
+
+#: modals/checks/add.php:90 modals/checks/edit.php:90
+#: pages/checks/manage.php:257
+msgid "Host"
+msgstr ""
+
+#: modals/checks/add.php:91 modals/checks/edit.php:91
+msgid "Domain or IP Address to check"
+msgstr ""
+
+#: modals/checks/add.php:97 modals/checks/add.php:200 modals/checks/add.php:201
+#: modals/checks/edit.php:97 modals/checks/edit.php:202
+#: modals/checks/edit.php:203
+msgid "Send String"
+msgstr ""
+
+#: modals/checks/add.php:104 modals/checks/edit.php:104
+msgid "Expected Response"
+msgstr ""
+
+#: modals/checks/add.php:119 modals/checks/edit.php:119
+#: modals/servers/add.php:49 modals/servers/edit.php:32
+#: modals/websites/add.php:51 modals/websites/edit.php:51
+msgid "Search Address"
+msgstr ""
+
+#: modals/checks/add.php:120 modals/checks/edit.php:120
+#: modals/servers/add.php:50 modals/servers/edit.php:33
+#: modals/websites/add.php:52 modals/websites/edit.php:52
+msgid "Enter address to autofill coordinates"
+msgstr ""
+
+#: modals/checks/add.php:127 modals/checks/add.php:128
+#: modals/checks/edit.php:127 modals/checks/edit.php:128
+#: modals/servers/add.php:57 modals/servers/add.php:58
+#: modals/servers/edit.php:40 modals/servers/edit.php:41
+#: modals/websites/add.php:59 modals/websites/add.php:60
+#: modals/websites/edit.php:59 modals/websites/edit.php:60
+msgid "Latitude"
+msgstr ""
+
+#: modals/checks/add.php:128 modals/checks/edit.php:128
+#: modals/servers/add.php:58 modals/servers/edit.php:41
+#: modals/websites/add.php:60 modals/websites/edit.php:60
+msgid "Invalid Latitude Value"
+msgstr ""
+
+#: modals/checks/add.php:134 modals/checks/add.php:135
+#: modals/checks/edit.php:134 modals/checks/edit.php:135
+#: modals/servers/add.php:64 modals/servers/add.php:65
+#: modals/servers/edit.php:47 modals/servers/edit.php:48
+#: modals/websites/add.php:66 modals/websites/add.php:67
+#: modals/websites/edit.php:66 modals/websites/edit.php:67
+msgid "Longitude"
+msgstr ""
+
+#: modals/checks/add.php:135 modals/checks/edit.php:135
+#: modals/servers/add.php:65 modals/servers/edit.php:48
+#: modals/websites/add.php:67 modals/websites/edit.php:67
+msgid "Invalid Longitude Value"
+msgstr ""
+
+#: modals/checks/add.php:147 modals/checks/edit.php:148
+#: modals/servers/add.php:77 modals/servers/edit.php:63
+#: modals/websites/add.php:79 modals/websites/edit.php:80
+msgid "Show on map"
+msgstr ""
+
+#: modals/checks/add.php:204 modals/checks/edit.php:97
+#: modals/checks/edit.php:206
+msgid "DNS Server"
+msgstr ""
+
+#: modals/checks/delete.php:3
+msgid "Delete Check"
+msgstr ""
+
+#: modals/checks/delete.php:7
+msgid "Are you sure you want to delete this check?"
+msgstr ""
+
+#: modals/checks/edit.php:3
+msgid "Edit Check"
+msgstr ""
+
+#: modals/contacts/add.php:28 modals/contacts/edit.php:29
+#: modals/users/add.php:20 pages/profile.php:29 pages/system/users/edit.php:38
+msgid "Email Address"
+msgstr ""
+
+#: modals/contacts/add.php:28 modals/contacts/edit.php:29
+msgid "Leave blank to disable email alerts for this contact."
+msgstr ""
+
+#: modals/contacts/add.php:33 modals/contacts/edit.php:34
+msgid "Mobile Number"
+msgstr ""
+
+#: modals/contacts/add.php:33 modals/contacts/edit.php:34
+msgid "Leave blank to disable SMS alerts for this contact."
+msgstr ""
+
+#: modals/contacts/add.php:34 modals/contacts/edit.php:35
+msgid "+12345678901"
+msgstr ""
+
+#: modals/contacts/add.php:38 modals/contacts/edit.php:39
+msgid "Pushbullet"
+msgstr ""
+
+#: modals/contacts/add.php:38 modals/contacts/edit.php:39
+msgid "Leave blank to disable Pushbullet alerts for this contact."
+msgstr ""
+
+#: modals/contacts/add.php:39 modals/contacts/edit.php:40
+msgid "API Access Token"
+msgstr ""
+
+#: modals/contacts/add.php:43 modals/contacts/edit.php:44
+#: pages/system/settings.php:23
+msgid "Twitter"
+msgstr ""
+
+#: modals/contacts/add.php:43 modals/contacts/edit.php:44
+msgid "Leave blank to disable Twitter alerts for this contact."
+msgstr ""
+
+#: modals/contacts/add.php:44 modals/contacts/edit.php:45
+msgid "Twitter Username"
+msgstr ""
+
+#: modals/contacts/add.php:48 modals/contacts/edit.php:49
+#: pages/system/settings.php:24
+msgid "Pushover"
+msgstr ""
+
+#: modals/contacts/add.php:48 modals/contacts/edit.php:49
+msgid "Leave blank to disable Pushover alerts for this contact."
+msgstr ""
+
+#: modals/contacts/add.php:49 modals/contacts/edit.php:50
+msgid "Pushover User Key"
+msgstr ""
+
+#: modals/contacts/delete.php:3
+msgid "Delete Contact"
+msgstr ""
+
+#: modals/contacts/delete.php:7
+msgid "Are you sure you want to delete this contact?"
+msgstr ""
+
+#: modals/contacts/edit.php:3
+msgid "Edit Contact"
+msgstr ""
+
+#: modals/groups/add.php:3 modals/groups/add.php:21
+msgid "Add Group"
+msgstr ""
+
+#: modals/groups/delete.php:3
+msgid "Delete Group"
+msgstr ""
+
+#: modals/groups/delete.php:7
+msgid "Are you sure you want to delete this group?"
+msgstr ""
+
+#: modals/groups/edit.php:3
+msgid "Edit Group"
+msgstr ""
+
+#: modals/languages/add.php:1
+msgid "Create New Language"
+msgstr ""
+
+#: modals/languages/add.php:4 pages/system/settings.php:191
+msgid "Code"
+msgstr ""
+
+#: modals/languages/add.php:6
+msgid "2-Letter language code (example: en, fr, it)."
+msgstr ""
+
+#: modals/languages/add.php:19 pages/system/roles/add.php:34
+#: pages/system/roles/add.php:43 pages/system/roles/add.php:52
+#: pages/system/roles/add.php:60 pages/system/roles/add.php:69
+#: pages/system/roles/add.php:77 pages/system/roles/add.php:85
+#: pages/system/roles/add.php:93 pages/system/roles/edit.php:33
+#: pages/system/roles/edit.php:42 pages/system/roles/edit.php:51
+#: pages/system/roles/edit.php:59 pages/system/roles/edit.php:68
+#: pages/system/roles/edit.php:76 pages/system/roles/edit.php:84
+#: pages/system/roles/edit.php:92
+msgid "Add"
+msgstr ""
+
+#: modals/languages/delete.php:1
+msgid "Delete Language"
+msgstr ""
+
+#: modals/languages/delete.php:3
+msgid "Are you sure you want to delete this language?"
+msgstr ""
+
+#: modals/notifications/edit.php:1
+msgid "Edit Notification Template"
+msgstr ""
+
+#: modals/notifications/edit.php:5 pages/system/logs.php:61
+msgid "Subject"
+msgstr ""
+
+#: modals/notifications/edit.php:10 pages/alerting/log.php:24
+msgid "Message"
+msgstr ""
+
+#: modals/pages/add.php:12 modals/pages/edit.php:12
+msgid "Page Name"
+msgstr ""
+
+#: modals/pages/add.php:52 modals/pages/edit.php:52
+msgid "Page Description"
+msgstr ""
+
+#: modals/pages/delete.php:3
+msgid "Delete Page"
+msgstr ""
+
+#: modals/pages/delete.php:7
+msgid "Are you sure you want to delete this page?"
+msgstr ""
+
+#: modals/roles/delete.php:3
+msgid "Delete Role"
+msgstr ""
+
+#: modals/roles/delete.php:7
+msgid "Are you sure you want to delete this role?"
+msgstr ""
+
+#: modals/serveralerts/add.php:3
+msgid "Add Server Alert"
+msgstr ""
+
+#: modals/serveralerts/add.php:29 modals/serveralerts/edit.php:27
+msgid "RAM & Disk"
+msgstr ""
+
+#: modals/serveralerts/add.php:53 modals/serveralerts/edit.php:53
+#: pages/servers/manage-linux.php:28 pages/servers/manage-windows.php:28
+msgid "Network"
+msgstr ""
+
+#: modals/serveralerts/add.php:156 modals/serveralerts/edit.php:153
+#: modals/serveralerts/edit.php:167
+msgid "Service"
+msgstr ""
+
+#: modals/serveralerts/edit.php:3
+msgid "Edit Server Alert"
+msgstr ""
+
+#: modals/servers/add.php:13 modals/servers/edit.php:11
+msgid "Hostname, IP Address or other for easy identification."
+msgstr ""
+
+#: modals/servers/add.php:30
+msgid "Platform"
+msgstr ""
+
+#: modals/servers/add.php:32
+msgid "Linux"
+msgstr ""
+
+#: modals/servers/add.php:33
+msgid "Windows"
+msgstr ""
+
+#: modals/servers/add.php:33
+msgid "(BETA)"
+msgstr ""
+
+#: modals/servers/delete.php:3
+msgid "Delete Server"
+msgstr ""
+
+#: modals/servers/delete.php:7
+msgid "Are you sure you want to delete this server?"
+msgstr ""
+
+#: modals/servers/edit.php:3
+msgid "Edit Server"
+msgstr ""
+
+#: modals/servers/edit.php:84 modals/servers/edit.php:88
+msgid "Install Instructions"
+msgstr ""
+
+#: modals/servers/install-linux.php:3 modals/servers/install-windows.php:3
+msgid "Install Server-Monitor Server Agent"
+msgstr ""
+
+#: modals/servers/install-linux.php:9
+msgid ""
+"Please run the following command as root to install or reinstall the Server-Monitor "
+"agent on server"
+msgstr ""
+
+#: modals/servers/install-linux.php:17
+msgid "Copy"
+msgstr ""
+
+#: modals/servers/install-linux.php:18 modals/servers/install-windows.php:28
+msgid "Close"
+msgstr ""
+
+#: modals/servers/install-windows.php:8
+msgid ""
+"Follow the steps below to install the Server-Monitor Windows Agent on this server:"
+msgstr ""
+
+#: modals/servers/install-windows.php:10
+msgid "Download agent installer from "
+msgstr ""
+
+#: modals/servers/install-windows.php:10
+msgid "here"
+msgstr ""
+
+#: modals/servers/install-windows.php:10
+msgid "and install on your server."
+msgstr ""
+
+#: modals/servers/install-windows.php:12
+msgid "Open Server-Monitor Agent after installation finishes."
+msgstr ""
+
+#: modals/servers/install-windows.php:14
+msgid "Apply the following configuration and close the window"
+msgstr ""
+
+#: modals/servers/install-windows.php:21
+msgid "Agent will begin reporting data to Server-Monitor in a few minutes."
+msgstr ""
+
+#: modals/servers/install-windows.php:26
+msgid "Copy Server Key"
+msgstr ""
+
+#: modals/servers/install-windows.php:27
+msgid "Copy Gateway Address"
+msgstr ""
+
+#: modals/users/add.php:3 modals/users/add.php:38
+msgid "Add User"
+msgstr ""
+
+#: modals/users/add.php:8 pages/system/users.php:23
+#: pages/system/users/edit.php:24
+msgid "Role"
+msgstr ""
+
+#: modals/users/add.php:26 pages/system/users/edit.php:43 signin.php:41
+msgid "Password"
+msgstr ""
+
+#: modals/users/add.php:29
+msgid "Send new staff account email notification"
+msgstr ""
+
+#: modals/users/delete.php:3
+msgid "Delete User"
+msgstr ""
+
+#: modals/users/delete.php:7
+msgid "Are you sure you want to delete this user?"
+msgstr ""
+
+#: modals/websitealerts/add.php:3
+msgid "Add Website Alert"
+msgstr ""
+
+#: modals/websitealerts/add.php:40 modals/websitealerts/edit.php:37
+msgid "Limit/Value"
+msgstr ""
+
+#: modals/websitealerts/add.php:57 modals/websitealerts/edit.php:54
+msgid ""
+"If the problem occurs for more than this value, in a row, an incident will "
+"be opened and the selected contacts will be notified."
+msgstr ""
+
+#: modals/websitealerts/edit.php:3
+msgid "Edit Website Alert"
+msgstr ""
+
+#: modals/websites/add.php:29 modals/websites/edit.php:29
+#: pages/websites/manage.php:219
+msgid "URL"
+msgstr ""
+
+#: modals/websites/add.php:30 modals/websites/edit.php:30
+msgid "http://www.mydomain.com"
+msgstr ""
+
+#: modals/websites/add.php:30 modals/websites/edit.php:30
+msgid "Incorrect URL! (eg. http://www.google.com)"
+msgstr ""
+
+#: modals/websites/add.php:37 modals/websites/edit.php:37
+#: pages/websites/manage.php:93 pages/websites/manage.php:224
+msgid "Search String"
+msgstr ""
+
+#: modals/websites/add.php:37 modals/websites/edit.php:37
+msgid "String to search for in webiste's source code (optional)."
+msgstr ""
+
+#: modals/websites/delete.php:3
+msgid "Delete Website"
+msgstr ""
+
+#: modals/websites/delete.php:7
+msgid "Are you sure you want to delete this website?"
+msgstr ""
+
+#: modals/websites/edit.php:3
+msgid "Edit Website"
+msgstr ""
+
+#: pages/alerting/contacts.php:4
+msgid "Manage contacts"
+msgstr ""
+
+#: pages/alerting/contacts.php:5
+msgid "NEW CONTACT"
+msgstr ""
+
+#: pages/alerting/contacts.php:21 pages/alerting/log.php:21 pages/checks.php:22
+#: pages/pages.php:21 pages/servers.php:22 pages/system/groups.php:21
+#: pages/system/logs.php:29 pages/system/logs.php:58 pages/system/logs.php:87
+#: pages/system/logs.php:114 pages/websites.php:22 publicpage.php:98
+#: publicpage.php:259 publicpage.php:323
+msgid "ID"
+msgstr ""
+
+#: pages/alerting/contacts.php:23 pages/alerting/log.php:25
+msgid "Channels"
+msgstr ""
+
+#: pages/alerting/contacts.php:35 pages/alerting/log.php:37
+msgid "Email:"
+msgstr ""
+
+#: pages/alerting/contacts.php:39 pages/alerting/log.php:41
+msgid "Mobile Number:"
+msgstr ""
+
+#: pages/alerting/contacts.php:43 pages/alerting/log.php:45
+msgid "Pushbullet:"
+msgstr ""
+
+#: pages/alerting/contacts.php:47 pages/alerting/log.php:49
+msgid "Twitter:"
+msgstr ""
+
+#: pages/alerting/contacts.php:51 pages/alerting/log.php:53
+msgid "Pushover:"
+msgstr ""
+
+#: pages/alerting/log.php:4
+msgid "View alert log"
+msgstr ""
+
+#: pages/alerting/log.php:22 pages/checks/manage.php:137
+#: pages/websites/manage.php:90
+msgid "Date"
+msgstr ""
+
+#: pages/alerting/log.php:23
+msgid "Contact"
+msgstr ""
+
+#: pages/checks.php:4
+msgid "Manage checks"
+msgstr ""
+
+#: pages/checks.php:5
+msgid "ADD SERVICE"
+msgstr ""
+
+#: pages/checks.php:26 pages/checks/manage.php:293 pages/websites.php:25
+#: pages/websites/manage.php:229 publicpage.php:262 publicpage.php:327
+msgid "Last Checked"
+msgstr ""
+
+#: pages/checks.php:27 pages/checks/manage.php:310 pages/servers.php:32
+#: pages/servers/manage-linux.php:255 pages/servers/manage-linux.php:445
+#: pages/servers/manage-windows.php:243 pages/servers/manage-windows.php:447
+#: pages/websites.php:27 pages/websites/manage.php:252 publicpage.php:108
+#: publicpage.php:264 publicpage.php:328
+msgid "Uptime"
+msgstr ""
+
+#: pages/checks.php:36 pages/checks/manage.php:106 pages/checks/manage.php:150
+#: pages/checks/manage.php:153 pages/checks/manage.php:199
+#: pages/checks/manage.php:443 pages/dashboard.php:156 pages/dashboard.php:256
+#: pages/dashboard.php:323 pages/servers.php:43
+#: pages/servers/manage-linux.php:142 pages/servers/manage-linux.php:901
+#: pages/servers/manage-windows.php:130 pages/servers/manage-windows.php:863
+#: pages/websites.php:36 pages/websites/manage.php:148
+#: pages/websites/manage.php:202 pages/websites/manage.php:384
+#: publicpage.php:118 publicpage.php:272 publicpage.php:336
+msgid "OK"
+msgstr ""
+
+#: pages/checks.php:49 publicpage.php:349
+msgid "TCP Port"
+msgstr ""
+
+#: pages/checks.php:50 publicpage.php:350
+msgid "UDP Port"
+msgstr ""
+
+#: pages/checks.php:53 pages/checks/manage.php:269 publicpage.php:353
+msgid "Blacklist Check"
+msgstr ""
+
+#: pages/checks.php:59 pages/checks/manage.php:323 pages/servers.php:121
+#: pages/servers/manage-linux.php:458 pages/servers/manage-windows.php:460
+#: pages/websites.php:51 pages/websites/manage.php:265 publicpage.php:196
+#: publicpage.php:287 publicpage.php:359
+msgid "Last 24 Hours"
+msgstr ""
+
+#: pages/checks.php:63 pages/checks/manage.php:328 pages/servers.php:125
+#: pages/servers/manage-linux.php:463 pages/servers/manage-windows.php:465
+#: pages/websites.php:55 pages/websites/manage.php:270 publicpage.php:200
+#: publicpage.php:291 publicpage.php:363
+msgid "Last 7 Days"
+msgstr ""
+
+#: pages/checks.php:67 pages/checks/manage.php:333 pages/servers.php:129
+#: pages/servers/manage-linux.php:468 pages/servers/manage-windows.php:470
+#: pages/websites.php:59 pages/websites/manage.php:275 publicpage.php:204
+#: publicpage.php:295 publicpage.php:367
+msgid "Last 30 Days"
+msgstr ""
+
+#: pages/checks/manage.php:6 pages/dashboard.php:6 pages/profile.php:5
+#: pages/search.php:6 pages/servers/manage-linux.php:6
+#: pages/servers/manage-windows.php:6 pages/system/logs.php:5
+#: pages/system/roles/add.php:6 pages/system/roles/edit.php:6
+#: pages/system/settings.php:5 pages/system/users/edit.php:6
+#: pages/websites/manage.php:6
+msgid "Home"
+msgstr ""
+
+#: pages/checks/manage.php:23 pages/servers/manage-linux.php:23
+#: pages/servers/manage-windows.php:23 pages/websites/manage.php:23
+msgid "Overview"
+msgstr ""
+
+#: pages/checks/manage.php:25 pages/checks/manage.php:178
+#: pages/servers/manage-linux.php:32 pages/servers/manage-linux.php:121
+#: pages/servers/manage-windows.php:32 pages/servers/manage-windows.php:109
+#: pages/websites/manage.php:25
+msgid "Incidents"
+msgstr ""
+
+#: pages/checks/manage.php:33 pages/servers/manage-linux.php:40
+#: pages/servers/manage-windows.php:40 pages/websites/manage.php:33
+msgid "Date Range"
+msgstr ""
+
+#: pages/checks/manage.php:60 pages/servers/manage-linux.php:67
+#: pages/servers/manage-linux.php:497 pages/servers/manage-linux.php:520
+#: pages/servers/manage-linux.php:556 pages/servers/manage-linux.php:634
+#: pages/servers/manage-linux.php:727 pages/servers/manage-windows.php:67
+#: pages/servers/manage-windows.php:499 pages/servers/manage-windows.php:522
+#: pages/servers/manage-windows.php:551 pages/servers/manage-windows.php:632
+#: pages/servers/manage-windows.php:695 pages/websites/manage.php:60
+msgid "No data!"
+msgstr ""
+
+#: pages/checks/manage.php:61 pages/websites/manage.php:61
+msgid ""
+"No data available for the selected period or no data has been collected yet."
+msgstr ""
+
+#: pages/checks/manage.php:82
+msgid "Blacklists"
+msgstr ""
+
+#: pages/checks/manage.php:93
+msgid "Blacklist"
+msgstr ""
+
+#: pages/checks/manage.php:104
+msgid "LISTED"
+msgstr ""
+
+#: pages/checks/manage.php:126 pages/websites/manage.php:79
+msgid "Detailed Log"
+msgstr ""
+
+#: pages/checks/manage.php:126 pages/websites/manage.php:79
+msgid "Last 50 Check Services"
+msgstr ""
+
+#: pages/checks/manage.php:151
+msgid "Failed"
+msgstr ""
+
+#: pages/checks/manage.php:154
+msgid "Blacklisted"
+msgstr ""
+
+#: pages/checks/manage.php:157
+msgid "Offline"
+msgstr ""
+
+#: pages/checks/manage.php:190 pages/dashboard.php:147 pages/dashboard.php:247
+#: pages/dashboard.php:314 pages/servers/manage-linux.php:133
+#: pages/servers/manage-windows.php:121 pages/websites/manage.php:139
+msgid "Incident"
+msgstr ""
+
+#: pages/checks/manage.php:191 pages/checks/manage.php:434
+#: pages/dashboard.php:148 pages/dashboard.php:248 pages/dashboard.php:315
+#: pages/servers/manage-linux.php:134 pages/servers/manage-linux.php:892
+#: pages/servers/manage-windows.php:122 pages/servers/manage-windows.php:854
+#: pages/websites/manage.php:140 pages/websites/manage.php:375
+msgid "Start Time"
+msgstr ""
+
+#: pages/checks/manage.php:241 pages/websites/manage.php:188
+msgid "Website Info"
+msgstr ""
+
+#: pages/checks/manage.php:262 pages/websites/manage.php:239
+msgid "Check Type"
+msgstr ""
+
+#: pages/checks/manage.php:280 pages/checks/manage.php:281
+#: pages/checks/manage.php:282 pages/checks/manage.php:385
+#: pages/checks/manage.php:467 pages/servers/manage-linux.php:826
+#: pages/servers/manage-linux.php:954 pages/servers/manage-windows.php:789
+#: pages/servers/manage-windows.php:916 pages/websites/manage.php:108
+#: pages/websites/manage.php:326 pages/websites/manage.php:407
+msgid "N/A"
+msgstr ""
+
+#: pages/checks/manage.php:288
+msgid "Timeout"
+msgstr ""
+
+#: pages/checks/manage.php:298 pages/websites/manage.php:234
+msgid "Last Load Time"
+msgstr ""
+
+#: pages/checks/manage.php:338 pages/servers/manage-linux.php:473
+#: pages/servers/manage-windows.php:475 pages/websites/manage.php:280
+msgid "Selected Period"
+msgstr ""
+
+#: pages/checks/manage.php:368 pages/servers/manage-linux.php:779
+#: pages/servers/manage-windows.php:742 pages/websites/manage.php:310
+msgid "Action"
+msgstr ""
+
+#: pages/checks/manage.php:391 pages/servers/manage-linux.php:844
+#: pages/servers/manage-windows.php:807 pages/websites/manage.php:332
+msgid "If occurs"
+msgstr ""
+
+#: pages/checks/manage.php:391 pages/servers/manage-linux.php:844
+#: pages/servers/manage-windows.php:807 pages/websites/manage.php:332
+msgid "times"
+msgstr ""
+
+#: pages/checks/manage.php:391 pages/servers/manage-linux.php:848
+#: pages/servers/manage-windows.php:810 pages/websites/manage.php:332
+msgid "alert:"
+msgstr ""
+
+#: pages/checks/manage.php:435 pages/servers/manage-linux.php:893
+#: pages/servers/manage-windows.php:855 pages/websites/manage.php:376
+msgid "End Time"
+msgstr ""
+
+#: pages/checks/manage.php:528 pages/websites/manage.php:468
+msgid "Performance"
+msgstr ""
+
+#: pages/dashboard.php:16
+msgid "Plese delete the \"install\" directory!"
+msgstr ""
+
+#: pages/dashboard.php:32 pages/dashboard.php:46 pages/dashboard.php:60
+#: pages/dashboard.php:75
+msgid "View all"
+msgstr ""
+
+#: pages/dashboard.php:91
+msgid ""
+"Add a Google Maps API key in System > Settings in order to display monitors "
+"status on map."
+msgstr ""
+
+#: pages/dashboard.php:96
+msgid "Around the world"
+msgstr ""
+
+#: pages/dashboard.php:121
+msgid "Add a Google Maps API key in settings for a more detailed map."
+msgstr ""
+
+#: pages/dashboard.php:133
+msgid "Servers Overview"
+msgstr ""
+
+#: pages/dashboard.php:146
+msgid "Server"
+msgstr ""
+
+#: pages/dashboard.php:233
+msgid "Websites Overview"
+msgstr ""
+
+#: pages/dashboard.php:246
+msgid "Website"
+msgstr ""
+
+#: pages/dashboard.php:300
+msgid "Check Services Overview"
+msgstr ""
+
+#: pages/dashboard.php:313
+msgid "Check"
+msgstr ""
+
+#: pages/dashboard.php:438 pages/dashboard.php:518
+msgid "Check: "
+msgstr ""
+
+#: pages/dashboard.php:460 pages/dashboard.php:540
+msgid "Server: "
+msgstr ""
+
+#: pages/dashboard.php:483 pages/dashboard.php:563
+msgid "Website: "
+msgstr ""
+
+#: pages/pages.php:4
+msgid "Manage pages"
+msgstr ""
+
+#: pages/pages.php:5
+msgid "ADD PAGE"
+msgstr ""
+
+#: pages/profile.php:4
+msgid "Edit profile"
+msgstr ""
+
+#: pages/profile.php:5
+msgid "My Profile"
+msgstr ""
+
+#: pages/profile.php:36
+msgid "Change Password"
+msgstr ""
+
+#: pages/profile.php:37
+msgid "Enter only if you want to change"
+msgstr ""
+
+#: pages/profile.php:41
+msgid "Avatar"
+msgstr ""
+
+#: pages/profile.php:43
+msgid "Square JPG image only, recommended size: 128x128px."
+msgstr ""
+
+#: pages/profile.php:44
+msgid "Remove Avatar Image"
+msgstr ""
+
+#: pages/profile.php:54 pages/system/users/edit.php:49
+msgid "Language"
+msgstr ""
+
+#: pages/profile.php:63 pages/system/users/edit.php:58
+msgid "Theme"
+msgstr ""
+
+#: pages/profile.php:65 pages/system/users/edit.php:60
+msgid "Dark"
+msgstr ""
+
+#: pages/profile.php:66 pages/system/users/edit.php:61
+msgid "Blue"
+msgstr ""
+
+#: pages/profile.php:67 pages/system/users/edit.php:62
+msgid "Black"
+msgstr ""
+
+#: pages/profile.php:68 pages/system/users/edit.php:63
+msgid "Purple"
+msgstr ""
+
+#: pages/profile.php:69 pages/system/users/edit.php:64
+msgid "Green"
+msgstr ""
+
+#: pages/profile.php:70 pages/system/users/edit.php:65
+msgid "Red"
+msgstr ""
+
+#: pages/profile.php:71 pages/system/users/edit.php:66
+msgid "Yellow"
+msgstr ""
+
+#: pages/profile.php:72 pages/system/users/edit.php:67
+msgid "Blue Light"
+msgstr ""
+
+#: pages/profile.php:73 pages/system/users/edit.php:68
+msgid "Black Light"
+msgstr ""
+
+#: pages/profile.php:74 pages/system/users/edit.php:69
+msgid "Purple Light"
+msgstr ""
+
+#: pages/profile.php:75 pages/system/users/edit.php:70
+msgid "Green Light"
+msgstr ""
+
+#: pages/profile.php:76 pages/system/users/edit.php:71
+msgid "Red Light"
+msgstr ""
+
+#: pages/profile.php:77 pages/system/users/edit.php:72
+msgid "Yellow Light"
+msgstr ""
+
+#: pages/profile.php:82 pages/system/users/edit.php:77
+msgid "Sidebar"
+msgstr ""
+
+#: pages/profile.php:84 pages/system/users/edit.php:79
+msgid "Opened"
+msgstr ""
+
+#: pages/profile.php:85 pages/system/users/edit.php:80
+msgid "Collapsed"
+msgstr ""
+
+#: pages/profile.php:90 pages/system/users/edit.php:85
+msgid "Layout"
+msgstr ""
+
+#: pages/profile.php:92 pages/system/users/edit.php:87
+msgid "Standard"
+msgstr ""
+
+#: pages/profile.php:93 pages/system/users/edit.php:88
+msgid "Fixed"
+msgstr ""
+
+#: pages/profile.php:94 pages/system/users/edit.php:89
+msgid "Boxed"
+msgstr ""
+
+#: pages/profile.php:100
+msgid "Confirm Password"
+msgstr ""
+
+#: pages/profile.php:102
+msgid "Please confirm your current password to make changes to your profile."
+msgstr ""
+
+#: pages/search.php:5 pages/search.php:6 pages/search.php:25
+#: pages/system/roles/add.php:106 pages/system/roles/edit.php:105
+msgid "Search"
+msgstr ""
+
+#: pages/search.php:5
+msgid "Search system wide"
+msgstr ""
+
+#: pages/search.php:21
+msgid "Search String..."
+msgstr ""
+
+#: pages/servers.php:4
+msgid "Manage servers"
+msgstr ""
+
+#: pages/servers.php:5
+msgid "ADD SERVER"
+msgstr ""
+
+#: pages/servers.php:26 publicpage.php:102
+msgid "OS"
+msgstr ""
+
+#: pages/servers.php:27 pages/servers/manage-linux.php:24
+#: pages/servers/manage-windows.php:24 publicpage.php:103
+msgid "CPU"
+msgstr ""
+
+#: pages/servers.php:28 pages/servers/manage-linux.php:25
+#: pages/servers/manage-linux.php:290 pages/servers/manage-windows.php:25
+#: pages/servers/manage-windows.php:272 publicpage.php:104
+msgid "RAM"
+msgstr ""
+
+#: pages/servers.php:29 publicpage.php:105
+msgid "Disk"
+msgstr ""
+
+#: pages/servers.php:30 pages/servers/manage-linux.php:274 publicpage.php:106
+msgid "Load"
+msgstr ""
+
+#: pages/servers.php:31 publicpage.php:107
+msgid "Net"
+msgstr ""
+
+#: pages/servers.php:33 publicpage.php:109
+msgid "Last Seen"
+msgstr ""
+
+#: pages/servers.php:79 pages/servers.php:101 publicpage.php:154
+#: publicpage.php:176
+msgid "% Used"
+msgstr ""
+
+#: pages/servers.php:87 pages/servers.php:94 pages/servers/manage-linux.php:303
+#: pages/servers/manage-linux.php:406 pages/servers/manage-linux.php:647
+#: pages/servers/manage-linux.php:676 pages/servers/manage-linux.php:681
+#: pages/servers/manage-linux.php:686 pages/servers/manage-windows.php:287
+#: pages/servers/manage-windows.php:293 pages/servers/manage-windows.php:413
+#: pages/servers/manage-windows.php:645 publicpage.php:162 publicpage.php:169
+msgid "Total"
+msgstr ""
+
+#: pages/servers.php:87 pages/servers.php:94 pages/servers/manage-linux.php:371
+#: pages/servers/manage-linux.php:571 pages/servers/manage-linux.php:574
+#: pages/servers/manage-linux.php:1131 pages/servers/manage-linux.php:1416
+#: pages/servers/manage-linux.php:1446 pages/servers/manage-windows.php:286
+#: pages/servers/manage-windows.php:293 pages/servers/manage-windows.php:379
+#: pages/servers/manage-windows.php:565 pages/servers/manage-windows.php:1049
+#: pages/servers/manage-windows.php:1214 pages/servers/manage-windows.php:1244
+#: publicpage.php:162 publicpage.php:169
+msgid "Used"
+msgstr ""
+
+#: pages/servers.php:87 pages/servers.php:94 pages/servers/manage-linux.php:572
+#: pages/servers/manage-windows.php:285 pages/servers/manage-windows.php:566
+#: publicpage.php:162 publicpage.php:169
+msgid "Free"
+msgstr ""
+
+#: pages/servers.php:108 pages/servers/manage-linux.php:1085 publicpage.php:183
+msgid "1 Min"
+msgstr ""
+
+#: pages/servers.php:108 pages/servers/manage-linux.php:1093 publicpage.php:183
+msgid "5 Min"
+msgstr ""
+
+#: pages/servers.php:108 pages/servers/manage-linux.php:1101 publicpage.php:183
+msgid "15 Min"
+msgstr ""
+
+#: pages/servers.php:116 pages/servers.php:117
+#: pages/servers/manage-linux.php:424 pages/servers/manage-linux.php:428
+#: pages/servers/manage-linux.php:432 pages/servers/manage-linux.php:671
+#: pages/servers/manage-linux.php:672 pages/servers/manage-linux.php:673
+#: pages/servers/manage-windows.php:426 pages/servers/manage-windows.php:430
+#: pages/servers/manage-windows.php:434 pages/servers/manage-windows.php:661
+#: pages/servers/manage-windows.php:662 pages/servers/manage-windows.php:663
+#: publicpage.php:191 publicpage.php:192
+msgid "/s"
+msgstr ""
+
+#: pages/servers.php:152 publicpage.php:227
+msgid "-"
+msgstr ""
+
+#: pages/servers.php:153 publicpage.php:228
+msgid "Never Seen"
+msgstr ""
+
+#: pages/servers/manage-linux.php:27 pages/servers/manage-windows.php:27
+#: pages/servers/manage-windows.php:590
+msgid "Disks"
+msgstr ""
+
+#: pages/servers/manage-linux.php:29 pages/servers/manage-windows.php:29
+msgid "Processes"
+msgstr ""
+
+#: pages/servers/manage-linux.php:68 pages/servers/manage-linux.php:498
+#: pages/servers/manage-linux.php:521 pages/servers/manage-linux.php:557
+#: pages/servers/manage-linux.php:635 pages/servers/manage-linux.php:728
+#: pages/servers/manage-windows.php:68 pages/servers/manage-windows.php:500
+#: pages/servers/manage-windows.php:523 pages/servers/manage-windows.php:552
+#: pages/servers/manage-windows.php:633 pages/servers/manage-windows.php:696
+msgid ""
+"No data available for the selected period or no data has been received yet."
+msgstr ""
+
+#: pages/servers/manage-linux.php:215 pages/servers/manage-windows.php:203
+msgid "Server Info"
+msgstr ""
+
+#: pages/servers/manage-linux.php:226 pages/servers/manage-windows.php:214
+msgid "Hostname"
+msgstr ""
+
+#: pages/servers/manage-linux.php:231 pages/servers/manage-windows.php:219
+msgid "Operating System"
+msgstr ""
+
+#: pages/servers/manage-linux.php:236 pages/servers/manage-windows.php:224
+msgid "Kernel"
+msgstr ""
+
+#: pages/servers/manage-linux.php:241 pages/servers/manage-windows.php:230
+msgid "Arch"
+msgstr ""
+
+#: pages/servers/manage-linux.php:246 pages/servers/manage-windows.php:236
+msgid "Server Time"
+msgstr ""
+
+#: pages/servers/manage-linux.php:264 pages/servers/manage-windows.php:252
+msgid "CPU Model"
+msgstr ""
+
+#: pages/servers/manage-linux.php:269 pages/servers/manage-windows.php:257
+msgid "CPU Cores"
+msgstr ""
+
+#: pages/servers/manage-linux.php:270 pages/servers/manage-windows.php:258
+msgid "Cores"
+msgstr ""
+
+#: pages/servers/manage-linux.php:280
+msgid "(1 Min)"
+msgstr ""
+
+#: pages/servers/manage-linux.php:281
+msgid "(5 Min)"
+msgstr ""
+
+#: pages/servers/manage-linux.php:282
+msgid "(15 Min)"
+msgstr ""
+
+#: pages/servers/manage-linux.php:302
+msgid "Available"
+msgstr ""
+
+#: pages/servers/manage-linux.php:308 pages/servers/manage-windows.php:292
+msgid "Swap"
+msgstr ""
+
+#: pages/servers/manage-linux.php:309
+msgid "MB Used"
+msgstr ""
+
+#: pages/servers/manage-linux.php:309
+msgid "MB Total"
+msgstr ""
+
+#: pages/servers/manage-linux.php:313 pages/servers/manage-windows.php:297
+#: pages/system/logs.php:31
+msgid "IP Address"
+msgstr ""
+
+#: pages/servers/manage-linux.php:337
+msgid "Active Connections"
+msgstr ""
+
+#: pages/servers/manage-linux.php:342 pages/servers/manage-windows.php:350
+msgid "PING Latency"
+msgstr ""
+
+#: pages/servers/manage-linux.php:343 pages/servers/manage-linux.php:1591
+#: pages/servers/manage-linux.php:1594 pages/servers/manage-windows.php:351
+#: pages/servers/manage-windows.php:1359 pages/servers/manage-windows.php:1362
+msgid "ms"
+msgstr ""
+
+#: pages/servers/manage-linux.php:347 pages/servers/manage-windows.php:355
+msgid "Agent Version"
+msgstr ""
+
+#: pages/servers/manage-linux.php:359 pages/servers/manage-linux.php:1204
+#: pages/servers/manage-linux.php:1491 pages/servers/manage-windows.php:367
+#: pages/servers/manage-windows.php:1122 pages/servers/manage-windows.php:1289
+msgid "Disk Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:370 pages/servers/manage-linux.php:566
+#: pages/servers/manage-windows.php:378 pages/servers/manage-windows.php:562
+msgid "Mount"
+msgstr ""
+
+#: pages/servers/manage-linux.php:392 pages/servers/manage-windows.php:399
+msgid "Network Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:403 pages/servers/manage-linux.php:644
+#: pages/servers/manage-windows.php:410 pages/servers/manage-windows.php:642
+msgid "Interface"
+msgstr ""
+
+#: pages/servers/manage-linux.php:404 pages/servers/manage-linux.php:645
+#: pages/servers/manage-windows.php:411 pages/servers/manage-windows.php:643
+msgid "In"
+msgstr ""
+
+#: pages/servers/manage-linux.php:405 pages/servers/manage-linux.php:646
+#: pages/servers/manage-windows.php:412 pages/servers/manage-windows.php:644
+msgid "Out"
+msgstr ""
+
+#: pages/servers/manage-linux.php:504 pages/servers/manage-linux.php:1066
+#: pages/servers/manage-windows.php:262 pages/servers/manage-windows.php:506
+#: pages/servers/manage-windows.php:1028
+msgid "CPU Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:504 pages/servers/manage-windows.php:506
+msgid "Core"
+msgstr ""
+
+#: pages/servers/manage-linux.php:504 pages/servers/manage-windows.php:506
+msgid "Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:528 pages/servers/manage-linux.php:535
+#: pages/servers/manage-linux.php:1141 pages/servers/manage-linux.php:1396
+#: pages/servers/manage-windows.php:530 pages/servers/manage-windows.php:1059
+#: pages/servers/manage-windows.php:1224
+msgid "RAM Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:535
+msgid "Including Caches & Buffers"
+msgstr ""
+
+#: pages/servers/manage-linux.php:542 pages/servers/manage-linux.php:1456
+#: pages/servers/manage-windows.php:537 pages/servers/manage-windows.php:1254
+msgid "SWAP Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:567
+msgid "Device"
+msgstr ""
+
+#: pages/servers/manage-linux.php:568
+msgid "Filesystem"
+msgstr ""
+
+#: pages/servers/manage-linux.php:570 pages/servers/manage-windows.php:564
+#: pages/servers/manage-windows.php:596
+msgid "Size"
+msgstr ""
+
+#: pages/servers/manage-linux.php:576
+msgid "Inodes"
+msgstr ""
+
+#: pages/servers/manage-linux.php:577
+msgid "I-Used"
+msgstr ""
+
+#: pages/servers/manage-linux.php:578
+msgid "I-Free"
+msgstr ""
+
+#: pages/servers/manage-linux.php:579
+msgid "I-Used %"
+msgstr ""
+
+#: pages/servers/manage-linux.php:612 pages/servers/manage-windows.php:617
+msgid "Disks Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:619 pages/servers/manage-linux.php:1236
+#: pages/servers/manage-linux.php:1523
+msgid "Inode Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:648 pages/servers/manage-windows.php:646
+msgid "In Speed"
+msgstr ""
+
+#: pages/servers/manage-linux.php:649 pages/servers/manage-windows.php:647
+msgid "Out Speed"
+msgstr ""
+
+#: pages/servers/manage-linux.php:650 pages/servers/manage-windows.php:648
+msgid "Total Speed"
+msgstr ""
+
+#: pages/servers/manage-linux.php:651
+msgid "In Packets"
+msgstr ""
+
+#: pages/servers/manage-linux.php:652
+msgid "Out Packets"
+msgstr ""
+
+#: pages/servers/manage-linux.php:653
+msgid "Total Packets"
+msgstr ""
+
+#: pages/servers/manage-linux.php:677 pages/servers/manage-linux.php:682
+#: pages/servers/manage-linux.php:687
+msgid "Speed"
+msgstr ""
+
+#: pages/servers/manage-linux.php:677 pages/servers/manage-linux.php:682
+#: pages/servers/manage-linux.php:687
+msgid "p/s"
+msgstr ""
+
+#: pages/servers/manage-linux.php:698 pages/servers/manage-linux.php:1173
+#: pages/servers/manage-linux.php:1558 pages/servers/manage-windows.php:672
+#: pages/servers/manage-windows.php:1091 pages/servers/manage-windows.php:1326
+msgid "Network Speed"
+msgstr ""
+
+#: pages/servers/manage-linux.php:735 pages/servers/manage-windows.php:703
+msgid "PID"
+msgstr ""
+
+#: pages/servers/manage-linux.php:736
+msgid "PPID"
+msgstr ""
+
+#: pages/servers/manage-linux.php:737
+msgid "RSS"
+msgstr ""
+
+#: pages/servers/manage-linux.php:738
+msgid "VSZ"
+msgstr ""
+
+#: pages/servers/manage-linux.php:739
+msgid "USER"
+msgstr ""
+
+#: pages/servers/manage-linux.php:740
+msgid "%MEM"
+msgstr ""
+
+#: pages/servers/manage-linux.php:741
+msgid "%CPU"
+msgstr ""
+
+#: pages/servers/manage-linux.php:742
+msgid "COMMAND"
+msgstr ""
+
+#: pages/servers/manage-linux.php:743
+msgid "CMD"
+msgstr ""
+
+#: pages/servers/manage-linux.php:836
+msgid "Service name as found in the Processes table > COMMAND column."
+msgstr ""
+
+#: pages/servers/manage-linux.php:842 pages/servers/manage-windows.php:805
+msgid "If Service/Process not running"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1056 pages/servers/manage-windows.php:1018
+msgid "Aggregated Usage"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1111
+msgid "Load Averages"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1144 pages/servers/manage-linux.php:1147
+#: pages/servers/manage-linux.php:1399 pages/servers/manage-linux.php:1402
+#: pages/servers/manage-linux.php:1429 pages/servers/manage-linux.php:1432
+#: pages/servers/manage-linux.php:1459 pages/servers/manage-linux.php:1462
+#: pages/servers/manage-windows.php:1062 pages/servers/manage-windows.php:1065
+#: pages/servers/manage-windows.php:1227 pages/servers/manage-windows.php:1230
+#: pages/servers/manage-windows.php:1257 pages/servers/manage-windows.php:1260
+msgid "MB"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1176 pages/servers/manage-linux.php:1179
+#: pages/servers/manage-linux.php:1561 pages/servers/manage-linux.php:1564
+#: pages/servers/manage-windows.php:1094 pages/servers/manage-windows.php:1097
+#: pages/servers/manage-windows.php:1329 pages/servers/manage-windows.php:1332
+msgid "MB/s"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1262 pages/servers/manage-windows.php:1150
+msgid "user"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1271 pages/servers/manage-windows.php:1159
+msgid "nice"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1280 pages/servers/manage-windows.php:1168
+msgid "system"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1289
+msgid "iowait"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1298 pages/servers/manage-windows.php:1177
+msgid "irq"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1307
+msgid "softirq"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1316
+msgid "steal"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1325
+msgid "guest"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1334
+msgid "guestnice"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1345 pages/servers/manage-windows.php:1188
+msgid "CPU Chart"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1370
+msgid "Buffers"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1378
+msgid "Caches"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1386
+msgid "Total Used"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1426
+msgid "Real Memory"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1578 pages/servers/manage-windows.php:1346
+msgid "Latency"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1608
+msgid "SSH"
+msgstr ""
+
+#: pages/servers/manage-linux.php:1617
+msgid "All"
+msgstr ""
+
+#: pages/servers/manage-windows.php:326
+msgid "Motherboard"
+msgstr ""
+
+#: pages/servers/manage-windows.php:337
+msgid "BIOS"
+msgstr ""
+
+#: pages/servers/manage-windows.php:557
+msgid "File Systems"
+msgstr ""
+
+#: pages/servers/manage-windows.php:567
+msgid "Used %"
+msgstr ""
+
+#: pages/servers/manage-windows.php:597
+msgid "Serial Number"
+msgstr ""
+
+#: pages/servers/manage-windows.php:705
+msgid "Command"
+msgstr ""
+
+#: pages/servers/manage-windows.php:706
+msgid "CPU System %"
+msgstr ""
+
+#: pages/servers/manage-windows.php:707
+msgid "CPU User %"
+msgstr ""
+
+#: pages/servers/manage-windows.php:708
+msgid "Memory %"
+msgstr ""
+
+#: pages/servers/manage-windows.php:709
+msgid "Started"
+msgstr ""
+
+#: pages/servers/manage-windows.php:799
+msgid "Service name as found in the Processes table > Name column."
+msgstr ""
+
+#: pages/system/groups.php:4
+msgid "Manage groups"
+msgstr ""
+
+#: pages/system/groups.php:5
+msgid "NEW GROUP"
+msgstr ""
+
+#: pages/system/logs.php:4
+msgid "View application logs"
+msgstr ""
+
+#: pages/system/logs.php:18
+msgid "Activity Log"
+msgstr ""
+
+#: pages/system/logs.php:19
+msgid "Email Message Log"
+msgstr ""
+
+#: pages/system/logs.php:20
+msgid "SMS Message Log"
+msgstr ""
+
+#: pages/system/logs.php:21
+msgid "Cron Log"
+msgstr ""
+
+#: pages/system/logs.php:30 pages/system/logs.php:59
+msgid "User"
+msgstr ""
+
+#: pages/system/logs.php:32
+msgid "Description"
+msgstr ""
+
+#: pages/system/logs.php:33 pages/system/logs.php:62 pages/system/logs.php:88
+#: pages/system/logs.php:115
+msgid "Timestamp"
+msgstr ""
+
+#: pages/system/logs.php:89
+msgid "Mobile"
+msgstr ""
+
+#: pages/system/logs.php:90
+msgid "Text"
+msgstr ""
+
+#: pages/system/logs.php:116
+msgid "data"
+msgstr ""
+
+#: pages/system/roles.php:4
+msgid "Manage user roles"
+msgstr ""
+
+#: pages/system/roles.php:5
+msgid "NEW ROLE"
+msgstr ""
+
+#: pages/system/roles.php:21
+msgid "Role Name"
+msgstr ""
+
+#: pages/system/roles/add.php:5 pages/system/roles/edit.php:5
+msgid "Manage roles"
+msgstr ""
+
+#: pages/system/roles/add.php:6 pages/system/roles/edit.php:6
+msgid "People"
+msgstr ""
+
+#: pages/system/roles/add.php:6 pages/system/roles/add.php:118
+msgid "Create"
+msgstr ""
+
+#: pages/system/roles/add.php:17
+msgid "Create New Role"
+msgstr ""
+
+#: pages/system/roles/add.php:35 pages/system/roles/add.php:44
+#: pages/system/roles/add.php:53 pages/system/roles/add.php:61
+#: pages/system/roles/add.php:70 pages/system/roles/add.php:78
+#: pages/system/roles/add.php:86 pages/system/roles/add.php:94
+#: pages/system/roles/edit.php:6 pages/system/roles/edit.php:34
+#: pages/system/roles/edit.php:43 pages/system/roles/edit.php:52
+#: pages/system/roles/edit.php:60 pages/system/roles/edit.php:69
+#: pages/system/roles/edit.php:77 pages/system/roles/edit.php:85
+#: pages/system/roles/edit.php:93
+msgid "Edit"
+msgstr ""
+
+#: pages/system/roles/add.php:36 pages/system/roles/add.php:45
+#: pages/system/roles/add.php:54 pages/system/roles/add.php:62
+#: pages/system/roles/add.php:71 pages/system/roles/add.php:79
+#: pages/system/roles/add.php:87 pages/system/roles/add.php:95
+#: pages/system/roles/edit.php:35 pages/system/roles/edit.php:44
+#: pages/system/roles/edit.php:53 pages/system/roles/edit.php:61
+#: pages/system/roles/edit.php:70 pages/system/roles/edit.php:78
+#: pages/system/roles/edit.php:86 pages/system/roles/edit.php:94
+msgid "Delete"
+msgstr ""
+
+#: pages/system/roles/add.php:37 pages/system/roles/add.php:46
+#: pages/system/roles/add.php:55 pages/system/roles/add.php:63
+#: pages/system/roles/add.php:72 pages/system/roles/add.php:80
+#: pages/system/roles/add.php:88 pages/system/roles/add.php:96
+#: pages/system/roles/edit.php:36 pages/system/roles/edit.php:45
+#: pages/system/roles/edit.php:54 pages/system/roles/edit.php:62
+#: pages/system/roles/edit.php:71 pages/system/roles/edit.php:79
+#: pages/system/roles/edit.php:87 pages/system/roles/edit.php:95
+msgid "View"
+msgstr ""
+
+#: pages/system/roles/add.php:101 pages/system/roles/edit.php:100
+msgid "Manage Settings"
+msgstr ""
+
+#: pages/system/roles/add.php:102 pages/system/roles/edit.php:101
+msgid "View System Logs"
+msgstr ""
+
+#: pages/system/roles/add.php:103 pages/system/roles/edit.php:102
+msgid "View Alert Logs"
+msgstr ""
+
+#: pages/system/roles/add.php:104 pages/system/roles/edit.php:103
+msgid "Show System Menu"
+msgstr ""
+
+#: pages/system/roles/edit.php:17
+msgid "Edit Role"
+msgstr ""
+
+#: pages/system/settings.php:4
+msgid "System configuration"
+msgstr ""
+
+#: pages/system/settings.php:18
+msgid "General"
+msgstr ""
+
+#: pages/system/settings.php:19
+msgid "Monitoring"
+msgstr ""
+
+#: pages/system/settings.php:20
+msgid "Localisation"
+msgstr ""
+
+#: pages/system/settings.php:22
+msgid "SMS Gateway"
+msgstr ""
+
+#: pages/system/settings.php:25
+msgid "Notifications"
+msgstr ""
+
+#: pages/system/settings.php:26
+msgid "Cron Jobs"
+msgstr ""
+
+#: pages/system/settings.php:32
+msgid "Application Name"
+msgstr ""
+
+#: pages/system/settings.php:34
+msgid "Application Name as it appears throughout the system"
+msgstr ""
+
+#: pages/system/settings.php:37
+msgid "Application URL"
+msgstr ""
+
+#: pages/system/settings.php:39
+msgid ""
+"Full installation URL including http:// or https:// (eg. http://mydomain.com/"
+"server-monitor/)"
+msgstr ""
+
+#: pages/system/settings.php:43
+msgid "Company Name"
+msgstr ""
+
+#: pages/system/settings.php:45
+msgid "Company Name as it appears throughout the system"
+msgstr ""
+
+#: pages/system/settings.php:48
+msgid "Company Details"
+msgstr ""
+
+#: pages/system/settings.php:50
+msgid "Company Details used in the system for reports"
+msgstr ""
+
+#: pages/system/settings.php:53
+msgid "System Log Retention"
+msgstr ""
+
+#: pages/system/settings.php:55
+msgid "Delete system log entries older then (days)"
+msgstr ""
+
+#: pages/system/settings.php:58
+msgid "Record to Display per Page"
+msgstr ""
+
+#: pages/system/settings.php:69
+msgid "Google Maps API Key"
+msgstr ""
+
+#: pages/system/settings.php:71
+msgid ""
+"Adding a Google Maps API Key will switch the dashboard map to Google Maps "
+"and will allow you to set custom location for your assets."
+msgstr ""
+
+#: pages/system/settings.php:76 pages/system/settings.php:114
+#: pages/system/settings.php:169 pages/system/settings.php:274
+#: pages/system/settings.php:321 pages/system/settings.php:354
+#: pages/system/settings.php:374 pages/system/users/edit.php:105
+msgid "Save Changes"
+msgstr ""
+
+#: pages/system/settings.php:93
+msgid "Check Timeout (s)"
+msgstr ""
+
+#: pages/system/settings.php:95
+msgid "Default check timeout in seconds."
+msgstr ""
+
+#: pages/system/settings.php:99
+msgid "History Retention (days)"
+msgstr ""
+
+#: pages/system/settings.php:101
+msgid ""
+"Server, website, check & alert history older than this value will be deleted."
+msgstr ""
+
+#: pages/system/settings.php:105
+msgid "Default Contacts"
+msgstr ""
+
+#: pages/system/settings.php:105
+msgid ""
+"Contacts selected will be used for default alerts when adding new server, "
+"website or check."
+msgstr ""
+
+#: pages/system/settings.php:132
+msgid "First Day of The Week"
+msgstr ""
+
+#: pages/system/settings.php:134
+msgid "Monday"
+msgstr ""
+
+#: pages/system/settings.php:135
+msgid "Sunday"
+msgstr ""
+
+#: pages/system/settings.php:139
+msgid "Default Language"
+msgstr ""
+
+#: pages/system/settings.php:148
+msgid "Timezone"
+msgstr ""
+
+#: pages/system/settings.php:157
+msgid "Date Format"
+msgstr ""
+
+#: pages/system/settings.php:181
+msgid "Languages"
+msgstr ""
+
+#: pages/system/settings.php:183
+msgid "NEW LANGUAGE"
+msgstr ""
+
+#: pages/system/settings.php:193
+msgid "Actions"
+msgstr ""
+
+#: pages/system/settings.php:225 pages/system/settings.php:226
+msgid "Email From Address"
+msgstr ""
+
+#: pages/system/settings.php:229 pages/system/settings.php:230
+msgid "Emails From Name"
+msgstr ""
+
+#: pages/system/settings.php:233
+msgid "Enable SMTP"
+msgstr ""
+
+#: pages/system/settings.php:234
+msgid "SMTP Requires Authentication"
+msgstr ""
+
+#: pages/system/settings.php:238
+msgid "SMTP Host"
+msgstr ""
+
+#: pages/system/settings.php:242
+msgid "SMTP Port"
+msgstr ""
+
+#: pages/system/settings.php:247
+msgid "SMTP Username"
+msgstr ""
+
+#: pages/system/settings.php:252
+msgid "SMTP Password"
+msgstr ""
+
+#: pages/system/settings.php:257
+msgid "SMTP Security"
+msgstr ""
+
+#: pages/system/settings.php:260 pages/websites/manage.php:225
+msgid "None"
+msgstr ""
+
+#: pages/system/settings.php:261
+msgid "SSL"
+msgstr ""
+
+#: pages/system/settings.php:262
+msgid "TLS"
+msgstr ""
+
+#: pages/system/settings.php:268
+msgid "SMTP Authentication Domain"
+msgstr ""
+
+#: pages/system/settings.php:270
+msgid ""
+"Use in case of connecting to an Exchange server or similar server requiring "
+"NTLM authentication."
+msgstr ""
+
+#: pages/system/settings.php:289
+msgid "SMS Provider"
+msgstr ""
+
+#: pages/system/settings.php:300
+msgid "Username/Account SID"
+msgstr ""
+
+#: pages/system/settings.php:304
+msgid "Password/Auth Token"
+msgstr ""
+
+#: pages/system/settings.php:310
+msgid "API ID"
+msgstr ""
+
+#: pages/system/settings.php:312
+msgid "Only for Clickatell"
+msgstr ""
+
+#: pages/system/settings.php:315
+msgid "From Name/Number"
+msgstr ""
+
+#: pages/system/settings.php:317
+msgid "For SMS Global or Twillio"
+msgstr ""
+
+#: pages/system/settings.php:335 pages/system/settings.php:336
+msgid "Consumer Key (API Key)"
+msgstr ""
+
+#: pages/system/settings.php:339 pages/system/settings.php:340
+msgid "Consumer Secret (API Secret)"
+msgstr ""
+
+#: pages/system/settings.php:344 pages/system/settings.php:345
+msgid "Access Token"
+msgstr ""
+
+#: pages/system/settings.php:348 pages/system/settings.php:349
+msgid "Access Token Secret"
+msgstr ""
+
+#: pages/system/settings.php:369 pages/system/settings.php:370
+msgid "Pushover Application API Token"
+msgstr ""
+
+#: pages/system/settings.php:390
+msgid "New User"
+msgstr ""
+
+#: pages/system/settings.php:391
+msgid "Password Reset"
+msgstr ""
+
+#: pages/system/settings.php:395
+msgid "Server-Monitor Incident Alert"
+msgstr ""
+
+#: pages/system/settings.php:407
+msgid "System Cron Job"
+msgstr ""
+
+#: pages/system/settings.php:409
+msgid "or"
+msgstr ""
+
+#: pages/system/settings.php:413
+msgid ""
+"This cron job will check websites and checks, process alerts and send "
+"notifications if needed, every 3 minutes."
+msgstr ""
+
+#: pages/system/users.php:4
+msgid "Manage user accounts"
+msgstr ""
+
+#: pages/system/users.php:5
+msgid "NEW USER"
+msgstr ""
+
+#: pages/system/users/edit.php:4
+msgid "Edit user"
+msgstr ""
+
+#: pages/system/users/edit.php:45
+msgid "Enter only if you want to change current password."
+msgstr ""
+
+#: pages/system/users/edit.php:94
+msgid "Notes"
+msgstr ""
+
+#: pages/websites.php:4
+msgid "Manage websites"
+msgstr ""
+
+#: pages/websites.php:5
+msgid "ADD WEBSITE"
+msgstr ""
+
+#: pages/websites/manage.php:92
+msgid "HTTP Status Code"
+msgstr ""
+
+#: pages/websites/manage.php:105
+msgid "Present"
+msgstr ""
+
+#: pages/websites/manage.php:106
+msgid "Missing"
+msgstr ""
+
+#: pages/websites/manage.php:127
+msgid "Opened Incidents"
+msgstr ""
+
+#: pages/websites/manage.php:204
+msgid "WARNING"
+msgstr ""
+
+#: pages/websites/manage.php:206
+msgid "ALERT"
+msgstr ""
+
+#: pages/websites/manage.php:208
+msgid "UNKNOWN"
+msgstr ""
+
+#: pages/websites/manage.php:240
+msgid "HTTP"
+msgstr ""
+
+#: publicpage.php:60
+msgid "Deprecated!"
+msgstr ""
+
+#: publicpage.php:61
+msgid ""
+"Referencing a public page by ID is now deprecated and will be removed in the "
+"next version."
+msgstr ""
+
+#: publicpage.php:62
+msgid "You can get the new link from the admin panel."
+msgstr ""
+
+#: publicpage.php:391
+msgid "Page Not Found!"
+msgstr ""
+
+#: publicpage.php:392
+msgid "This page does not exist or an invalid page key was provided."
+msgstr ""
+
+#: publicpage.php:410
+msgid "Copyright"
+msgstr ""
+
+#: publicpage.php:410
+msgid "All rights reserved."
+msgstr ""
+
+#: signin.php:31
+msgid "Sign in to start your session"
+msgstr ""
+
+#: signin.php:49
+msgid "Sign In"
+msgstr ""
+
+#: signin.php:56
+msgid "Forgot your password?"
+msgstr ""
+
+#: modals/files/delete.html:1
+msgid "Delete File"
+msgstr ""
+
+#: modals/files/delete.html:4
+msgid "Are you sure you want to delete this file?"
+msgstr ""
+
+#: modals/files/upload.html:1
+msgid "Upload File"
+msgstr ""
+
+#: modals/files/upload.html:10
+msgid "File"
+msgstr ""
+
+#: modals/files/upload.html:12
+msgid "Max upload file size on your server is"
+msgstr ""
+
+#: modals/files/upload.html:28
+msgid "Upload"
+msgstr ""
+
+#: pages/system/addToPo.html:5
+msgid "Now"
+msgstr ""
+
+#: pages/system/addToPo.html:7
+#, php-format
+msgid "%d second ago"
+msgid_plural "%d seconds ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/system/addToPo.html:9
+#, php-format
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/system/addToPo.html:11
+#, php-format
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/system/addToPo.html:13
+#, php-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/system/addToPo.html:15
+#, php-format
+msgid "%d month ago"
+msgid_plural "%d months ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/system/addToPo.html:17
+#, php-format
+msgid "%d year ago"
+msgid_plural "%d years ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: pages/system/addToPo.html:19
+msgid "Error! Cannot add item."
+msgstr ""
+
+#: pages/system/addToPo.html:20
+msgid "Error! Cannot save item."
+msgstr ""
+
+#: pages/system/addToPo.html:21
+msgid "Error! Cannot delete item."
+msgstr ""
+
+#: pages/system/addToPo.html:22
+msgid "Item has been deleted successfully!"
+msgstr ""
+
+#: pages/system/addToPo.html:23
+msgid "Item has been saved successfully!"
+msgstr ""
+
+#: pages/system/addToPo.html:24
+msgid "Item has been added successfully!"
+msgstr ""
+
+#: pages/system/addToPo.html:25
+msgid "Settings updated successfully!"
+msgstr ""
+
+#: pages/system/addToPo.html:26
+msgid "Authentication Failed!"
+msgstr ""
+
+#: pages/system/addToPo.html:27
+msgid "Please check your email for a password reset link."
+msgstr ""
+
+#: pages/system/addToPo.html:28
+msgid "Email address was not found."
+msgstr ""
+
+#: pages/system/addToPo.html:29
+msgid "Invalid reset key!"
+msgstr ""
+
+#: pages/system/addToPo.html:30
+msgid "Success. Please log in with your new password!"
+msgstr ""

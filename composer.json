@@ -1,0 +1,12 @@
+{
+    "require": {
+        "php": ">=7.2",
+        "phpmailer/phpmailer": "^6.9",
+        "dg/twitter-php": "3.6",
+        "geerlingguy/ping": "1.1.2",
+        "ivkos/pushbullet": "3.3.0",
+        "messagebird/php-rest-api": "1.15.0",
+        "pear/net_dns2": "1.4.3",
+        "twilio/sdk": "5.15.4"
+    }
+}

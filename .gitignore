@@ -1,0 +1,9 @@
+vendor/
+.env
+*.sql.gz
+*.bak
+*.tar.gz
+loki/data/
+uploads/
+node_modules/
+.DS_Store

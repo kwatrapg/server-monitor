@@ -1,0 +1,9 @@
+<?php $config = array(
+    "database_type"=>"mysql",
+    "database_name"=>"monitor",
+    "server"=>"localhost",
+    "username"=>"datamine",
+    "password"=>"mypass",
+    "charset"=>"utf8",
+    "port"=>3306,
+    "encryption_key"=>"935c54873974f8bf3445094a8060b547f4a1712b4dafe03a7f7e641494c06754" ); ?>
