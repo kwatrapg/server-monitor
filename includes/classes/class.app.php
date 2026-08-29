@@ -122,6 +122,7 @@ class App {
         }
 
         foreach($checks as $check) {
+            try { HostGuard::assertConnectable($check['host']); } catch (\Throwable $e) { continue; }
             $geo_data = json_decode($freegeoip->fetch(gethostbyname($check['host'])), true);
 
             $database->update("app_checks", [
@@ -138,6 +139,7 @@ class App {
                 $host = parse_url($host, PHP_URL_HOST);
             }
 
+            try { HostGuard::assertConnectable($host); } catch (\Throwable $e) { continue; }
             $geo_data = json_decode($freegeoip->fetch(gethostbyname($host)), true);
 
             $database->update("app_websites", [
@@ -261,7 +263,7 @@ class App {
 
 
         if(getConfigValue("twitter_apikey") != "" && getConfigValue("twitter_apisecret") != "" && getConfigValue("twitter_token") != "" && getConfigValue("twitter_tokensecret") != "") {
-            $twittercon = new Twitter(getConfigValue("twitter_apikey"), getConfigValue("twitter_apisecret"), getConfigValue("twitter_token"), getConfigValue("twitter_tokensecret"));
+            $twittercon = new \DG\Twitter\Twitter(getConfigValue("twitter_apikey"), getConfigValue("twitter_apisecret"), getConfigValue("twitter_token"), getConfigValue("twitter_tokensecret"));
         }
 
         $contactids = unserialize($alert['contacts']); if(empty($contacts)) $contacts = [];
@@ -301,7 +303,7 @@ class App {
                 if(isset($twittercon)) {
                     try {
                         $twittercon->sendDirectMessage($contact['twitter'], $message);
-                    } catch (TwitterException $e) { }
+                    } catch (\DG\Twitter\Exception $e) { } catch (\Throwable $e) { }
                 }
             }
 

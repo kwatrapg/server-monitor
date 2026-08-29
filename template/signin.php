@@ -78,7 +78,8 @@
 
 
     <!-- jQuery -->
-    <script src="template/assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="template/assets/plugins/jquery/jquery-3.7.1.min.js"></script>
+	<script src="template/assets/plugins/jquery/jquery-migrate-3.4.1.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="template/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 

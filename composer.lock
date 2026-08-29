@@ -4,27 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "153fc909c66d0f6c3325904c09bf3614",
+    "content-hash": "cfbf7cebca8d02ada35566f3809f5bae",
     "packages": [
         {
             "name": "dg/twitter-php",
-            "version": "v3.6",
+            "version": "v4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/twitter-php.git",
-                "reference": "dd872ad12121ff919b358989e61f7f08ba6cc7a8"
+                "reference": "450baa2fd7b5e815c5f050b019c4486d1b1b01da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/twitter-php/zipball/dd872ad12121ff919b358989e61f7f08ba6cc7a8",
-                "reference": "dd872ad12121ff919b358989e61f7f08ba6cc7a8",
+                "url": "https://api.github.com/repos/dg/twitter-php/zipball/450baa2fd7b5e815c5f050b019c4486d1b1b01da",
+                "reference": "450baa2fd7b5e815c5f050b019c4486d1b1b01da",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=5.2.0"
+                "ext-json": "*",
+                "php": ">=7.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "src/"
@@ -47,23 +53,22 @@
                 "twitter"
             ],
             "support": {
-                "issues": "https://github.com/dg/twitter-php/issues",
-                "source": "https://github.com/dg/twitter-php/tree/v3.6"
+                "source": "https://github.com/dg/twitter-php/tree/master"
             },
-            "time": "2016-08-15T16:46:22+00:00"
+            "time": "2020-05-11T22:48:42+00:00"
         },
         {
             "name": "geerlingguy/ping",
-            "version": "1.1.2",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/geerlingguy/Ping.git",
-                "reference": "b16248c0a59a6555437744db8b78c0589cfc32f9"
+                "reference": "e0206326e23c99e3e8820e24705f8ca517adff93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/geerlingguy/Ping/zipball/b16248c0a59a6555437744db8b78c0589cfc32f9",
-                "reference": "b16248c0a59a6555437744db8b78c0589cfc32f9",
+                "url": "https://api.github.com/repos/geerlingguy/Ping/zipball/e0206326e23c99e3e8820e24705f8ca517adff93",
+                "reference": "e0206326e23c99e3e8820e24705f8ca517adff93",
                 "shasum": ""
             },
             "type": "library",
@@ -85,9 +90,9 @@
             "description": "A PHP class to ping hosts.",
             "support": {
                 "issues": "https://github.com/geerlingguy/Ping/issues",
-                "source": "https://github.com/geerlingguy/Ping/tree/1.1.2"
+                "source": "https://github.com/geerlingguy/Ping/tree/1.2.1"
             },
-            "time": "2017-02-02T15:38:40+00:00"
+            "time": "2019-07-29T21:54:12+00:00"
         },
         {
             "name": "ivkos/pushbullet",
@@ -189,21 +194,24 @@
             "time": "2019-06-12T10:50:41+00:00"
         },
         {
-            "name": "pear/net_dns2",
-            "version": "v1.4.3",
+            "name": "mikepultz/netdns2",
+            "version": "v1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikepultz/netdns2.git",
-                "reference": "24c84c98c8a85a1f3b6aa9b17df60d32a2d254e9"
+                "reference": "ea39ef5a97d5c2b9893a8c35af7b5fd5b0e40bc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikepultz/netdns2/zipball/24c84c98c8a85a1f3b6aa9b17df60d32a2d254e9",
-                "reference": "24c84c98c8a85a1f3b6aa9b17df60d32a2d254e9",
+                "url": "https://api.github.com/repos/mikepultz/netdns2/zipball/ea39ef5a97d5c2b9893a8c35af7b5fd5b0e40bc9",
+                "reference": "ea39ef5a97d5c2b9893a8c35af7b5fd5b0e40bc9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.1.2"
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
             "autoload": {
@@ -213,17 +221,17 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-2-Clause"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
                     "name": "Mike Pultz",
                     "email": "mike@mikepultz.com",
                     "homepage": "https://mikepultz.com/",
-                    "role": "Developer"
+                    "role": "lead"
                 }
             ],
-            "description": "Native PHP5 DNS Resolver and Updater Library",
+            "description": "Native PHP DNS Resolver and Updater Library",
             "homepage": "https://netdns2.com/",
             "keywords": [
                 "PEAR",
@@ -234,8 +242,13 @@
                 "issues": "https://github.com/mikepultz/netdns2/issues",
                 "source": "https://github.com/mikepultz/netdns2"
             },
-            "abandoned": "mikepultz/netdns2",
-            "time": "2017-02-12T21:14:52+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/mikepultz",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-17T20:56:28+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -444,7 +457,10 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-openssl": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"

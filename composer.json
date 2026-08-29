@@ -1,12 +1,28 @@
 {
+    "name": "sentruo/sentruo",
+    "description": "Sentruo — self-hosted infrastructure monitoring",
+    "type": "project",
+    "license": "proprietary",
     "require": {
-        "php": ">=7.2",
-        "phpmailer/phpmailer": "^6.9",
-        "dg/twitter-php": "3.6",
-        "geerlingguy/ping": "1.1.2",
-        "ivkos/pushbullet": "3.3.0",
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "phpmailer/phpmailer": "^6.12",
+        "dg/twitter-php": "^4.1",
+        "geerlingguy/ping": "^1.2",
+        "ivkos/pushbullet": "^3.3",
         "messagebird/php-rest-api": "1.15.0",
-        "pear/net_dns2": "1.4.3",
+        "mikepultz/netdns2": "^1.5",
         "twilio/sdk": "5.15.4"
+    },
+    "suggest": {
+        "ext-curl": "Required for website / status-page HTTP checks",
+        "ext-gd": "Avatar image handling",
+        "ext-mbstring": "Correct handling of multibyte strings"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
     }
 }
