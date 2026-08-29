@@ -12,7 +12,11 @@ require($scriptpath . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . '
 ##################################
 
 if(file_exists($scriptpath . "/config.php")) { require($scriptpath . '/config.php'); }
-else { header("Location:install/"); exit; }
+else {
+    http_response_code(503);
+    header('Retry-After: 3600');
+    exit('This installation is not configured yet. Run "php bin/install.php" from the CLI to set it up.');
+}
 
 
 ##################################
@@ -33,7 +37,21 @@ require $scriptpath . '/vendor/autoload.php';
 ### INITIALIZE DATABSE CLASS ###
 $database = new medoo($config);
 
-### START THE SESSION ###
+### SECURITY RESPONSE HEADERS (VAPT F-10) ###
+require_once($scriptpath . '/includes/http_headers.php');
+
+### START THE SESSION — hardened cookie params (VAPT F-07 / A-9) ###
+$__https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
+ini_set('session.use_strict_mode', '1');
+ini_set('session.use_only_cookies', '1');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'secure'   => $__https,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
 session_start();
 
 ### DATE & TIME ###
@@ -50,8 +68,14 @@ if($xss_filtering == "true") {
     $_POST = $security->xss_clean($_POST);
 }
 
-### GET PAGE ROUTE (DEFAULTS TO DASHBOARD IF NOT SET) ###
-if (empty($_GET['route'])) $route = "dashboard"; else $route = $_GET['route'];
+### GET PAGE ROUTE (DEFAULTS TO DASHBOARD IF NOT SET) — validated allow-list (VAPT F-01) ###
+require_once($scriptpath . '/includes/whitelist.php');
+$route = (empty($_GET['route'])) ? "dashboard" : (string) $_GET['route'];
+if (!sm_valid_route($route, $scriptpath)) {
+    http_response_code(404);
+    exit('Not found.');
+}
+$isPublicRoute = in_array($route, sm_public_routes(), true);
 
 ### GET PAGE SECTION (IF ISSET) ###
 if (isset($_GET['section'])) $section = $_GET['section']; else $section = "";
@@ -63,17 +87,19 @@ if (!empty($_SESSION['statuscode'])) {
     clearStatus();
 }
 
-### CHECK IF USER IS SIGNED IN, EXCEPT ON SIGNIN OR RECOVER PASSWORD PAGE ###
-if ($route != "signin" && $route != "forgot" && $route != "publicpage") isSignedIn();
+### AUTH GATE — every route except the public view routes requires a valid session ###
+if (!$isPublicRoute) {
+    isSignedIn();
 
-### INITIALIZE LOGGED IN USER (LIU) ARRAY & PERMISSIONS ###
-if ($route != "signin" && $route != "forgot" && $route != "publicpage") {
-    $liu = $database->get("core_users", "*", ["sessionid" => session_id() ]);
-    $perms = unserialize(getSingleValue("core_roles","perms",$liu['roleid']));
-    $liu_groups = unserialize($liu['groups']);
-    if(in_array("0", $liu_groups)) $liu_groups = getGroupsArray();
+    $liu = $database->get("core_users", "*", ["sessionid" => session_id()]);
+    if (empty($liu)) { header("Location:?route=signin"); exit; }
 
-    $isAdmin = true;
+    $perms = unserialize((string) getSingleValue("core_roles", "perms", $liu['roleid']), ['allowed_classes' => false]);
+    if (!is_array($perms)) $perms = [];
+
+    $liu_groups = unserialize((string) $liu['groups'], ['allowed_classes' => false]);
+    if (!is_array($liu_groups)) $liu_groups = [];
+    if (in_array("0", $liu_groups, true)) $liu_groups = getGroupsArray();
 }
 
 ### GOOGLE MAPS ###
@@ -128,23 +154,37 @@ else {
 ###   LOAD APP CONTROLLERS     ###
 ##################################
 
-// general controller (always loads)
+// general controller — handles sign-in / password-reset / sign-out POSTs (always).
 require($scriptpath . '/includes/controllers/general.php');
 
-// modals controller (loads only if a modal is requested)
-if(isset($_GET['modal'])) require($scriptpath . '/includes/controllers/modals.php');
+// The mutating and data-source controllers MUST NOT run on the unauthenticated
+// view routes (signin/forgot/publicpage). Previously they executed regardless of
+// route, which allowed e.g. ?route=publicpage&json=activitylog (VAPT A-1/A-2).
+if (!$isPublicRoute) {
 
-// quick actions controller (loads only if a quick action is requested)
-if(isset($_GET['qa'])) require($scriptpath . '/includes/controllers/quickactions.php');
+    if (isset($_GET['modal'])) {
+        if (!sm_valid_modal((string) $_GET['modal'], $scriptpath)) { http_response_code(400); exit('Bad request.'); }
+        require($scriptpath . '/includes/controllers/modals.php');
+    }
 
-// json controller (loads only if ajax data is requested)
-if(isset($_GET['json'])) require($scriptpath . '/includes/controllers/json.php');
+    if (isset($_GET['qa'])) {
+        if (!sm_valid_qa((string) $_GET['qa'])) { http_response_code(400); exit('Bad request.'); }
+        require($scriptpath . '/includes/controllers/quickactions.php');
+    }
 
-// actions controller (loads only if an action is requested)
-if(isset($_POST['action'])) require($scriptpath . '/includes/controllers/actions.php');
+    if (isset($_GET['json'])) {
+        if (!sm_valid_json((string) $_GET['json'])) { http_response_code(400); exit('Bad request.'); }
+        require($scriptpath . '/includes/controllers/json.php');
+    }
 
-// data controller (loads only if someone is logged in)
-//if(isset($liu)) require($scriptpath . '/includes/controllers/data.php');
+    if (isset($_POST['action'])) {
+        if (!sm_valid_action((string) $_POST['action'])) { http_response_code(400); exit('Bad request.'); }
+        require($scriptpath . '/includes/controllers/actions.php');
+    }
+}
+
+// data controller — per-route read authorization lives inside it; the publicpage
+// branch is read-only and keyed by pagekey.
 require($scriptpath . '/includes/controllers/data.php');
 
 

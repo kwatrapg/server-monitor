@@ -45,8 +45,10 @@ require($scriptpath . '/includes/loader.php');
 ###        MODAL LOADER        ###
 ##################################
 
-if(isset($_GET['modal'])) {
-    require($scriptpath . '/template/modals/' .  $_GET['modal'] . '.php');
+if(!$isPublicRoute && isset($_GET['modal'])) {
+    $__modalExt = sm_valid_modal((string) $_GET['modal'], $scriptpath);
+    if ($__modalExt === false) { http_response_code(400); exit('Bad request.'); }
+    require($scriptpath . '/template/modals/' . $_GET['modal'] . $__modalExt);
 }
 
 
@@ -69,7 +71,7 @@ $total_time = round(($finish - $start_time), 4);
 if( !isset($_GET['modal']) && !isset($_GET['qa']) && !isset($_GET['json']) ) {
 
     // exclude header and footer for login and forgot password page
-    if($route == "signin" || $route == "forgot" || $route == "publicpage") {
+    if($isPublicRoute) {
         require($scriptpath . '/template/' . $route . '.php');
     }
     // load header + page + footer

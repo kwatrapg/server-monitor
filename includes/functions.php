@@ -1,14 +1,19 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 
+// Core security primitives (output encoding, CSRF, CSPRNG, SSRF guard, throttling).
+require_once __DIR__ . '/security.php';
+require_once __DIR__ . '/whitelist.php';
+
 // ----------------------------------------------------------------------------------------------
 // GENERAL FUNCTIONS
 
-function randomString($chars=10) { //generate random string
-	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	$randstring = '';
-	for ($i = 0; $i < $chars; $i++) { $randstring .= $characters[rand(0, strlen($characters) -1)]; }
-	return $randstring;
+/**
+ * Random string for security-sensitive tokens (server keys, reset keys, page
+ * keys). Now CSPRNG-backed (VAPT F-06); returns lowercase hex.
+ */
+function randomString($chars=10) {
+	return sm_random_token((int) $chars);
 }
 
 function currentFileName() { //return current file name
