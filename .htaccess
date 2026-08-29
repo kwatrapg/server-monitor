@@ -12,7 +12,9 @@ DirectoryIndex index.php
     Require all denied
 </FilesMatch>
 
-RedirectMatch 404 (?i)/(\.git|\.env|database|includes|crons|docs|loki|vendor|bin|assets-org|_backups)(/|$)
+# crons/cron.php self-guards (CLI or CRON_TOKEN); everything else under crons/ is denied.
+RedirectMatch 404 (?i)/(\.git|\.env|database|includes|docs|loki|vendor|bin|assets-org|_backups)(/|$)
+RedirectMatch 404 (?i)/crons/(?!cron\.php$).*
 
 # Never execute PHP inside the upload store.
 <IfModule mod_rewrite.c>

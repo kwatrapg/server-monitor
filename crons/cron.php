@@ -1,6 +1,23 @@
 <?php
 
 ##################################
+###   EXECUTION GUARD (F-14)   ###
+##################################
+// The monitoring cron drives every outbound probe and sends notifications.
+// It may run from the CLI (cron / container sidecar) or, if that is not
+// possible, over HTTP with a secret token (CRON_TOKEN in the environment).
+(function () {
+    if (PHP_SAPI === 'cli') return;
+    require_once __DIR__ . '/../includes/env.php';
+    $token = (string) sm_env('CRON_TOKEN', '');
+    $given = (string) ($_GET['token'] ?? $_SERVER['HTTP_X_CRON_TOKEN'] ?? '');
+    if ($token === '' || !hash_equals($token, $given)) {
+        http_response_code(403);
+        exit("Forbidden.\n");
+    }
+})();
+
+##################################
 ###       ERROR REPORTING      ###
 ##################################
 

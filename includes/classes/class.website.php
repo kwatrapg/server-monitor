@@ -269,30 +269,38 @@ class Website extends App {
     public static function checkAll() {
         global $database;
         $websites = getTable("app_websites");
-        $max_requests = 10;
         $count = 0;
 
-        $curl_options = array(
-            CURLOPT_SSL_VERIFYPEER => FALSE,
-            CURLOPT_SSL_VERIFYHOST => FALSE,
-            CURLOPT_FOLLOWLOCATION => TRUE,
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_TIMEOUT => 10,
-            CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13',
-
-        );
-
-        $parallel_curl = new ParallelCurl($max_requests, $curl_options);
-
-        foreach($websites as $website) {
-            $parallel_curl->startRequest($website['url'], $website['id'], $website['expect'], 'website_request_done');
-
-
+        // VAPT F-14: each target URL is validated (scheme allow-list + public-IP
+        // check + DNS-rebinding pin) and redirects are followed manually with the
+        // same checks on every hop. TLS verification is enabled. ParallelCurl and
+        // its "verify off / follow anything" options are no longer used here.
+        foreach ($websites as $website) {
             $count++;
+            $start = microtime(true);
+            $result = sm_safe_http_get($website['url'], 15, 3);
+            $latency = round(microtime(true) - $start, 4);
+
+            $httpcode = (int) $result['status'];
+            if ($httpcode === 0) $latency = 0;
+
+            $has_expected = 1;
+            if (($website['expect'] ?? '') !== '') {
+                $has_expected = (stripos((string) $result['body'], $website['expect']) !== false) ? 1 : 0;
+            }
+
+            $database->insert("app_websites_history", [
+                "websiteid"    => $website['id'],
+                "timestamp"    => date('Y-m-d H:i:s'),
+                "latency"      => $latency,
+                "statuscode"   => $httpcode,
+                "has_expected" => $has_expected,
+            ]);
+
+            if ($result['error']) {
+                logSystem("Website check error - ID " . $website['id'] . ": " . $result['error']);
+            }
         }
-
-        $parallel_curl->finishAllRequests();
-
 
         return $count;
     }

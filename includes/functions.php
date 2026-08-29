@@ -491,7 +491,7 @@ function logSystem($description) { //add to system log
 	global $database;
 	$database->insert("core_activitylog", [
 		"userid" => $userid,
-		"ipaddress" => $_SERVER['REMOTE_ADDR'],
+		"ipaddress" => (PHP_SAPI === 'cli') ? 'cli' : ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0'),
 		"description" => $description,
 		"timestamp" => date('Y-m-d H:i:s')
 	]);

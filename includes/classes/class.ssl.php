@@ -176,9 +176,24 @@ class Ssl extends App {
         $host = parse_url($url, PHP_URL_HOST) ?: $url;
         $port = parse_url($url, PHP_URL_PORT) ?: 443;
 
-        $context = stream_context_create(["ssl" => ["capture_peer_cert" => true]]);
+        // VAPT F-14 / A-6: never open a TLS socket to a private/reserved address.
+        try {
+            $pinnedIp = HostGuard::assertConnectable($host);
+        } catch (\Throwable $ex) {
+            logSystem("SSL check skipped (blocked target): " . $ex->getMessage());
+            return null;
+        }
+
+        $context = stream_context_create(["ssl" => [
+            "capture_peer_cert" => true,
+            "SNI_enabled"       => true,
+            "peer_name"         => $host,
+            "verify_peer"       => false, // we only read the cert's expiry/issuer
+            "verify_peer_name"  => false,
+        ]]);
         $errNo = 0; $errStr = '';
-        $fp = @stream_socket_client("ssl://{$host}:{$port}", $errNo, $errStr, 15, STREAM_CLIENT_CONNECT, $context);
+        // Connect to the pinned IP but keep SNI/peer_name as the hostname.
+        $fp = @stream_socket_client("ssl://{$pinnedIp}:{$port}", $errNo, $errStr, 15, STREAM_CLIENT_CONNECT, $context);
         if (!$fp) return null;
 
         $params = stream_context_get_params($fp);

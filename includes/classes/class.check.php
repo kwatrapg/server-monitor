@@ -328,6 +328,27 @@ class Check extends App {
 
         foreach($checks as $check) {
 
+            // VAPT F-14 / A-6: reject probe targets that resolve to loopback /
+            // private / link-local / reserved ranges (unless the admin has opted
+            // in). Also rejects malformed hostnames, which closes the shell-arg
+            // path in the ICMP 'exec' ping method.
+            if (in_array($check['type'], ['tcp', 'udp', 'icmp', 'dns'], true)) {
+                try {
+                    HostGuard::assertConnectable($check['host']);
+                    if ($check['type'] === 'dns' && ($check['send'] ?? '') !== '') {
+                        HostGuard::assertConnectable($check['send']);
+                    }
+                } catch (\Throwable $ex) {
+                    logSystem("Check " . $check['id'] . " skipped (blocked target): " . $ex->getMessage());
+                    $database->insert("app_checks_history", [
+                        "checkid" => $check['id'], "timestamp" => date('Y-m-d H:i:s'),
+                        "latency" => 0, "statuscode" => 0,
+                    ]);
+                    $count++;
+                    continue;
+                }
+            }
+
             // $ping = new Ping($host, $ttl, $timeout);
 
             if($check['type'] == "tcp") {
