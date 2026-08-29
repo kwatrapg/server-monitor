@@ -48,7 +48,9 @@ require($scriptpath . '/includes/loader.php');
 if(!$isPublicRoute && isset($_GET['modal'])) {
     $__modalExt = sm_valid_modal((string) $_GET['modal'], $scriptpath);
     if ($__modalExt === false) { http_response_code(400); exit('Bad request.'); }
-    require($scriptpath . '/template/modals/' . $_GET['modal'] . $__modalExt);
+    // $modal is an allow-listed "section/name" (regex + realpath containment above).
+    $modal = (string) $_GET['modal'];
+    require($scriptpath . '/template/modals/' . $modal . $__modalExt);
 }
 
 

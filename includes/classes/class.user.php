@@ -8,6 +8,7 @@ class User extends App {
     	$email = strtolower($data['email']);
     	$count = $database->count("core_users",["email" => $email]);
     	if ($count == "1") { return "11"; }
+    	if (sm_password_policy_error($data['password']) !== null) { return "11"; }
 
     	$password = sm_password_hash($data['password']);
 
@@ -53,7 +54,8 @@ class User extends App {
     		return "20";
     		}
     	else {
-    		$password = sha1($data['password']);
+    		if (sm_password_policy_error($data['password']) !== null) { return "11"; }
+    		$password = sm_password_hash($data['password']);
     		$database->update("core_users", [
     			"roleid" => $data['roleid'],
     			"name" => $data['name'],
