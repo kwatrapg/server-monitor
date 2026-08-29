@@ -518,7 +518,7 @@ if ($route == "checks/manage") {
 
 	if($check['type'] == "blacklist") {
 		$blacklists = getTable("app_dnsbls");
-		$listedin = unserialize($latest['statuscode']);
+		$listedin = unserialize((string) $latest['statuscode'], ['allowed_classes' => false]);
 	}
 
 
@@ -786,17 +786,17 @@ if ($route == "publicpage") {
 	}
 
 	if($page) {
-		$selected_servers = unserialize($page['servers']);
+		$selected_servers = unserialize((string) $page['servers'], ['allowed_classes' => false]);
 		if(!$selected_servers) $selected_servers = [];
 		if(empty($selected_servers)) $selected_servers = [];
 		$servers = getTableFiltered("app_servers","id",$selected_servers,"","","*","id","ASC");
 
-		$selected_websites = unserialize($page['websites']);
+		$selected_websites = unserialize((string) $page['websites'], ['allowed_classes' => false]);
 		if(!$selected_websites) $selected_websites = [];
 		if(empty($selected_websites)) $selected_websites = [];
 		$websites = getTableFiltered("app_websites","id",$selected_websites,"","","*","id","ASC");
 
-		$selected_checks = unserialize($page['checks']);
+		$selected_checks = unserialize((string) $page['checks'], ['allowed_classes' => false]);
 		if(!$selected_checks) $selected_checks = [];
 		if(empty($selected_checks)) $selected_checks = [];
 		$checks = getTableFiltered("app_checks","id",$selected_checks,"","","*","id","ASC");
@@ -820,7 +820,7 @@ if ($route == "system/users/edit") {
 	isAuthorized("editUser");
 	$groups = getTable("app_groups");
 	$user = getRowById("core_users",$_GET['id']);
-	$current_groups = unserialize($user['groups']);
+	$current_groups = unserialize((string) $user['groups'], ['allowed_classes' => false]);
 	$languages = getTable("core_languages");
 	$roles = getTable("core_roles");
 	$pageTitle = __("Edit User");
@@ -838,7 +838,7 @@ if ($route == "system/roles/add") {
 if ($route == "system/roles/edit") {
 	isAuthorized("editRole");
 	$role = getRowById("core_roles",$_GET['id']);
-	$roleperms = unserialize($role['perms']);
+	$roleperms = unserialize((string) $role['perms'], ['allowed_classes' => false]);
 	$pageTitle = __("Edit Role");
 }
 
@@ -864,7 +864,7 @@ if ($route == "system/settings") {
 	isAuthorized("manageSettings");
 	$languages = getTable("core_languages");
 	$contacts = getTable("app_contacts");
-	$selected_contacts = unserialize(getConfigValue("default_contacts"));
+	$selected_contacts = unserialize((string) getConfigValue("default_contacts"), ['allowed_classes' => false]);
 	if(!$selected_contacts) $selected_contacts = [];
 	$pageTitle = __("Settings");
 

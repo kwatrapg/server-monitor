@@ -503,7 +503,7 @@ class Check extends App {
 
                 if($alert['type'] == "blacklisted") {
                     $history = $database->select("app_checks_history", "*", [ "checkid" => $check['id'], "ORDER" => ['id' => 'DESC'], "LIMIT" => $alert['occurrences'] ]);
-                    foreach($history as $item) { if( count(unserialize($item['statuscode'])) > 0 ) $occured++; }
+                    foreach($history as $item) { if( count((array) unserialize((string) $item['statuscode'], ['allowed_classes' => false])) > 0 ) $occured++; }
                     $incident_level = 3;
                 }
 

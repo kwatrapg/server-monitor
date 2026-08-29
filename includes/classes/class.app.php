@@ -266,7 +266,7 @@ class App {
             $twittercon = new \DG\Twitter\Twitter(getConfigValue("twitter_apikey"), getConfigValue("twitter_apisecret"), getConfigValue("twitter_token"), getConfigValue("twitter_tokensecret"));
         }
 
-        $contactids = unserialize($alert['contacts']); if(empty($contacts)) $contacts = [];
+        $contactids = unserialize((string) $alert['contacts'], ['allowed_classes' => false]); if(empty($contacts)) $contacts = [];
 
 
         foreach($contactids as $contactid) {

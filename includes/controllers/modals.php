@@ -46,7 +46,7 @@ switch($_GET['modal']) {
         $alert = getRowById("app_servers_alerts",$_GET['id']);
         $server = getRowById("app_servers",$_GET['routeid']);
         $contacts = getTable("app_contacts");
-        $selected_contacts = unserialize($alert['contacts']);
+        $selected_contacts = unserialize((string) $alert['contacts'], ['allowed_classes' => false]);
         if(!$selected_contacts) $selected_contacts = [];
         if(empty($selected_contacts)) $selected_contacts = [];
 
@@ -86,7 +86,7 @@ switch($_GET['modal']) {
     case "websitealerts/edit":
         $alert = getRowById("app_websites_alerts",$_GET['id']);
         $contacts = getTable("app_contacts");
-        $selected_contacts = unserialize($alert['contacts']);
+        $selected_contacts = unserialize((string) $alert['contacts'], ['allowed_classes' => false]);
         if(!$selected_contacts) $selected_contacts = [];
         if(empty($selected_contacts)) $selected_contacts = [];
     break;
@@ -115,7 +115,7 @@ switch($_GET['modal']) {
         $alert = getRowById("app_checks_alerts",$_GET['id']);
         $check = getRowById("app_checks",$alert['checkid']);
         $contacts = getTable("app_contacts");
-        $selected_contacts = unserialize($alert['contacts']);
+        $selected_contacts = unserialize((string) $alert['contacts'], ['allowed_classes' => false]);
         if(!$selected_contacts) $selected_contacts = [];
         if(empty($selected_contacts)) $selected_contacts = [];
     break;
@@ -142,7 +142,7 @@ switch($_GET['modal']) {
     case "domainalerts/edit":
         $alert = getRowById("app_domains_alerts",$_GET['id']);
         $contacts = getTable("app_contacts");
-        $selected_contacts = unserialize($alert['contacts']);
+        $selected_contacts = unserialize((string) $alert['contacts'], ['allowed_classes' => false]);
         if(!$selected_contacts) $selected_contacts = [];
         if(empty($selected_contacts)) $selected_contacts = [];
     break;
@@ -169,7 +169,7 @@ switch($_GET['modal']) {
     case "sslalerts/edit":
         $alert = getRowById("app_ssl_alerts",$_GET['id']);
         $contacts = getTable("app_contacts");
-        $selected_contacts = unserialize($alert['contacts']);
+        $selected_contacts = unserialize((string) $alert['contacts'], ['allowed_classes' => false]);
         if(!$selected_contacts) $selected_contacts = [];
         if(empty($selected_contacts)) $selected_contacts = [];
     break;
@@ -209,15 +209,15 @@ switch($_GET['modal']) {
         $all_websites = getTable("app_websites");
         $all_checks = getTable("app_checks");
 
-        $selected_servers = unserialize($page['servers']);
+        $selected_servers = unserialize((string) $page['servers'], ['allowed_classes' => false]);
         if(!$selected_servers) $selected_servers = [];
         if(empty($selected_servers)) $selected_servers = [];
 
-        $selected_websites = unserialize($page['websites']);
+        $selected_websites = unserialize((string) $page['websites'], ['allowed_classes' => false]);
         if(!$selected_websites) $selected_websites = [];
         if(empty($selected_websites)) $selected_websites = [];
 
-        $selected_checks = unserialize($page['checks']);
+        $selected_checks = unserialize((string) $page['checks'], ['allowed_classes' => false]);
         if(!$selected_checks) $selected_checks = [];
         if(empty($selected_checks)) $selected_checks = [];
 
