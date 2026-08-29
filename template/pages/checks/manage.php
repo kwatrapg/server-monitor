@@ -64,11 +64,11 @@
 
 								<?php if($check['type'] == "callback") { ?>
 									<h4>Successful URL</h4>
-									<pre><?php echo baseURL(); ?>callback.php?key=<?php echo $check['host']; ?>&status=success</pre>
+									<pre><?php echo baseURL(); ?>callback.php?key=<?php echo e($check['callbackkey']); ?>&status=success</pre>
 
 									<br>
 									<h4>Unsuccessful URL</h4>
-									<pre><?php echo baseURL(); ?>callback.php?key=<?php echo $check['host']; ?>&status=failure</pre>
+									<pre><?php echo baseURL(); ?>callback.php?key=<?php echo e($check['callbackkey']); ?>&status=failure</pre>
 
 								<?php } ?>
 
@@ -206,11 +206,11 @@
 													<div class="box-body">
 
 														<h4>Successful URL</h4>
-														<pre><?php echo baseURL(); ?>callback.php?key=<?php echo $check['host']; ?>&status=success</pre>
+														<pre><?php echo baseURL(); ?>callback.php?key=<?php echo e($check['callbackkey']); ?>&status=success</pre>
 
 														<br>
 														<h4>Unsuccessful URL</h4>
-														<pre><?php echo baseURL(); ?>callback.php?key=<?php echo $check['host']; ?>&status=failure</pre>
+														<pre><?php echo baseURL(); ?>callback.php?key=<?php echo e($check['callbackkey']); ?>&status=failure</pre>
 
 													</div>
 												</div>

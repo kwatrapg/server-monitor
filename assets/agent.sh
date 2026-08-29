@@ -220,11 +220,24 @@ mdadm=$(extractMdadm)
 POST="$POST{mdadm}$mdadm{/mdadm}"
 
 # Upload data
+#
+# The payload is base64url-encoded (no reserved characters to escape) and signed
+# with HMAC-SHA256 over "<timestamp>.<base64url-payload>", keyed by the
+# deployment HMAC secret (falling back to the per-server key). The server rejects
+# forged or replayed submissions (VAPT F-13). TLS verification is NOT disabled.
 
-# -m max-time in seconds
-# -k insecure
-# -s silent
-# -d data
+HMAC_SECRET_FILE=/opt/sentruo/hmac_secret
+if [ -r "$HMAC_SECRET_FILE" ]; then
+    SIGNING_KEY=$(cat "$HMAC_SECRET_FILE")
+else
+    SIGNING_KEY="$SERVERKEY"
+fi
 
+PAYLOAD=$(printf '%s' "$POST" | openssl base64 -A | tr '+/' '-_')
+TS=$(date +%s)
+SIG=$(printf '%s' "${TS}.${PAYLOAD}" | openssl dgst -sha256 -hmac "$SIGNING_KEY" -r | cut -d' ' -f1)
 
-echo "data=$POST" | curl -m 50 -k -s -d @- "$GATEWAY"
+printf 'data=%s' "$PAYLOAD" | curl -m 50 -s \
+    -H "X-Agent-Timestamp: ${TS}" \
+    -H "X-Agent-Signature: ${SIG}" \
+    --data-binary @- "$GATEWAY"

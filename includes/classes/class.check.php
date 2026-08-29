@@ -6,6 +6,11 @@ class Check extends App {
 
     public static function add($data) {
     	global $database;
+
+    	// Callback checks are authenticated by a per-check CSPRNG secret, not by
+    	// their host string (VAPT A-4). The host field is not used for this type.
+    	$callbackkey = ($data['type'] == "callback") ? sm_random_token(40) : null;
+
     	$lastid = $database->insert("app_checks", [
             "groupid" => $data['groupid'],
     		"name" => $data['name'],
@@ -14,6 +19,7 @@ class Check extends App {
             "port" => $data['port'],
             "timeout" => $data['timeout'],
             "host" => $data['host'],
+            "callbackkey" => $callbackkey,
             "send" => $data['send'],
             "expect" => $data['expect'],
             "status" => 0,

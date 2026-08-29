@@ -6,6 +6,28 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
+// A-2: every datasource requires the matching view permission. Previously json.php
+// had no authorization at all, so any authenticated user (any role) could read
+// every activity / email / SMS / cron log row.
+$__json_perms = [
+    'servers'     => 'viewServers',
+    'websites'    => 'viewWebsites',
+    'checks'      => 'viewChecks',
+    'domains'     => 'viewDomains',
+    'ssl'         => 'viewSsl',
+    'alertinglog' => 'viewAlertLogs',
+    'activitylog' => 'viewLogs',
+    'emaillog'    => 'viewLogs',
+    'smslog'      => 'viewLogs',
+    'cronlog'     => 'viewLogs',
+];
+$__need = $__json_perms[$_GET['json']] ?? null;
+if ($__need === null || !is_array($perms) || !in_array($__need, $perms, true)) {
+    http_response_code(403);
+    echo json_encode(['error' => 'forbidden', 'data' => []]);
+    exit;
+}
+
 if(!isset($_GET['search']['value'])) $_GET['search']['value'] = "";
 if(!isset($_GET['start'])) $_GET['start'] = 0;
 if(!isset($_GET['length'])) $_GET['length'] = getConfigValue("table_records");

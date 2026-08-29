@@ -53,3 +53,13 @@ function sm_env(string $key, $default = null) {
     if ($low === 'null')  return null;
     return $v;
 }
+
+/**
+ * Boolean environment flag. Accepts 1/true/yes/on (any case) as true.
+ * $default is returned only when the key is entirely unset.
+ */
+function sm_env_bool(string $key, bool $default = false): bool {
+    $v = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
+    if ($v === false || $v === null || $v === '') return $default;
+    return in_array(strtolower(trim((string) $v)), ['1', 'true', 'yes', 'on'], true);
+}
