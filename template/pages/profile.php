@@ -1,7 +1,7 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo $liu['name']; ?><small> <?php _e('Edit profile'); ?></small></h1>
+		<h1><?php echo e($liu['name']); ?><small> <?php _e('Edit profile'); ?></small></h1>
 		<ol class="breadcrumb"><li><a href="?route=dashboard"><i class="fa fa-dashboard"></i> <?php _e('Home'); ?></a></li><li class="active"><?php _e('My Profile'); ?></li></ol>
 	</section>
 
@@ -22,12 +22,12 @@
 
 									<div class="form-group">
 										<label for="name"><?php _e('Name'); ?> *</label>
-										<input type="text" class="form-control" id="name" name="name" value="<?php echo $liu['name']; ?>" required>
+										<input type="text" class="form-control" id="name" name="name" value="<?php echo e($liu['name']); ?>" required>
 									</div>
 
 									<div class="form-group">
 										<label for="email"><?php _e('Email Address'); ?> *</label>
-										<input type="email" class="form-control" id="email" name="email" value="<?php echo $liu['email']; ?>" required>
+										<input type="email" class="form-control" id="email" name="email" value="<?php echo e($liu['email']); ?>" required>
 									</div>
 
 
@@ -54,7 +54,7 @@
 										<label for="lang"><?php _e('Language'); ?></label>
 										<select class="form-control select2 select2-hidden-accessible" id="lang" name="lang" style="width: 100%;" tabindex="-1" aria-hidden="true">
 											<?php foreach ($languages as $language) { ?>
-												<option <?php if($liu['lang'] == $language['code']) echo 'selected'; ?> value="<?php echo $language['code']; ?>"><?php echo $language['name']; ?></option>
+												<option <?php if($liu['lang'] == $language['code']) echo 'selected'; ?> value="<?php echo $language['code']; ?>"><?php echo e($language['name']); ?></option>
 											<?php } ?>
 										</select>
 									</div>

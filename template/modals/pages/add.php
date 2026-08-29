@@ -19,7 +19,7 @@
                 <label for="groupid"><?php _e('Group'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="groupid" name="groupid" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                     <?php foreach ($groups as $group) { if(!checkGroup($group['id'])) continue; ?>
-                        <option value='<?php echo $group['id']; ?>'><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>'><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -30,7 +30,7 @@
                 <label for="servers"><?php _e('Servers'); ?></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="servers" name="servers[]" style="width: 100%;" multiple>
                     <?php foreach ($all_servers as $server) { ?>
-                        <option value='<?php echo $server['id']; ?>'><?php echo $server['name']; ?></option>
+                        <option value='<?php echo $server['id']; ?>'><?php echo e($server['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -41,7 +41,7 @@
                 <label for="websites"><?php _e('Websites'); ?></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="websites" name="websites[]" style="width: 100%;" multiple>
                     <?php foreach ($all_websites as $website) { ?>
-                        <option value='<?php echo $website['id']; ?>'><?php echo $website['name']; ?></option>
+                        <option value='<?php echo $website['id']; ?>'><?php echo e($website['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -52,7 +52,7 @@
                 <label for="checks"><?php _e('Check Services'); ?></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="checks" name="checks[]" style="width: 100%;" multiple>
                     <?php foreach ($all_checks as $check) { ?>
-                        <option value='<?php echo $check['id']; ?>'><?php echo $check['name']; ?></option>
+                        <option value='<?php echo $check['id']; ?>'><?php echo e($check['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -70,7 +70,7 @@
 
 
     <input type="hidden" name="action" value="addPage">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

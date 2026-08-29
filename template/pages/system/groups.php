@@ -31,7 +31,7 @@
 									<?php foreach ($groups as $group) { ?>
 		                                <tr>
 		                                    <td><?php echo $group['id']; ?></td>
-		                                    <td><?php echo $group['name']; ?></td>
+		                                    <td><?php echo e($group['name']); ?></td>
 											<td>
 												<div class='pull-right'>
 													<div class="btn-group">

@@ -18,7 +18,7 @@
                     <div class="box-body">
 						<form role="form" method="get" action="" class="form-inline">
 							<div class="form-group" style="width:94%">
-								<input type="text" class="form-control input-lg" style="width:100%" id="query" name="q" placeholder="<?php _e('Search String...'); ?>" value="<?php if(isset($_GET['q'])) echo $_GET['q']; ?>" required>
+								<input type="text" class="form-control input-lg" style="width:100%" id="query" name="q" placeholder="<?php _e('Search String...'); ?>" value="<?php echo e($_GET['q'] ?? ''); ?>" required>
 							</div>
 
 							<input type="hidden" name="route" value="search">
@@ -36,7 +36,7 @@
 									<div class="col-xs-3"><div class="callout callout-gray">
 										<h4>
 											<?php if(in_array("viewServers",$perms)) { ?><a href="?route=servers/manage&id=<?php echo $item['id']; ?>"><?php } ?>
-											<?php echo $item['name']; ?>
+											<?php echo e($item['name']); ?>
 											<?php if(in_array("viewServers",$perms)) { ?></a><?php } ?>
 										</h4>
 
@@ -52,10 +52,10 @@
 									<div class="col-xs-3"><div class="callout callout-gray">
 										<h4>
 											<?php if(in_array("viewWebsites",$perms)) { ?><a href="?route=websites/manage&id=<?php echo $item['id']; ?>"><?php } ?>
-											<?php echo $item['name']; ?>
+											<?php echo e($item['name']); ?>
 											<?php if(in_array("viewWebsites",$perms)) { ?></a><?php } ?>
 										</h4>
-										<p><?php echo $item['url']; ?></p>
+										<p><?php echo e($item['url']); ?></p>
 					                </div></div>
 								<?php } ?>
 							</div>
@@ -68,10 +68,10 @@
 									<div class="col-xs-3"><div class="callout callout-gray">
 										<h4>
 											<?php if(in_array("viewChecks",$perms)) { ?><a href="?route=checks/manage&id=<?php echo $item['id']; ?>"><?php } ?>
-											<?php echo $item['name']; ?>
+											<?php echo e($item['name']); ?>
 											<?php if(in_array("viewChecks",$perms)) { ?></a><?php } ?>
 										</h4>
-										<p><?php echo $item['host']; ?></p>
+										<p><?php echo e($item['host']); ?></p>
 									</div></div>
 								<?php } ?>
 							</div>

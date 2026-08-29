@@ -128,8 +128,8 @@ switch($_GET['json']) {
             }
 
             $results["data"][$i][1] = $item['id'];
-            $results["data"][$i][2] = '<a href="?route=servers/manage-' . $item['type'] . '&id=' . $item['id'] . '">' . $item['name'] . '</a>';
-            $results["data"][$i][3] = $item['groupname'];
+            $results["data"][$i][2] = '<a href="?route=servers/manage-' . $item['type'] . '&id=' . $item['id'] . '">' . e($item['name']) . '</a>';
+            $results["data"][$i][3] = e($item['groupname']);
 
             if(!empty($latest)) {
 
@@ -137,19 +137,19 @@ switch($_GET['json']) {
 
                 // OS IMAGE
                 $os = Server::extractData('os', $latest['data'], true);
-                if(stripos($os, 'centos') !== false) { $results["data"][$i][4] = '<img src="template/images/centos.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'cloudlinux') !== false) { $results["data"][$i][4] = '<img src="template/images/cloudlinux.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'coreos') !== false) { $results["data"][$i][4] = '<img src="template/images/coreos.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'debian') !== false) { $results["data"][$i][4] = '<img src="template/images/debian.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'fedora') !== false) { $results["data"][$i][4] = '<img src="template/images/fedora.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'freebsd') !== false) { $results["data"][$i][4] = '<img src="template/images/freebsd.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'proxmox') !== false) { $results["data"][$i][4] = '<img src="template/images/proxmox.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'redhat') !== false) { $results["data"][$i][4] = '<img src="template/images/redhat.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'routeros') !== false) { $results["data"][$i][4] = '<img src="template/images/routeros.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'suse') !== false) { $results["data"][$i][4] = '<img src="template/images/suse.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'ubuntu') !== false) { $results["data"][$i][4] = '<img src="template/images/ubuntu.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                elseif(stripos($os, 'windows') !== false) { $results["data"][$i][4] = '<img src="template/images/windows.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
-                else { $results["data"][$i][4] = '<img src="template/images/other.png" data-toggle="tooltip" title="'.$os.'" alt="'.$os.'">'; }
+                if(stripos($os, 'centos') !== false) { $results["data"][$i][4] = '<img src="template/images/centos.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'cloudlinux') !== false) { $results["data"][$i][4] = '<img src="template/images/cloudlinux.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'coreos') !== false) { $results["data"][$i][4] = '<img src="template/images/coreos.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'debian') !== false) { $results["data"][$i][4] = '<img src="template/images/debian.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'fedora') !== false) { $results["data"][$i][4] = '<img src="template/images/fedora.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'freebsd') !== false) { $results["data"][$i][4] = '<img src="template/images/freebsd.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'proxmox') !== false) { $results["data"][$i][4] = '<img src="template/images/proxmox.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'redhat') !== false) { $results["data"][$i][4] = '<img src="template/images/redhat.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'routeros') !== false) { $results["data"][$i][4] = '<img src="template/images/routeros.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'suse') !== false) { $results["data"][$i][4] = '<img src="template/images/suse.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'ubuntu') !== false) { $results["data"][$i][4] = '<img src="template/images/ubuntu.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                elseif(stripos($os, 'windows') !== false) { $results["data"][$i][4] = '<img src="template/images/windows.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
+                else { $results["data"][$i][4] = '<img src="template/images/other.png" data-toggle="tooltip" title="'.e($os).'" alt="'.e($os).'">'; }
 
 
                 // CPU
@@ -343,8 +343,8 @@ switch($_GET['json']) {
             }
 
             $results["data"][$i][1] = $item['id'];
-            $results["data"][$i][2] = $item['name'];
-            $results["data"][$i][3] = $item['groupname'];
+            $results["data"][$i][2] = e($item['name']);
+            $results["data"][$i][3] = e($item['groupname']);
             $results["data"][$i][4] = smartDate(Website::lastChecked($item['id']));
             $results["data"][$i][5] = Website::lastLoadTime($item['id']);
 
@@ -482,16 +482,16 @@ switch($_GET['json']) {
             }
 
             $results["data"][$i][1] = $item['id'];
-            $results["data"][$i][2] = $item['name'];
+            $results["data"][$i][2] = e($item['name']);
 
             if($item['type'] == "tcp") { $results["data"][$i][3] = __('TCP Port') . ": " . $item['port']; }
             if($item['type'] == "udp") { $results["data"][$i][3] = __('UDP Port') . ": " . $item['port']; }
-            if($item['type'] == "icmp") { $results["data"][$i][3] = __('ICMP (Ping)') . ": " . $item['host']; }
-            if($item['type'] == "dns") { $results["data"][$i][3] = __('DNS Lookup') . ": " . $item['host']; }
-            if($item['type'] == "blacklist") { $results["data"][$i][3] = __('Blacklist Check') . ": " . $item['host']; }
-            if($item['type'] == "callback") { $results["data"][$i][3] = __('Callback') . ": " . $item['host']; }
+            if($item['type'] == "icmp") { $results["data"][$i][3] = __('ICMP (Ping)') . ": " . e($item['host']); }
+            if($item['type'] == "dns") { $results["data"][$i][3] = __('DNS Lookup') . ": " . e($item['host']); }
+            if($item['type'] == "blacklist") { $results["data"][$i][3] = __('Blacklist Check') . ": " . e($item['host']); }
+            if($item['type'] == "callback") { $results["data"][$i][3] = __('Callback') . ": " . e($item['host']); }
 
-            $results["data"][$i][4] = $item['groupname'];
+            $results["data"][$i][4] = e($item['groupname']);
             $results["data"][$i][5] = smartDate(Check::lastChecked($item['id']));
 
             if($item['type'] == "callback") { $results["data"][$i][6] = ""; }
@@ -622,8 +622,8 @@ switch($_GET['json']) {
             }
 
             $results["data"][$i][1] = $item['id'];
-            $results["data"][$i][2] = $item['name'];
-            $results["data"][$i][3] = $item['groupname'];
+            $results["data"][$i][2] = e($item['name']);
+            $results["data"][$i][3] = e($item['groupname']);
             $results["data"][$i][4] = $item['domain'];
             $results["data"][$i][5] = smartDate(Domain::lastChecked($item['id']));
 
@@ -745,9 +745,9 @@ switch($_GET['json']) {
             }
 
             $results["data"][$i][1] = $item['id'];
-            $results["data"][$i][2] = $item['name'];
-            $results["data"][$i][3] = $item['groupname'];
-            $results["data"][$i][4] = $item['url'];
+            $results["data"][$i][2] = e($item['name']);
+            $results["data"][$i][3] = e($item['groupname']);
+            $results["data"][$i][4] = e($item['url']);
             $results["data"][$i][5] = smartDate(Ssl::lastChecked($item['id']));
 
             $latest = Ssl::latestData($item['id']);
@@ -849,7 +849,7 @@ switch($_GET['json']) {
             $results["data"][$i][0] = $item['id'];
             $results["data"][$i][1] = dateTimeDisplay($item['date']);
             $results["data"][$i][2] = $item['contactname'];
-            $results["data"][$i][3] = $item['message'];
+            $results["data"][$i][3] = e($item['message']);
             $results["data"][$i][4] = '';
 
             if($item['email'] != "") {
@@ -857,7 +857,7 @@ switch($_GET['json']) {
             }
 
             if($item['mobilenumber'] != "") {
-                $results["data"][$i][4] .= '<i class="fa fa-mobile fa-fw" data-toggle="tooltip" title="'. __("Mobile Number:"). ' ' . $item['mobilenumber'] .'"></i>';
+                $results["data"][$i][4] .= '<i class="fa fa-mobile fa-fw" data-toggle="tooltip" title="'. __("Mobile Number:"). ' ' . e($item['mobilenumber']) .'"></i>';
             }
 
             if($item['pushbullet'] != "") {
@@ -956,9 +956,9 @@ switch($_GET['json']) {
         foreach($items as $item) {
 
             $results["data"][$i][0] = $item['id'];
-            $results["data"][$i][1] = $item['name'];
-            $results["data"][$i][2] = $item['ipaddress'];
-            $results["data"][$i][3] = $item['description'];
+            $results["data"][$i][1] = e($item['name']);
+            $results["data"][$i][2] = e($item['ipaddress']);
+            $results["data"][$i][3] = e($item['description']);
             $results["data"][$i][4] = dateTimeDisplay($item['timestamp']);
 
             $i++;
@@ -1044,9 +1044,9 @@ switch($_GET['json']) {
         foreach($items as $item) {
 
             $results["data"][$i][0] = $item['id'];
-            $results["data"][$i][1] = $item['name'];
-            $results["data"][$i][2] = $item['to'];
-            $results["data"][$i][3] = $item['subject'];
+            $results["data"][$i][1] = e($item['name']);
+            $results["data"][$i][2] = e($item['to']);
+            $results["data"][$i][3] = e($item['subject']);
             $results["data"][$i][4] = dateTimeDisplay($item['timestamp']);
 
             $i++;
@@ -1118,8 +1118,8 @@ switch($_GET['json']) {
 
             $results["data"][$i][0] = $item['id'];
             $results["data"][$i][1] = dateTimeDisplay($item['timestamp']);
-            $results["data"][$i][2] = $item['to'];
-            $results["data"][$i][3] = $item['message'];
+            $results["data"][$i][2] = e($item['to']);
+            $results["data"][$i][3] = e($item['message']);
 
             $i++;
 

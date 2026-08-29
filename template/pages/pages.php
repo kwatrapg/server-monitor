@@ -34,12 +34,12 @@
 									<?php foreach ($pages as $page) { if(!checkGroup($page['groupid'])) continue; ?>
 		                                <tr>
 		                                    <td><?php echo $page['id']; ?></td>
-											<td><?php echo getSingleValue("app_groups","name",$page['groupid']); ?></td>
-		                                    <td><?php echo $page['name']; ?></td>
+											<td><?php echo e(getSingleValue("app_groups","name",$page['groupid'])); ?></td>
+		                                    <td><?php echo e($page['name']); ?></td>
 											<td>
 												<div class='pull-right'>
 													<div class="btn-group">
-														<a href="?route=publicpage&key=<?php echo $page['pagekey']; ?>" class="btn btn-primary btn-flat btn-sm" target="_blank"><i class="fa fa-eye"></i></a>
+														<a href="?route=publicpage&key=<?php echo e($page['pagekey']); ?>" class="btn btn-primary btn-flat btn-sm" target="_blank"><i class="fa fa-eye"></i></a>
 
 														 <?php if(in_array("editPage",$perms)) { ?><a href="#" onClick='showM("?modal=pages/edit&reroute=pages&routeid=&id=<?php echo $page['id']; ?>&section=");return false'  class="btn btn-success btn-flat btn-sm"><i class="fa fa-edit"></i></a><?php } ?>
 														 <?php if(in_array("deletePage",$perms)) { ?><a href="#" onClick='showM("?modal=pages/delete&reroute=pages&routeid=&id=<?php echo $page['id']; ?>&section=");return false' class="btn btn-danger btn-flat btn-sm"><i class="fa fa-trash-o"></i></a><?php } ?>

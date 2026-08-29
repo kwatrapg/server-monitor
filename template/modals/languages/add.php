@@ -10,9 +10,9 @@
         <input type="text" class="form-control" id="name" name="name" required>
     </div>
     <input type="hidden" name="action" value="addLanguage">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
-    <input type="hidden" name="section" value="<?php echo $_GET['section']; ?>">
+    <input type="hidden" name="section" value="<?php echo e($_GET['section'] ?? ''); ?>">
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> <?php _e('Cancel'); ?></button>

@@ -29,9 +29,9 @@
 	                            <tbody>
 									<?php foreach ($users as $user) { ?>
 		                                <tr>
-		                                    <td><?php echo $user['name']; ?></td>
-		                                    <td><?php echo $user['email']; ?></td>
-											<td><?php echo getSingleValue("core_roles","name",$user['roleid']); ?></td>
+		                                    <td><?php echo e($user['name']); ?></td>
+		                                    <td><?php echo e($user['email']); ?></td>
+											<td><?php echo e(getSingleValue("core_roles","name",$user['roleid'])); ?></td>
 											<td>
 												<div class='pull-right'>
 													<div class="btn-group">

@@ -3,7 +3,7 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo $user['name']; ?><small> <?php _e('Edit user'); ?></small></h1>
+		<h1><?php echo e($user['name']); ?><small> <?php _e('Edit user'); ?></small></h1>
 		<ol class="breadcrumb">
 			<li><a href="?route=dashboard"><i class="fa fa-dashboard"></i> <?php _e('Home'); ?></a></li>
 			<li><?php _e('System'); ?></li><li class="active"><?php _e('Users'); ?></li>
@@ -26,7 +26,7 @@
 									<label for="roleid" class="control-label"><?php _e('Role'); ?></label>
 									<select class="form-control select2 select2-hidden-accessible" id="roleid" name="roleid" style="width: 100%;" tabindex="-1" aria-hidden="true">
 										<?php foreach ($roles as $role) { ?>
-											<option value='<?php echo $role['id']; ?>' <?php if($role['id'] == $user['roleid']) echo "selected"; ?> ><?php echo $role['name']; ?></option>
+											<option value='<?php echo $role['id']; ?>' <?php if($role['id'] == $user['roleid']) echo "selected"; ?> ><?php echo e($role['name']); ?></option>
 										<?php } ?>
 									</select>
 								</div>
@@ -37,19 +37,19 @@
 									<select class="form-control select2tags select2-hidden-accessible" id="groups" name="groups[]" style="width: 100%;" multiple>
 										<option value='0' <?php if(in_array("0", $current_groups)) echo "selected"; ?> ><?php _e('All Groups'); ?></option>
 										<?php foreach ($groups as $group) { ?>
-											<option value='<?php echo $group['id']; ?>' <?php if(in_array($group['id'], $current_groups)) echo "selected"; ?> ><?php echo $group['name']; ?></option>
+											<option value='<?php echo $group['id']; ?>' <?php if(in_array($group['id'], $current_groups)) echo "selected"; ?> ><?php echo e($group['name']); ?></option>
 										<?php } ?>
 									</select>
 								</div>
 
 								<div class="form-group">
 									<label for="name" class="control-label"><?php _e('Name'); ?> *</label>
-									<input type="text" class="form-control" id="name" name="name" value="<?php echo $user['name']; ?>" required>
+									<input type="text" class="form-control" id="name" name="name" value="<?php echo e($user['name']); ?>" required>
 								</div>
 
 								<div class="form-group">
 									<label for="email" class="control-label"><?php _e('Email Address'); ?> *</label>
-									<input type="email" class="form-control" id="email" name="email" value="<?php echo $user['email']; ?>" required>
+									<input type="email" class="form-control" id="email" name="email" value="<?php echo e($user['email']); ?>" required>
 								</div>
 
 								<div class="form-group">
@@ -62,7 +62,7 @@
 									<label for="lang" class="control-label"><?php _e('Language'); ?></label>
 									<select class="form-control select2 select2-hidden-accessible" id="lang" name="lang" style="width: 100%;" tabindex="-1" aria-hidden="true">
 										<?php foreach ($languages as $language) { ?>
-											<option <?php if($user['lang'] == $language['code']) echo 'selected'; ?> value="<?php echo $language['code']; ?>"><?php echo $language['name']; ?></option>
+											<option <?php if($user['lang'] == $language['code']) echo 'selected'; ?> value="<?php echo $language['code']; ?>"><?php echo e($language['name']); ?></option>
 										<?php } ?>
 									</select>
 								</div>
@@ -105,7 +105,7 @@
 
 								<div class="form-group">
 									<label for="notes" class="control-label"><?php _e('Notes'); ?></label>
-									<textarea class="form-control summernote" id="notes" name="notes"><?php echo $user['notes']; ?></textarea>
+									<textarea class="form-control summernote" id="notes" name="notes"><?php echo e($user['notes']); ?></textarea>
 								</div>
 
 								<input type="hidden" name="action" value="editUser">

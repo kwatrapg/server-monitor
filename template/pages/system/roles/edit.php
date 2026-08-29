@@ -24,7 +24,7 @@
 								<div class="col-md-12">
 								    <div class="form-group">
 								        <label for="name"><?php _e('Name'); ?> *</label>
-								        <input type="text" class="form-control" id="name" name="name" value="<?php echo $role['name']; ?>" required>
+								        <input type="text" class="form-control" id="name" name="name" value="<?php echo e($role['name']); ?>" required>
 								    </div>
 								</div>
 

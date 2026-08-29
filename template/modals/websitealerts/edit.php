@@ -61,7 +61,7 @@
                 <label for="contacts"><?php _e('Contacts'); ?> <i class="fa fa-info-circle fa-fw" data-toggle="tooltip" title="<?php _e('Contacts selected here will receive notifications for this alert.'); ?>"></i></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="contacts" name="contacts[]" style="width: 100%;" multiple>
                     <?php foreach ($contacts as $contact) { ?>
-                        <option value='<?php echo $contact['id']; ?>' <?php if(in_array($contact['id'], $selected_contacts)) echo "selected"; ?> ><?php echo $contact['name']; ?></option>
+                        <option value='<?php echo $contact['id']; ?>' <?php if(in_array($contact['id'], $selected_contacts)) echo "selected"; ?> ><?php echo e($contact['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -87,11 +87,11 @@
 
 
     <input type="hidden" name="id" value="<?php echo $alert['id']; ?>">
-    <input type="hidden" name="websiteid" value="<?php echo $_GET['routeid']; ?>">
+    <input type="hidden" name="websiteid" value="<?php echo e($_GET['routeid'] ?? ''); ?>">
 
     <input type="hidden" name="action" value="editWebsiteAlert">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
-    <input type="hidden" name="routeid" value="<?php echo $_GET['routeid']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
+    <input type="hidden" name="routeid" value="<?php echo e($_GET['routeid'] ?? ''); ?>">
     <input type="hidden" name="section" value="alerting">
 </div>
 

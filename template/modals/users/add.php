@@ -12,7 +12,7 @@
                 <label for="roleid"><?php _e('Role'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="roleid" name="roleid" style="width: 100%;" tabindex="-1" aria-hidden="true">
                     <?php foreach ($roles as $role) { ?>
-                        <option value='<?php echo $role['id']; ?>'><?php echo $role['name']; ?></option>
+                        <option value='<?php echo $role['id']; ?>'><?php echo e($role['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -24,7 +24,7 @@
                 <select class="form-control select2tags select2-hidden-accessible" id="groups" name="groups[]" style="width: 100%;" multiple>
                     <option value='0' selected><?php _e('All Groups'); ?></option>
                     <?php foreach ($groups as $group) { ?>
-                        <option value='<?php echo $group['id']; ?>'><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>'><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -49,7 +49,7 @@
     </div>
     <div class="form-group"><div class="checkbox"><label><input type="checkbox" name="notification" value="true" checked="yes"> <?php _e('Send new staff account email notification'); ?></label></div></div>
     <input type="hidden" name="action" value="addUser">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

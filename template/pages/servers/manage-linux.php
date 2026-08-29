@@ -3,11 +3,11 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo $server['name']; ?><small> <?php echo smartDate($latest['timestamp']); ?></small></h1>
+		<h1><?php echo e($server['name']); ?><small> <?php echo smartDate($latest['timestamp']); ?></small></h1>
 		<ol class="breadcrumb">
             <li><a href="?route=dashboard"><i class="fa fa-dashboard"></i> <?php _e('Home'); ?></a></li>
             <li><a href="?route=servers"><?php _e('Servers'); ?></a></li>
-            <li class="active"><?php echo $server['name']; ?></li>
+            <li class="active"><?php echo e($server['name']); ?></li>
         </ol>
 	</section>
 
@@ -48,11 +48,11 @@
 								<input type="hidden" name="range_end" id="range_end" value="">
 								<input type="hidden" name="range_label" id="range_label" value="">
 
-								<input type="hidden" name="asset" value="server-<?php echo $_GET['id']; ?>">
+								<input type="hidden" name="asset" value="server-<?php echo e($_GET['id'] ?? ''); ?>">
 
-								<input type="hidden" name="route" value="<?php echo $_GET['route']; ?>">
-								<input type="hidden" name="routeid" value="<?php echo $_GET['id']; ?>">
-								<input type="hidden" name="section" value="<?php if(!empty($_GET['section'])) echo $_GET['section']; ?>">
+								<input type="hidden" name="route" value="<?php echo e($_GET['route'] ?? ''); ?>">
+								<input type="hidden" name="routeid" value="<?php echo e($_GET['id'] ?? ''); ?>">
+								<input type="hidden" name="section" value="<?php echo e($_GET['section'] ?? ''); ?>">
 							</form>
 
 						</div>
@@ -897,7 +897,7 @@
 													<?php _e('alert:'); ?>
 
 													<?php foreach ($selected_contacts as $selected_contact) { ?>
-														<span class="label bg-gray"><?php echo getSingleValue("app_contacts", "name", $selected_contact); ?></span>&nbsp;
+														<span class="label bg-gray"><?php echo e(getSingleValue("app_contacts", "name", $selected_contact)); ?></span>&nbsp;
 													<?php } ?>
 												</td>
 

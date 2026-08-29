@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <label for="name"><?php _e('Name'); ?> *</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?php echo $domain['name']; ?>" required placeholder="<?php _e('Name for easy identification'); ?>">
+                <input type="text" class="form-control" id="name" name="name" value="<?php echo e($domain['name']); ?>" required placeholder="<?php _e('Name for easy identification'); ?>">
             </div>
         </div>
 
@@ -18,7 +18,7 @@
                 <label for="groupid"><?php _e('Group'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="groupid" name="groupid" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                     <?php foreach ($groups as $group) { if(!checkGroup($group['id'])) continue; ?>
-                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $domain['groupid']) echo "selected"; ?>><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $domain['groupid']) echo "selected"; ?>><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -39,7 +39,7 @@
 
     <input type="hidden" name="id" value="<?php echo $domain['id']; ?>">
     <input type="hidden" name="action" value="editDomain">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

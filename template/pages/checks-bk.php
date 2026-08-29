@@ -43,7 +43,7 @@
 												<?php } ?>
 											</td>
 		                                    <td><?php echo $check['id']; ?></td>
-		                                    <td><?php echo $check['name']; ?></td>
+		                                    <td><?php echo e($check['name']); ?></td>
 											<td>
 												<?php
 													if($check['type'] == "tcp") { _e('TCP Port'); echo ": " . $check['port']; }
@@ -53,7 +53,7 @@
 													if($check['type'] == "blacklist") { _e('Blacklist Check'); echo ": " . $check['host']; }
 												?>
 											</td>
-											<td><?php echo getSingleValue("app_groups","name",$check['groupid']); ?></td>
+											<td><?php echo e(getSingleValue("app_groups","name",$check['groupid'])); ?></td>
 											<td><?php echo smartDate(Check::lastChecked($check['id'])); ?></td>
 											<td>
 												<span data-toggle="tooltip" title="<?php _e('Last 24 Hours'); ?> <?php echo Check::uptime($check['id'],"24h"); ?>%">

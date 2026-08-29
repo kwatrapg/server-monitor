@@ -117,7 +117,7 @@
 					                <label for="contacts"><?php _e('Default Contacts'); ?> <i class="fa fa-info-circle fa-fw" data-toggle="tooltip" title="<?php _e('Contacts selected will be used for default alerts when adding new server, website or check.'); ?>"></i></label>
 					                <select class="form-control select2tags select2-hidden-accessible" id="default_contacts" name="default_contacts[]" style="width: 100%;" multiple>
 					                    <?php foreach ($contacts as $contact) { ?>
-					                        <option value='<?php echo $contact['id']; ?>' <?php if(in_array($contact['id'], $selected_contacts)) echo "selected"; ?> ><?php echo $contact['name']; ?></option>
+					                        <option value='<?php echo $contact['id']; ?>' <?php if(in_array($contact['id'], $selected_contacts)) echo "selected"; ?> ><?php echo e($contact['name']); ?></option>
 					                    <?php } ?>
 					                </select>
 					            </div>
@@ -151,7 +151,7 @@
 											<label for="default_lang" class="control-label"><?php _e('Default Language'); ?></label>
 											<select class="form-control select2" id="default_lang" name="default_lang" style="width: 100%;">
 												<?php foreach ($languages as $language) { ?>
-													<option <?php if(getConfigValue("default_lang") == $language['code']) echo 'selected'; ?> value="<?php echo $language['code']; ?>"><?php echo $language['name']; ?></option>
+													<option <?php if(getConfigValue("default_lang") == $language['code']) echo 'selected'; ?> value="<?php echo $language['code']; ?>"><?php echo e($language['name']); ?></option>
 												<?php } ?>
 											</select>
 										</div>

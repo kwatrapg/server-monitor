@@ -106,7 +106,7 @@
 
                                         <?php foreach($main_servers_unresolved as $incident) { ?>
                                             <li>
-                                                <a href="?route=servers/manage-<?php echo getSingleValue("app_servers","type",$incident['serverid']); ?>&id=<?php echo $incident['serverid']; ?>">
+                                                <a href="?route=servers/manage-<?php echo e(getSingleValue("app_servers","type",$incident['serverid'])); ?>&id=<?php echo $incident['serverid']; ?>">
                                                     <?php if($incident['status'] == 2) { ?>
                                                         <i class="fa fa-warning text-yellow" data-toggle="tooltip" title="<?php _e("Warning"); ?>"></i>
                                                     <?php } ?>
@@ -119,7 +119,7 @@
                                                         <i class="fa fa-warning text-green" data-toggle="tooltip" title="<?php _e("Unknown"); ?>"></i>
                                                     <?php } ?>
 
-                                                    <?php echo getSingleValue("app_servers","name",$incident['serverid']); ?> -
+                                                    <?php echo e(getSingleValue("app_servers","name",$incident['serverid'])); ?> -
                                                     <?php if($incident['type'] == "nodata") _e('No Data'); ?>
                                                     <?php if($incident['type'] == "cpu") _e('CPU Usage %'); ?>
                                                     <?php if($incident['type'] == "cpuio") _e('CPU IO Wait %'); ?>
@@ -205,7 +205,7 @@
                                                         <i class="fa fa-warning text-green" data-toggle="tooltip" title="<?php _e("Unknown"); ?>"></i>
                                                     <?php } ?>
 
-                                                    <?php echo getSingleValue("app_websites","name",$incident['websiteid']); ?> -
+                                                    <?php echo e(getSingleValue("app_websites","name",$incident['websiteid'])); ?> -
                                                     <?php if($incident['type'] == "responsecode") _e('HTTP Response Code'); ?>
 													<?php if($incident['type'] == "loadtime") _e('Load Time'); ?>
 													<?php if($incident['type'] == "searchstringmissing") _e('Search String Missing'); ?>
@@ -259,7 +259,7 @@
                                                         <i class="fa fa-warning text-green" data-toggle="tooltip" title="<?php _e("Unknown"); ?>"></i>
                                                     <?php } ?>
 
-                                                    <?php echo getSingleValue("app_checks","name",$incident['checkid']); ?> -
+                                                    <?php echo e(getSingleValue("app_checks","name",$incident['checkid'])); ?> -
                                                     <?php if($incident['type'] == "offline") _e('Check Offline'); ?>
 													<?php if($incident['type'] == "responsetime") _e('Response Time'); ?>
 													<?php if($incident['type'] == "blacklisted") _e('Listed In Blacklist'); ?>
@@ -308,7 +308,7 @@
                                                         <i class="fa fa-warning text-red" data-toggle="tooltip" title="<?php _e("Alert"); ?>"></i>
                                                     <?php } ?>
 
-                                                    <?php echo getSingleValue("app_domains","name",$incident['domainid']); ?> -
+                                                    <?php echo e(getSingleValue("app_domains","name",$incident['domainid'])); ?> -
                                                     <?php if($incident['type'] == "expiringsoon") _e('Expiring Soon'); ?>
                                                     <?php if($incident['type'] == "expired") _e('Already Expired'); ?>
                                                 </a>
@@ -349,7 +349,7 @@
                                                         <i class="fa fa-warning text-red" data-toggle="tooltip" title="<?php _e("Alert"); ?>"></i>
                                                     <?php } ?>
 
-                                                    <?php echo getSingleValue("app_ssl","name",$incident['sslid']); ?> -
+                                                    <?php echo e(getSingleValue("app_ssl","name",$incident['sslid'])); ?> -
                                                     <?php if($incident['type'] == "expiringsoon") _e('Expiring Soon'); ?>
                                                     <?php if($incident['type'] == "expired") _e('Already Expired'); ?>
                                                 </a>
@@ -376,13 +376,13 @@
                                 <li class="header text-center"><?php _e('Autorefresh'); ?></li>
                                 <li>
                                     <ul class="menu">
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=0"><i class="fa <?php if($liu['autorefresh'] == 0) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Disabled'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=30000"><i class="fa <?php if($liu['autorefresh'] == 30000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 30 Seconds'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=60000"><i class="fa <?php if($liu['autorefresh'] == 60000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 1 Minute'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=120000"><i class="fa <?php if($liu['autorefresh'] == 120000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 2 Minutes'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=300000"><i class="fa <?php if($liu['autorefresh'] == 300000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 5 Minutes'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=600000"><i class="fa <?php if($liu['autorefresh'] == 600000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 10 Minutes'); ?></a></li>
-                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php if(isset($_GET['id'])) echo $_GET['id']; ?>&section=<?php if(isset($_GET['section'])) echo $_GET['section']; ?>&autorefresh=900000"><i class="fa <?php if($liu['autorefresh'] == 900000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 15 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=0"><i class="fa <?php if($liu['autorefresh'] == 0) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Disabled'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=30000"><i class="fa <?php if($liu['autorefresh'] == 30000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 30 Seconds'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=60000"><i class="fa <?php if($liu['autorefresh'] == 60000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 1 Minute'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=120000"><i class="fa <?php if($liu['autorefresh'] == 120000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 2 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=300000"><i class="fa <?php if($liu['autorefresh'] == 300000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 5 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=600000"><i class="fa <?php if($liu['autorefresh'] == 600000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 10 Minutes'); ?></a></li>
+                                        <li><a href="?qa=setAutorefresh&csrf_token=<?php echo e(csrf_token()); ?>&reroute=<?php echo e($route); ?>&routeid=<?php echo e($_GET['id'] ?? ''); ?>&section=<?php echo e($_GET['section'] ?? ''); ?>&autorefresh=900000"><i class="fa <?php if($liu['autorefresh'] == 900000) echo "fa-dot-circle-o"; else echo "fa-circle-o"; ?> text-blue"></i> <?php _e('Every 15 Minutes'); ?></a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -426,15 +426,15 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo getGravatar($liu['email'],"84"); ?>" class="user-image" alt="User Image" />
-                                <span class="hidden-xs"><?php echo $liu['name']; ?> <i class="caret"></i></span>
+                                <span class="hidden-xs"><?php echo e($liu['name']); ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
                                     <img src="<?php echo getGravatar($liu['email'],"128"); ?>" class="img-circle" />
                                     <p>
-                                        <?php echo $liu['name']; ?>
-                                        <small><?php echo $liu['email']; ?></small>
+                                        <?php echo e($liu['name']); ?>
+                                        <small><?php echo e($liu['email']); ?></small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -462,7 +462,7 @@
                   <img src="<?php echo getGravatar($liu['email'],"45"); ?>" class="img-circle" alt="User Image"  style="max-height:45px;max-width:45px;">
                 </div>
                 <div class="pull-left info">
-                  <p><?php echo $liu['name']; ?></p>
+                  <p><?php echo e($liu['name']); ?></p>
                   <a href="#"><i class="fa fa-circle text-success"></i> <?php _e('Online'); ?></a>
                 </div>
               </div>

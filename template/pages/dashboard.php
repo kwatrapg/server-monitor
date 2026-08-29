@@ -240,7 +240,7 @@
 														<i class="fa fa-check-circle fa-2x text-green" data-toggle="tooltip" title="<?php _e("OK"); ?>"></i>
 													<?php } elseif($incident['status'] == 2) { ?>
 														<?php if(in_array("editServer",$perms)) { ?>
-															<a href="#" onClick='showM("?modal=serveralerts/markResolved&reroute=servers/manage-<?php echo getSingleValue("app_servers","type",$incident['serverid']); ?>&routeid=<?php echo $incident['serverid']; ?>&id=<?php echo $incident['id']; ?>&section=");return false'><i class="fa fa-2x fa-warning text-yellow" data-toggle="tooltip" title="<?php _e("Warning"); ?>"></i></a>
+															<a href="#" onClick='showM("?modal=serveralerts/markResolved&reroute=servers/manage-<?php echo e(getSingleValue("app_servers","type",$incident['serverid'])); ?>&routeid=<?php echo $incident['serverid']; ?>&id=<?php echo $incident['id']; ?>&section=");return false'><i class="fa fa-2x fa-warning text-yellow" data-toggle="tooltip" title="<?php _e("Warning"); ?>"></i></a>
 														<?php } else { ?><i class="fa fa-2x fa-warning text-yellow" data-toggle="tooltip" title="<?php _e("Warning"); ?>"></i><?php } ?>
 													<?php } elseif($incident['status'] == 3) { ?>
 														<?php if(in_array("editServer",$perms)) { ?>
@@ -252,7 +252,7 @@
 														<?php } else { ?><i class="fa fa-2x fa-warning text-gray" data-toggle="tooltip" title="<?php _e("Unknown"); ?>"></i><?php } ?>
 													<?php } ?>
 												</td>
-												<td><?php echo getSingleValue("app_servers","name",$incident['serverid']); ?></td>
+												<td><?php echo e(getSingleValue("app_servers","name",$incident['serverid'])); ?></td>
 												<td>
 													<?php if($incident['type'] == "nodata") _e('No Data'); ?>
 													<?php if($incident['type'] == "cpu") _e('CPU Usage %'); ?>
@@ -354,7 +354,7 @@
 														<?php } else { ?><i class="fa fa-2x fa-warning text-gray" data-toggle="tooltip" title="<?php _e("Unknown"); ?>"></i><?php } ?>
 													<?php } ?>
 												</td>
-												<td><?php echo getSingleValue("app_websites","name",$incident['websiteid']); ?></td>
+												<td><?php echo e(getSingleValue("app_websites","name",$incident['websiteid'])); ?></td>
 												<td>
 													<?php if($incident['type'] == "responsecode") _e('HTTP Response Code'); ?>
 													<?php if($incident['type'] == "loadtime") _e('Load Time'); ?>
@@ -421,7 +421,7 @@
 														<?php } else { ?><i class="fa fa-2x fa-warning text-gray" data-toggle="tooltip" title="<?php _e("Unknown"); ?>"></i><?php } ?>
 													<?php } ?>
 												</td>
-												<td><?php echo getSingleValue("app_checks","name",$incident['checkid']); ?></td>
+												<td><?php echo e(getSingleValue("app_checks","name",$incident['checkid'])); ?></td>
 												<td>
 													<?php if($incident['type'] == "offline") _e('Service Offline'); ?>
 													<?php if($incident['type'] == "responsetime") _e('Response Time'); ?>
@@ -488,7 +488,7 @@
 														<?php } else { ?><i class="fa fa-2x fa-warning text-red" data-toggle="tooltip" title="<?php _e("Alert"); ?>"></i><?php } ?>
 													<?php } ?>
 												</td>
-												<td><?php echo getSingleValue("app_domains","name",$incident['domainid']); ?></td>
+												<td><?php echo e(getSingleValue("app_domains","name",$incident['domainid'])); ?></td>
 												<td>
 													<?php if($incident['type'] == "expiringsoon") _e('Expiring Soon'); ?>
 													<?php if($incident['type'] == "expired") _e('Already Expired'); ?>
@@ -548,7 +548,7 @@
 														<?php } else { ?><i class="fa fa-2x fa-warning text-red" data-toggle="tooltip" title="<?php _e("Alert"); ?>"></i><?php } ?>
 													<?php } ?>
 												</td>
-												<td><?php echo getSingleValue("app_ssl","name",$incident['sslid']); ?></td>
+												<td><?php echo e(getSingleValue("app_ssl","name",$incident['sslid'])); ?></td>
 												<td>
 													<?php if($incident['type'] == "expiringsoon") _e('Expiring Soon'); ?>
 													<?php if($incident['type'] == "expired") _e('Already Expired'); ?>

@@ -43,8 +43,8 @@
 												<?php } ?>
 											</td>
 		                                    <td><?php echo $website['id']; ?></td>
-		                                    <td><?php echo $website['name']; ?></td>
-											<td><?php echo getSingleValue("app_groups","name",$website['groupid']); ?></td>
+		                                    <td><?php echo e($website['name']); ?></td>
+											<td><?php echo e(getSingleValue("app_groups","name",$website['groupid'])); ?></td>
 											<td><?php echo smartDate(Website::lastChecked($website['id'])); ?></td>
 											<td><?php echo Website::lastLoadTime($website['id']); ?></td>
 											<td>

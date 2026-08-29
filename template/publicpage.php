@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?php echo $page['name']; ?></title>
+        <title><?php echo e($page['name']); ?></title>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <link rel="shortcut icon" href="template/assets/icon.png"/>
         <link rel="apple-touch-icon" href="template/assets/icon-large.png"/>
@@ -66,7 +66,7 @@
 
                         <!-- Content Header (Page header) -->
                         <section class="content-header">
-                            <h1><?php echo $page['name']; ?></h1>
+                            <h1><?php echo e($page['name']); ?></h1>
 
                         </section>
 
@@ -76,7 +76,7 @@
                             <?php if(strlen($page['info']) > 15) { ?>
                                 <div class="box box-default">
                                     <div class="box-body">
-                                        <?php echo $page['info']; ?>
+                                        <?php echo e($page['info']); ?>
                                     </div>
                                     <!-- /.box-body -->
                                 </div>
@@ -125,8 +125,8 @@
                 												<?php } ?>
                 											</td>
                 		                                    <td><?php echo $server['id']; ?></td>
-                		                                    <td><?php echo $server['name']; ?></td>
-                											<td><?php echo getSingleValue("app_groups","name",$server['groupid']); ?></td>
+                		                                    <td><?php echo e($server['name']); ?></td>
+                											<td><?php echo e(getSingleValue("app_groups","name",$server['groupid'])); ?></td>
                 											<?php if(!empty($latest)) { ?>
 
                 												<td>
@@ -279,8 +279,8 @@
                                                                 <?php } ?>
                                                             </td>
                                                             <td><?php echo $website['id']; ?></td>
-                                                            <td><?php echo $website['name']; ?></td>
-                                                            <td><?php echo getSingleValue("app_groups","name",$website['groupid']); ?></td>
+                                                            <td><?php echo e($website['name']); ?></td>
+                                                            <td><?php echo e(getSingleValue("app_groups","name",$website['groupid'])); ?></td>
                                                             <td><?php echo smartDate(Website::lastChecked($website['id'])); ?></td>
                                                             <td><?php echo Website::lastLoadTime($website['id']); ?></td>
                                                             <td>
@@ -343,7 +343,7 @@
                                                                 <?php } ?>
                                                             </td>
                                                             <td><?php echo $check['id']; ?></td>
-                                                            <td><?php echo $check['name']; ?></td>
+                                                            <td><?php echo e($check['name']); ?></td>
                                                             <td>
                                                                 <?php
                                                                     if($check['type'] == "tcp") { _e('TCP Port'); echo ": " . $check['port']; }
@@ -354,7 +354,7 @@
                                                                     if($check['type'] == "blacklist") { _e('Blacklist Check'); echo ": " . $check['host']; }
                                                                 ?>
                                                             </td>
-                                                            <td><?php echo getSingleValue("app_groups","name",$check['groupid']); ?></td>
+                                                            <td><?php echo e(getSingleValue("app_groups","name",$check['groupid'])); ?></td>
                                                             <td><?php echo smartDate(Check::lastChecked($check['id'])); ?></td>
                                                             <td>
                                                                 <?php if($check['type'] != "callback") { ?>
@@ -465,8 +465,8 @@
 		<script type="text/javascript">
 
 			$(function() {
-				var start = moment("<?php echo $_SESSION['range_start']; ?>");
-				var end = moment("<?php echo $_SESSION['range_end']; ?>");
+				var start = moment("<?php echo e($_SESSION['range_start']); ?>");
+				var end = moment("<?php echo e($_SESSION['range_end']); ?>");
 
 				function rangeSubmit(start, end, label) {
 					$('#daterange-btn span').html(start.format('<?php echo strtoupper(jsFormat()); ?> HH:mm:ss') + ' - ' + end.format('<?php echo strtoupper(jsFormat()); ?> HH:mm:ss'));

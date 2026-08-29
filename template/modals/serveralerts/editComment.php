@@ -16,11 +16,11 @@
         <div class="checkbox"><label><input type="checkbox" name="ignore" <?php if($incident['ignore'] == "1") echo 'checked="yes"'; ?> value="1"> <?php _e('Ignore from uptime calculation'); ?></label></div>
     </div>
 
-    <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+    <input type="hidden" name="id" value="<?php echo e($_GET['id'] ?? ''); ?>">
     <input type="hidden" name="action" value="editServerIncidentComment">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
-    <input type="hidden" name="routeid" value="<?php echo $_GET['routeid']; ?>">
-    <input type="hidden" name="section" value="<?php echo $_GET['section']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
+    <input type="hidden" name="routeid" value="<?php echo e($_GET['routeid'] ?? ''); ?>">
+    <input type="hidden" name="section" value="<?php echo e($_GET['section'] ?? ''); ?>">
 </div>
 
 <div class="modal-footer">

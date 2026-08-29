@@ -7,13 +7,13 @@
 
     <div class="form-group">
         <label for="name"><?php _e('Name'); ?> *</label>
-        <input type="text" class="form-control" id="name" name="name" value="<?php echo $group['name']; ?>" required>
+        <input type="text" class="form-control" id="name" name="name" value="<?php echo e($group['name']); ?>" required>
     </div>
 
     <input type="hidden" name="id" value="<?php echo $group['id']; ?>">
 
     <input type="hidden" name="action" value="editGroup">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

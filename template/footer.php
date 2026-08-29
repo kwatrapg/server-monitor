@@ -74,8 +74,8 @@
 
 
 			$(function() {
-				var start = moment("<?php echo $_SESSION['range_start']; ?>");
-				var end = moment("<?php echo $_SESSION['range_end']; ?>");
+				var start = moment("<?php echo e($_SESSION['range_start']); ?>");
+				var end = moment("<?php echo e($_SESSION['range_end']); ?>");
 
 				function rangeSubmit(start, end, label) {
 					$('#daterange-btn span').html(start.format('<?php echo strtoupper(jsFormat()); ?> HH:mm:ss') + ' - ' + end.format('<?php echo strtoupper(jsFormat()); ?> HH:mm:ss'));

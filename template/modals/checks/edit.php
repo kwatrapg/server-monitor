@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <label for="name"><?php _e('Name'); ?> *</label>
-                <input type="text" class="form-control" id="name" name="name" required placeholder="<?php _e('Name, hostname or other for easy identification'); ?>" value="<?php echo $check['name']; ?>">
+                <input type="text" class="form-control" id="name" name="name" required placeholder="<?php _e('Name, hostname or other for easy identification'); ?>" value="<?php echo e($check['name']); ?>">
             </div>
         </div>
 
@@ -18,7 +18,7 @@
                 <label for="groupid"><?php _e('Group'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="groupid" name="groupid" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                     <?php foreach ($groups as $group) { if(!checkGroup($group['id'])) continue; ?>
-                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $check['groupid']) echo "selected"; ?>><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $check['groupid']) echo "selected"; ?>><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -27,7 +27,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="host" id="host-label"><?php _e('Host'); ?> *</label>
-                <input type="text" class="form-control" id="host" name="host" required placeholder="<?php _e('Domain or IP Address to check'); ?>" value="<?php echo $check['host']; ?>">
+                <input type="text" class="form-control" id="host" name="host" required placeholder="<?php _e('Domain or IP Address to check'); ?>" value="<?php echo e($check['host']); ?>">
             </div>
         </div>
 
@@ -48,14 +48,14 @@
         <div class="col-md-6" id="send-div">
             <div class="form-group">
                 <label for="send" id="send-label"><?php if($check['type'] == "dns") _e('DNS Server'); else _e('Send String'); ?></label>
-                <input type="text" class="form-control" id="send" name="send" placeholder="" value="<?php echo $check['send']; ?>">
+                <input type="text" class="form-control" id="send" name="send" placeholder="" value="<?php echo e($check['send']); ?>">
             </div>
         </div>
 
         <div class="col-md-6" id="expect-div">
             <div class="form-group">
                 <label for="expect" id="expect-label"><?php _e('Expected Response'); ?></label>
-                <input type="text" class="form-control" id="expect" name="expect" placeholder="" value="<?php echo $check['expect']; ?>">
+                <input type="text" class="form-control" id="expect" name="expect" placeholder="" value="<?php echo e($check['expect']); ?>">
             </div>
         </div>
 
@@ -111,7 +111,7 @@
     <input type="hidden" name="id" value="<?php echo $check['id']; ?>">
 
     <input type="hidden" name="action" value="editCheck">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

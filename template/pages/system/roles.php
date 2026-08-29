@@ -29,7 +29,7 @@
 								<tbody>
 									<?php foreach ($roles as $role) { ?>
 										<tr>
-											<td><?php echo $role['name']; ?></td>
+											<td><?php echo e($role['name']); ?></td>
 											<td>
 												<div class='pull-right'>
 													<div class="btn-group">

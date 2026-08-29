@@ -19,7 +19,7 @@
                 <label for="groupid"><?php _e('Group'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="groupid" name="groupid" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                     <?php foreach ($groups as $group) { if(!checkGroup($group['id'])) continue; ?>
-                        <option value='<?php echo $group['id']; ?>'><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>'><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -85,7 +85,7 @@
 
 
     <input type="hidden" name="action" value="addServer">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

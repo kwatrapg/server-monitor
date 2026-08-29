@@ -1,11 +1,11 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo $website['name']; ?><small> <?php echo smartDate($latest['timestamp']); ?></small></h1>
+		<h1><?php echo e($website['name']); ?><small> <?php echo smartDate($latest['timestamp']); ?></small></h1>
 		<ol class="breadcrumb">
             <li><a href="?route=dashboard"><i class="fa fa-dashboard"></i> <?php _e('Home'); ?></a></li>
             <li><a href="?route=websites"><?php _e('Websites'); ?></a></li>
-            <li class="active"><?php echo $website['name']; ?></li>
+            <li class="active"><?php echo e($website['name']); ?></li>
         </ol>
 	</section>
 
@@ -39,11 +39,11 @@
 								<input type="hidden" name="range_end" id="range_end" value="">
 								<input type="hidden" name="range_label" id="range_label" value="">
 
-								<input type="hidden" name="asset" value="website-<?php echo $_GET['id']; ?>">
+								<input type="hidden" name="asset" value="website-<?php echo e($_GET['id'] ?? ''); ?>">
 
-								<input type="hidden" name="route" value="<?php echo $_GET['route']; ?>">
-								<input type="hidden" name="routeid" value="<?php echo $_GET['id']; ?>">
-								<input type="hidden" name="section" value="<?php if(!empty($_GET['section'])) echo $_GET['section']; ?>">
+								<input type="hidden" name="route" value="<?php echo e($_GET['route'] ?? ''); ?>">
+								<input type="hidden" name="routeid" value="<?php echo e($_GET['id'] ?? ''); ?>">
+								<input type="hidden" name="section" value="<?php echo e($_GET['section'] ?? ''); ?>">
 							</form>
 
 						</div>
@@ -212,12 +212,12 @@
 
 	            										<tr>
 	            											<td><b><?php _e('Name'); ?></b></td>
-	            											<td><?php echo $website['name']; ?></td>
+	            											<td><?php echo e($website['name']); ?></td>
 	            										</tr>
 
 	                                                    <tr>
 	                                                        <td><b><?php _e('URL'); ?></b></td>
-	                                                        <td><?php echo $website['url']; ?></td>
+	                                                        <td><?php echo e($website['url']); ?></td>
 	                                                    </tr>
 
 														<tr>
@@ -336,7 +336,7 @@
 
 												<td><?php _e('If occurs'); ?> <?php echo $alert['occurrences']; ?> <?php _e('times'); ?>, <?php _e('alert:'); ?>
 													<?php foreach ($selected_contacts as $selected_contact) { ?>
-														<span class="label bg-gray"><?php echo getSingleValue("app_contacts", "name", $selected_contact); ?></span>&nbsp;
+														<span class="label bg-gray"><?php echo e(getSingleValue("app_contacts", "name", $selected_contact)); ?></span>&nbsp;
 													<?php } ?>
 												</td>
 

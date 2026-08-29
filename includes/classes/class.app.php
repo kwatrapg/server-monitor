@@ -6,11 +6,19 @@ class App {
     public static function setRange($data) {
         $_SESSION['range_type'] = "manual";
 
-        $_SESSION['asset'] = $data['asset'];
+        // Constrain to safe shapes — these values are later echoed into JS
+        // (moment("...")) on every page (VAPT F-11).
+        $asset = (string) ($data['asset'] ?? '');
+        $_SESSION['asset'] = preg_match('/^[a-z]+-\d+$/', $asset) ? $asset : '';
 
-        $_SESSION['range_start'] = $data['range_start'];
-        $_SESSION['range_end'] = $data['range_end'];
-        $_SESSION['range_label'] = $data['range_label'];
+        $norm = function ($v) {
+            $v = (string) $v;
+            $t = strtotime($v);
+            return $t ? date('Y-m-d H:i:s', $t) : date('Y-m-d H:i:s');
+        };
+        $_SESSION['range_start'] = $norm($data['range_start'] ?? '');
+        $_SESSION['range_end']   = $norm($data['range_end'] ?? '');
+        $_SESSION['range_label'] = preg_replace('/[^\w \-:\/]/', '', (string) ($data['range_label'] ?? ''));
     }
 
     public static function resetRange() {

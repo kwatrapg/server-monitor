@@ -31,14 +31,14 @@
 		                                    <td><?php echo $item['id']; ?></td>
 											<td><?php echo dateTimeDisplay($item['date']); ?></td>
 		                                    <td><?php echo $item['contactname']; ?></td>
-											<td><?php echo $item['message']; ?></td>
+											<td><?php echo e($item['message']); ?></td>
 											<td>
 												<?php if($item['email'] != "") { ?>
-													<i class="fa fa-at fa-fw" data-toggle="tooltip" title="<?php _e('Email:'); ?> <?php echo $item['email']; ?>"></i>
+													<i class="fa fa-at fa-fw" data-toggle="tooltip" title="<?php _e('Email:'); ?> <?php echo e($item['email']); ?>"></i>
 												<?php } ?>
 
 												<?php if($item['mobilenumber'] != "") { ?>
-													<i class="fa fa-mobile fa-fw" data-toggle="tooltip" title="<?php _e('Mobile Number:'); ?> <?php echo $item['mobilenumber']; ?>"></i>
+													<i class="fa fa-mobile fa-fw" data-toggle="tooltip" title="<?php _e('Mobile Number:'); ?> <?php echo e($item['mobilenumber']); ?>"></i>
 												<?php } ?>
 
 												<?php if($item['pushbullet'] != "") { ?>

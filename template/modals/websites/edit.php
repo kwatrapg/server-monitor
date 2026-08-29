@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <label for="name"><?php _e('Name'); ?> *</label>
-                <input type="text" class="form-control" id="name" name="name" value="<?php echo $website['name']; ?>" required placeholder="<?php _e('Name, hostname or other for easy identification'); ?>">
+                <input type="text" class="form-control" id="name" name="name" value="<?php echo e($website['name']); ?>" required placeholder="<?php _e('Name, hostname or other for easy identification'); ?>">
             </div>
         </div>
 
@@ -18,7 +18,7 @@
                 <label for="groupid"><?php _e('Group'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="groupid" name="groupid" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                     <?php foreach ($groups as $group) { if(!checkGroup($group['id'])) continue; ?>
-                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $website['groupid']) echo "selected"; ?>><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $website['groupid']) echo "selected"; ?>><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -27,7 +27,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="url"><?php _e('URL'); ?> *</label>
-                <input type="text" class="form-control" id="url" name="url" value="<?php echo $website['url']; ?>" required placeholder="<?php _e('http://www.mydomain.com'); ?>" data-validation="url" data-validation-error-msg="<?php _e('Incorrect URL! (eg. http://www.google.com)'); ?>">
+                <input type="text" class="form-control" id="url" name="url" value="<?php echo e($website['url']); ?>" required placeholder="<?php _e('http://www.mydomain.com'); ?>" data-validation="url" data-validation-error-msg="<?php _e('Incorrect URL! (eg. http://www.google.com)'); ?>">
             </div>
         </div>
 
@@ -35,7 +35,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="expect"><?php _e('Search String'); ?> <i class="fa fa-info-circle fa-fw" data-toggle="tooltip" title="<?php _e("String to search for in webiste's source code (optional)."); ?>"></i></label>
-                <input type="text" class="form-control" id="expect" name="expect" value="<?php echo $website['expect']; ?>">
+                <input type="text" class="form-control" id="expect" name="expect" value="<?php echo e($website['expect']); ?>">
             </div>
         </div>
 
@@ -90,7 +90,7 @@
     <input type="hidden" name="id" value="<?php echo $website['id']; ?>">
 
     <input type="hidden" name="action" value="editWebsite">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>

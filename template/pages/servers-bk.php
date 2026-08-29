@@ -50,8 +50,8 @@
 												<?php } ?>
 											</td>
 		                                    <td><?php echo $server['id']; ?></td>
-		                                    <td><a href="?route=servers/manage-<?php echo $server['type']; ?>&id=<?php echo $server['id']; ?>"><?php echo $server['name']; ?></a></td>
-											<td><?php echo getSingleValue("app_groups","name",$server['groupid']); ?></td>
+		                                    <td><a href="?route=servers/manage-<?php echo $server['type']; ?>&id=<?php echo $server['id']; ?>"><?php echo e($server['name']); ?></a></td>
+											<td><?php echo e(getSingleValue("app_groups","name",$server['groupid'])); ?></td>
 											<?php if(!empty($latest)) { ?>
 
 												<td>

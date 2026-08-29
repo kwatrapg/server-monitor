@@ -6,10 +6,10 @@
 <div class="modal-body">
     <?php _e('Are you sure you want to delete this page?'); ?>
 
-    <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+    <input type="hidden" name="id" value="<?php echo e($_GET['id'] ?? ''); ?>">
     <input type="hidden" name="action" value="deletePage">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
-    <input type="hidden" name="routeid" value="<?php echo $_GET['routeid']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
+    <input type="hidden" name="routeid" value="<?php echo e($_GET['routeid'] ?? ''); ?>">
     <input type="hidden" name="section" value="">
 </div>
 

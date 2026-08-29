@@ -34,15 +34,15 @@
 									<?php foreach ($contacts as $contact) { if(!checkGroup($contact['groupid'])) continue; ?>
 		                                <tr>
 		                                    <td><?php echo $contact['id']; ?></td>
-											<td><?php echo getSingleValue("app_groups","name",$contact['groupid']); ?></td>
-		                                    <td><?php echo $contact['name']; ?></td>
+											<td><?php echo e(getSingleValue("app_groups","name",$contact['groupid'])); ?></td>
+		                                    <td><?php echo e($contact['name']); ?></td>
 											<td>
 												<?php if($contact['email'] != "") { ?>
-													<i class="fa fa-at fa-fw" data-toggle="tooltip" title="<?php _e('Email:'); ?> <?php echo $contact['email']; ?>"></i>
+													<i class="fa fa-at fa-fw" data-toggle="tooltip" title="<?php _e('Email:'); ?> <?php echo e($contact['email']); ?>"></i>
 												<?php } ?>
 
 												<?php if($contact['mobilenumber'] != "") { ?>
-													<i class="fa fa-mobile fa-fw" data-toggle="tooltip" title="<?php _e('Mobile Number:'); ?> <?php echo $contact['mobilenumber']; ?>"></i>
+													<i class="fa fa-mobile fa-fw" data-toggle="tooltip" title="<?php _e('Mobile Number:'); ?> <?php echo e($contact['mobilenumber']); ?>"></i>
 												<?php } ?>
 
 												<?php if($contact['pushbullet'] != "") { ?>

@@ -1,11 +1,11 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo $sslcert['name']; ?><small> <?php echo smartDate($latest['timestamp']); ?></small></h1>
+		<h1><?php echo e($sslcert['name']); ?><small> <?php echo smartDate($latest['timestamp']); ?></small></h1>
 		<ol class="breadcrumb">
             <li><a href="?route=dashboard"><i class="fa fa-dashboard"></i> <?php _e('Home'); ?></a></li>
             <li><a href="?route=ssl"><?php _e('SSL Certificates'); ?></a></li>
-            <li class="active"><?php echo $sslcert['name']; ?></li>
+            <li class="active"><?php echo e($sslcert['name']); ?></li>
         </ol>
 	</section>
 
@@ -165,12 +165,12 @@
 
 	            										<tr>
 	            											<td><b><?php _e('Name'); ?></b></td>
-	            											<td><?php echo $sslcert['name']; ?></td>
+	            											<td><?php echo e($sslcert['name']); ?></td>
 	            										</tr>
 
 	                                                    <tr>
 	                                                        <td><b><?php _e('URL'); ?></b></td>
-	                                                        <td><?php echo $sslcert['url']; ?></td>
+	                                                        <td><?php echo e($sslcert['url']); ?></td>
 	                                                    </tr>
 
 	                                                    <tr>
@@ -234,7 +234,7 @@
 
 												<td><?php _e('If occurs'); ?> <?php echo $alert['occurrences']; ?> <?php _e('times'); ?>, <?php _e('alert:'); ?>
 													<?php foreach ($selected_contacts as $selected_contact) { ?>
-														<span class="label bg-gray"><?php echo getSingleValue("app_contacts", "name", $selected_contact); ?></span>&nbsp;
+														<span class="label bg-gray"><?php echo e(getSingleValue("app_contacts", "name", $selected_contact)); ?></span>&nbsp;
 													<?php } ?>
 												</td>
 

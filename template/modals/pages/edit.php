@@ -10,7 +10,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <label for="name"><?php _e('Page Name'); ?></label>
-                <input type="text" class="form-control" id="name" name="name" value="<?php echo $page['name']; ?>">
+                <input type="text" class="form-control" id="name" name="name" value="<?php echo e($page['name']); ?>">
             </div>
         </div>
 
@@ -20,7 +20,7 @@
                 <label for="groupid"><?php _e('Group'); ?></label>
                 <select class="form-control select2 select2-hidden-accessible" id="groupid" name="groupid" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                     <?php foreach ($groups as $group) { if(!checkGroup($group['id'])) continue; ?>
-                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $page['groupid']) echo "selected"; ?>><?php echo $group['name']; ?></option>
+                        <option value='<?php echo $group['id']; ?>' <?php if($group['id'] == $page['groupid']) echo "selected"; ?>><?php echo e($group['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -31,7 +31,7 @@
                 <label for="servers"><?php _e('Servers'); ?></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="servers" name="servers[]" style="width: 100%;" multiple>
                     <?php foreach ($all_servers as $server) { ?>
-                        <option value='<?php echo $server['id']; ?>' <?php if(in_array($server['id'], $selected_servers)) echo "selected"; ?> ><?php echo $server['name']; ?></option>
+                        <option value='<?php echo $server['id']; ?>' <?php if(in_array($server['id'], $selected_servers)) echo "selected"; ?> ><?php echo e($server['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -42,7 +42,7 @@
                 <label for="websites"><?php _e('Websites'); ?></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="websites" name="websites[]" style="width: 100%;" multiple>
                     <?php foreach ($all_websites as $website) { ?>
-                        <option value='<?php echo $website['id']; ?>' <?php if(in_array($website['id'], $selected_websites)) echo "selected"; ?> ><?php echo $website['name']; ?></option>
+                        <option value='<?php echo $website['id']; ?>' <?php if(in_array($website['id'], $selected_websites)) echo "selected"; ?> ><?php echo e($website['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -53,7 +53,7 @@
                 <label for="checks"><?php _e('Check Services'); ?></label>
                 <select class="form-control select2tags select2-hidden-accessible" id="checks" name="checks[]" style="width: 100%;" multiple>
                     <?php foreach ($all_checks as $check) { ?>
-                        <option value='<?php echo $check['id']; ?>' <?php if(in_array($check['id'], $selected_checks)) echo "selected"; ?> ><?php echo $check['name']; ?></option>
+                        <option value='<?php echo $check['id']; ?>' <?php if(in_array($check['id'], $selected_checks)) echo "selected"; ?> ><?php echo e($check['name']); ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -62,7 +62,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label for="info"><?php _e('Page Description'); ?></label>
-                <textarea class="form-control summernote-modal" id="info" name="info"><?php echo $page['info']; ?></textarea>
+                <textarea class="form-control summernote-modal" id="info" name="info"><?php echo e($page['info']); ?></textarea>
             </div>
         </div>
 
@@ -75,7 +75,7 @@
 
 
     <input type="hidden" name="action" value="editPage">
-    <input type="hidden" name="route" value="<?php echo $_GET['reroute']; ?>">
+    <input type="hidden" name="route" value="<?php echo e($_GET['reroute'] ?? ''); ?>">
     <input type="hidden" name="routeid" value="">
     <input type="hidden" name="section" value="">
 </div>
