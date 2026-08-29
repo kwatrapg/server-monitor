@@ -1,0 +1,31 @@
+# Sentruo — Apache hardening (defense-in-depth).
+#
+# The recommended production layout serves only public/ as the DocumentRoot
+# (see deploy/apache/sentruo.conf). When the whole app tree is the DocumentRoot,
+# these rules keep non-public files unreachable over HTTP.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+# --- Block sensitive files/paths --------------------------------------------
+<FilesMatch "(^\.|\.(env|sql|sqlite|db|bak|old|orig|log|md|po|mo|sh|lock|dist|ini|yml|yaml)$|composer\.(json|lock)|config\.php)">
+    Require all denied
+</FilesMatch>
+
+RedirectMatch 404 (?i)/(\.git|\.env|database|includes|crons|docs|loki|vendor|bin|assets-org|_backups)(/|$)
+
+# Never execute PHP inside the upload store.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^uploads/ - [F,L]
+</IfModule>
+
+# --- Security response headers (mirrors includes/http_headers.php) ----------
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+</IfModule>
