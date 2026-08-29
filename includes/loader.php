@@ -170,6 +170,14 @@ require($scriptpath . '/includes/controllers/general.php');
 // The mutating and data-source controllers MUST NOT run on the unauthenticated
 // view routes (signin/forgot/publicpage). Previously they executed regardless of
 // route, which allowed e.g. ?route=publicpage&json=activitylog (VAPT A-1/A-2).
+if ($isPublicRoute
+    && (isset($_GET['modal']) || isset($_GET['qa']) || isset($_GET['json']) || isset($_POST['action']))) {
+    // publicpage renders its own read-only data via data.php keyed by pagekey;
+    // no controller parameters are accepted on the public view routes.
+    http_response_code(400);
+    exit('Bad request.');
+}
+
 if (!$isPublicRoute) {
 
     if (isset($_GET['modal'])) {
