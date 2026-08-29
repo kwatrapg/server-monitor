@@ -1,0 +1,54 @@
+# Sentruo — reference production stack.
+#   1. cp .env.example .env  &&  edit (APP_KEY, DB_*, SMTP_*, AGENT_HMAC_SECRET, CRON_TOKEN)
+#   2. docker compose up -d --build
+#   3. docker compose exec app php bin/install.php     # first run only
+# Put TLS termination (nginx / Caddy / a load balancer) in front — see deploy/.
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      DB_HOST: db
+    depends_on:
+      db: { condition: service_healthy }
+    ports:
+      - "127.0.0.1:8080:80"   # bind to localhost; the reverse proxy publishes 443
+    volumes:
+      - ./.env:/var/www/sentruo/.env:ro
+      - app_uploads:/var/www/sentruo/uploads
+
+  cron:
+    build: .
+    restart: unless-stopped
+    env_file: [.env]
+    environment:
+      DB_HOST: db
+    depends_on:
+      db: { condition: service_healthy }
+    volumes:
+      - ./.env:/var/www/sentruo/.env:ro
+    # Run the monitoring cycle every minute (CLI — no CRON_TOKEN needed).
+    entrypoint: ["sh", "-c", "while true; do php /var/www/sentruo/crons/cron.php >/proc/1/fd/1 2>&1; sleep 60; done"]
+
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-sentruo}
+      MARIADB_USER: ${DB_USER:-sentruo}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+    command: ["--skip-name-resolve", "--bind-address=0.0.0.0"]
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db_data:
+  app_uploads:

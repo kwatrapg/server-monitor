@@ -1,9 +1,10 @@
-vendor/
-.env
+/vendor/
+/.env
+/uploads/*
+!/uploads/.gitkeep
 *.sql.gz
 *.bak
 *.tar.gz
-loki/data/
-uploads/
+/loki/data/
 node_modules/
 .DS_Store

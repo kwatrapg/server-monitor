@@ -1,0 +1,9 @@
+.git
+.env
+_backups
+../deploy-extras
+*.tar.gz
+node_modules
+vendor
+uploads/*
+!uploads/.gitkeep

@@ -1,0 +1,9 @@
+[Unit]
+Description=Sentruo monitoring cycle
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=www-data
+Environment=SENTRUO_ENV_FILE=/etc/sentruo/env
+ExecStart=/usr/bin/php /var/www/sentruo/crons/cron.php
