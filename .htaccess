@@ -8,12 +8,14 @@ Options -Indexes -MultiViews
 DirectoryIndex index.php
 
 # --- Block sensitive files/paths --------------------------------------------
-<FilesMatch "(^\.|\.(env|sql|sqlite|db|bak|old|orig|log|md|po|mo|sh|lock|dist|ini|yml|yaml)$|composer\.(json|lock)|config\.php)">
+# NOTE: assets/ carries an override .htaccess so the agent install scripts
+# (assets/*.sh, assets/*.exe) stay downloadable.
+<FilesMatch "(^\.|\.(env|sql|sqlite|db|bak|old|orig|log|md|po|mo|sh|lock|dist|ini|conf|tpl|yml|yaml)$|composer\.(json|lock)|config\.php)">
     Require all denied
 </FilesMatch>
 
 # crons/cron.php self-guards (CLI or CRON_TOKEN); everything else under crons/ is denied.
-RedirectMatch 404 (?i)/(\.git|\.env|database|includes|docs|loki|vendor|bin|assets-org|_backups)(/|$)
+RedirectMatch 404 (?i)/(\.git|\.env|database|includes|docs|loki|vendor|bin|deploy|assets-org|_backups)(/|$)
 RedirectMatch 404 (?i)/crons/(?!cron\.php$).*
 
 # Never execute PHP inside the upload store.

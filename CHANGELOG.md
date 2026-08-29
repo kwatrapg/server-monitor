@@ -27,7 +27,8 @@ Full map: `docs/REMEDIATION.md`.
 - `json.php` now authorizes every datasource; profile edit locked to the current user.
 - `callback.php` uses a per-check CSPRNG key instead of the guessable host string.
 - Dead/broken file-upload feature removed.
-- jQuery 2.2.3 → 3.7.1 (+ migrate shim); `pear/net_dns2` → `mikepultz/netdns2`;
+- jQuery 2.2.3 kept + official htmlPrefilter XSS shim (CVE-2020-11022/11023);
+  full jQuery 3 upgrade is Backlog. `pear/net_dns2` → `mikepultz/netdns2`;
   `dg/twitter-php` 3.6 → 4.1; `geerlingguy/ping` 1.1.2 → 1.2.1. `composer audit` clean.
 - `loki/`, `assets-org/`, and dead `*-bk.php` backups removed from the tree.
 

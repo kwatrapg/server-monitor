@@ -24,7 +24,7 @@ verified against a live instance. Line references are post-change.
 | F-09 | `phpinfo()` endpoint | None present in this tree. `bin/ci-checks.sh` fails the build on any `phpinfo(` or `a.php`. | CI gate green |
 | F-10 | Missing security headers | `includes/http_headers.php` (CSP `frame-ancestors 'none'`, XFO, nosniff, Referrer-Policy, Permissions-Policy, HSTS) + `.htaccess` + vhosts. `X-Powered-By` stripped. | `curl -I` shows all headers |
 | F-11 | Stored/reflected XSS (no output encoding) | `e()` helper; `json.php` HTML builders + ~150 template sinks escaped (names, urls, hosts, emails, comments, notes, agent `$os`, `$_GET` reflections, session range). Input filter kept; CSP backstop. | raw `"><img onerror>` name renders inert in the datatable |
-| F-12 | jQuery 2.2.3 / Bootstrap 3.3.7 | jQuery → 3.7.1 + `jquery-migrate` 3.4.1. Bootstrap/AdminLTE 3 migration tracked (Backlog). | old file 404; pages load |
+| F-12 | jQuery 2.2.3 / Bootstrap 3.3.7 | Interim: official `htmlPrefilter` shim (CVE-2020-11022/11023 workaround) on jQuery 2.2.3; F-11 output-encoding + CSP are the primary controls. Full jQuery 3 / AdminLTE 3 / Bootstrap 5 migration needs a browser QA cycle — Backlog. | shim loaded; UI verified |
 | F-13 | Unauth agent ingest; static key; no TLS | HMAC-SHA256(`ts.payload`, secret) + ±300 s window + strict per-server timestamp advance; HTTPS enforced (`AGENT_ALLOW_HTTP` opt-out). `agent.sh` signs, drops `curl -k`. | unsigned → 401, replay → 409, stale → 401 |
 | F-14 | SSRF by design in probes | `HostGuard` (public-IP allow-list, scheme allow-list, DNS-rebinding IP pin, redirect re-validation) in `class.website/check/ssl`, geodata. `crons/cron.php` CLI/`CRON_TOKEN` guard. Admin opt-in for private ranges. | probes to `127.0.0.1` / `169.254.169.254` / RFC1918 blocked |
 | F-15 | Hardcoded encryption key + default DB creds | `.env` model; per-deploy `APP_KEY`; `config.php` is a secrets-free shim. | `config.php` contains no literal secret (CI gate) |
@@ -49,7 +49,7 @@ verified against a live instance. Line references are post-change.
 ## Backlog (documented, not done this pass)
 
 - MFA / TOTP for administrators.
-- Full AdminLTE 3 / Bootstrap 5 front-end migration (interim: jquery-migrate shim + CSP).
+- Full jQuery 3 / AdminLTE 3 / Bootstrap 5 front-end migration (interim: htmlPrefilter shim + CSP + output encoding). Needs a browser QA cycle.
 - Twilio SDK 5→8 and MessageBird 1→3 (major API changes; no live CVE; blocked on an
   advisory-flagged transitive `firebase/php-jwt`). Keep pinned; re-evaluate.
 - Build the Loki-backed log-monitoring feature (`docs/LOG_MONITORING_SPEC.md`).

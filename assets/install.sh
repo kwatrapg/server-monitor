@@ -38,7 +38,7 @@ echo "Installing Dependencies"
 
 # RHEL / CentOS / etc
 if [ -n "$(command -v yum)" ]; then
-	yum -y install cronie gzip curl >> $LOG 2>&1
+	yum -y install cronie gzip curl openssl >> $LOG 2>&1
 	service crond start >> $LOG 2>&1
 	chkconfig crond on >> $LOG 2>&1
 
@@ -61,7 +61,7 @@ fi
 # Debian / Ubuntu
 if [ -n "$(command -v apt-get)" ]; then
 	apt-get update -y >> $LOG 2>&1
-	apt-get install -y cron curl gzip >> $LOG 2>&1
+	apt-get install -y cron curl gzip openssl >> $LOG 2>&1
 	service cron start >> $LOG 2>&1
 
 	# Check if perl available or not
@@ -83,7 +83,7 @@ fi
 # ArchLinux
 if [ -n "$(command -v pacman)" ]; then
 	pacman -Sy  >> $LOG 2>&1
-	pacman -S --noconfirm cronie curl gzip >> $LOG 2>&1
+	pacman -S --noconfirm cronie curl gzip openssl >> $LOG 2>&1
 	systemctl start cronie >> $LOG 2>&1
 	systemctl enable cronie >> $LOG 2>&1
 
@@ -106,7 +106,7 @@ fi
 
 # OpenSuse
 if [ -n "$(command -v zypper)" ]; then
-	zypper --non-interactive install cronie curl gzip >> $LOG 2>&1
+	zypper --non-interactive install cronie curl gzip openssl >> $LOG 2>&1
 	service cron start >> $LOG 2>&1
 
 	# Check if perl available or not
@@ -226,6 +226,15 @@ wget -N --no-check-certificate -O /opt/sentruo/uninstall.sh $2/assets/uninstall.
 
 echo "$1" > /opt/sentruo/serverkey
 echo "$2/agent.php" > /opt/sentruo/gateway
+
+# Optional 3rd arg: deployment-wide HMAC secret. When omitted, the agent signs
+# with the per-server key (still HMAC + timestamp + replay protection).
+if [ -n "$3" ]; then
+	echo "$3" > /opt/sentruo/hmac_secret
+	chmod 600 /opt/sentruo/hmac_secret
+fi
+
+chmod 600 /opt/sentruo/serverkey
 
 # Did it download ?
 if ! [ -f /opt/sentruo/agent.sh ]; then

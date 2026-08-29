@@ -57,8 +57,8 @@
 		<link href="template/assets/custom.css" rel="stylesheet" type="text/css" />
 
         <!-- jQuery 2.2.3 -->
-		<script src="template/assets/plugins/jquery/jquery-3.7.1.min.js"></script>
-	<script src="template/assets/plugins/jquery/jquery-migrate-3.4.1.min.js"></script>
+		<script src="template/assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="template/assets/js/jquery-xss-shim.js"></script>
 
         <!-- DataTables -->
         <script src="template/assets/plugins/datatables/datatables.min.js"></script>
