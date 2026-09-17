@@ -10,7 +10,7 @@ DirectoryIndex index.php
 # --- Block sensitive files/paths --------------------------------------------
 # NOTE: assets/ carries an override .htaccess so the agent install scripts
 # (assets/*.sh, assets/*.exe) stay downloadable.
-<FilesMatch "(^\.|\.(env|sql|sqlite|db|bak|old|orig|log|md|po|mo|sh|lock|dist|ini|conf|tpl|yml|yaml)$|composer\.(json|lock)|config\.php)">
+<FilesMatch "(^\.|\.(env|sql|sqlite|db|bak|old|orig|log|md|po|mo|sh|lock|dist|ini|conf|tpl|yml|yaml)$|^composer\.(json|lock)$|^config\.php$)">
     Require all denied
 </FilesMatch>
 
