@@ -60,3 +60,8 @@ are environment-only — see `.env.example`.
 
 Proprietary. Bundled third-party components retain their own licenses
 (`vendor/`, `template/assets/`).
+
+
+
+ bin/install.php is the only way to create the first admin account (refuses to run if any user already exists, password chosen interactively, never logged).
+- .env.example already has secure defaults (APP_ENV=production, AGENT_REQUIRE_SIGNATURE=true,
