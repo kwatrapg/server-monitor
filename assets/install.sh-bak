@@ -289,6 +289,115 @@ fi
 
 
 
+##################################
+###   LOG SHIPPING (ALLOY)     ###
+##################################
+# Optional and idempotent. The Loki push URL and per-server token are never
+# passed as installer arguments - they are generated server-side and pulled
+# from agentconfig.php, the same way agent.sh only ever knows its serverkey
+# and gateway. Metrics collection above is already fully configured by this
+# point, so anything that goes wrong here is logged and skipped, never fatal.
+
+echo "Installing log shipper (optional)"
+
+if [ -n "$(command -v systemctl)" ]; then
+
+	ALLOY_VERSION="1.18.1"
+	ALLOY_ARCH=""
+	case "$(uname -m)" in
+		aarch64|arm64) ALLOY_ARCH="arm64" ;;
+		x86_64|amd64)  ALLOY_ARCH="amd64" ;;
+	esac
+
+	if [ -n "$ALLOY_ARCH" ]; then
+
+		mkdir -p /opt/sentruo/alloy/data >> $LOG 2>&1
+
+		# Idempotent: only download/extract if not already present
+		if [ ! -x /opt/sentruo/alloy/alloy ]; then
+			curl -m 120 -sL -k -o /tmp/sentruo-alloy.zip \
+				"https://github.com/grafana/alloy/releases/download/v${ALLOY_VERSION}/alloy-linux-${ALLOY_ARCH}.zip" >> $LOG 2>&1
+			unzip -o -q /tmp/sentruo-alloy.zip -d /opt/sentruo/alloy >> $LOG 2>&1
+			mv -f "/opt/sentruo/alloy/alloy-linux-${ALLOY_ARCH}" /opt/sentruo/alloy/alloy >> $LOG 2>&1
+			chmod +x /opt/sentruo/alloy/alloy >> $LOG 2>&1
+			rm -f /tmp/sentruo-alloy.zip >> $LOG 2>&1
+		fi
+
+		if [ -x /opt/sentruo/alloy/alloy ]; then
+
+			# Initial config - alloy-config-sync.sh (installed below) keeps this current from here on
+			curl -m 50 -k -s -o /opt/sentruo/alloy/config.river "$2/agentconfig.php?serverkey=$1" >> $LOG 2>&1
+
+			cat > /opt/sentruo/alloy-config-sync.sh << 'SYNCEOF'
+#!/bin/bash
+# Polls agentconfig.php for this server's log-shipping config and hot-reloads
+# Alloy only when it actually changed (ETag/If-None-Match). Run from cron -
+# deliberately not a long-lived process, matching this app's existing agent
+# model of stateless periodic checks rather than another daemon to babysit.
+
+GATEWAY=$(cat /opt/sentruo/gateway | sed 's#/agent\.php$##')
+SERVERKEY=$(cat /opt/sentruo/serverkey)
+ETAGFILE=/opt/sentruo/alloy/config.etag
+CONFIGFILE=/opt/sentruo/alloy/config.river
+
+ETAG=""
+if [ -f "$ETAGFILE" ]; then ETAG=$(cat "$ETAGFILE"); fi
+
+HTTPCODE=$(curl -m 50 -k -s -o /tmp/sentruo-alloy-config.new -w "%{http_code}" \
+	-H "If-None-Match: $ETAG" -D /tmp/sentruo-alloy-config.headers \
+	"$GATEWAY/agentconfig.php?serverkey=$SERVERKEY")
+
+if [ "$HTTPCODE" = "200" ]; then
+	mv -f /tmp/sentruo-alloy-config.new "$CONFIGFILE"
+	grep -i '^ETag:' /tmp/sentruo-alloy-config.headers | sed -e 's/^[Ee][Tt]ag: *//' -e 's/\r$//' > "$ETAGFILE"
+	# Hot reload first (keeps file-tailing offsets); fall back to a full restart
+	# if the endpoint isn't reachable, e.g. right after first install.
+	curl -m 10 -s -X POST http://127.0.0.1:12345/-/reload > /dev/null 2>&1 || systemctl restart sentruo-alloy > /dev/null 2>&1
+fi
+
+rm -f /tmp/sentruo-alloy-config.new /tmp/sentruo-alloy-config.headers
+SYNCEOF
+			chmod +x /opt/sentruo/alloy-config-sync.sh >> $LOG 2>&1
+
+			cat > /etc/systemd/system/sentruo-alloy.service << 'UNITEOF'
+[Unit]
+Description=Sentruo Log Shipper (Grafana Alloy)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/sentruo/alloy/alloy run --storage.path=/opt/sentruo/alloy/data /opt/sentruo/alloy/config.river
+Restart=on-failure
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target
+UNITEOF
+
+			systemctl daemon-reload >> $LOG 2>&1
+			systemctl enable sentruo-alloy >> $LOG 2>&1
+			systemctl restart sentruo-alloy >> $LOG 2>&1
+
+			# Configure cron for the config-sync wrapper (idempotent, same pattern as the metrics cron line above)
+			if ! crontab -u root -l 2>/dev/null | grep 'alloy-config-sync.sh' &> /dev/null
+			then
+				crontab -u root -l 2>/dev/null | { cat; echo "*/5 * * * * bash /opt/sentruo/alloy-config-sync.sh > /opt/sentruo/alloy-sync.log 2>&1"; } | crontab -u root -
+			fi
+
+			echo "Log shipper installed."
+		else
+			echo "Log shipper skipped: could not download Alloy."
+		fi
+	else
+		echo "Log shipper skipped: unsupported CPU architecture ($(uname -m))."
+	fi
+else
+	echo "Log shipper skipped: systemd not available on this system."
+fi
+
+
 echo " "
 echo "-------------------------------------"
 echo " Installation Completed "

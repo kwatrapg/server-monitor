@@ -26,6 +26,17 @@ if [ $(id -u) != "0" ]; then
 fi
 
 
+# Remove log shipper (Alloy), if it was installed
+if [ -f /etc/systemd/system/sentruo-alloy.service ]; then
+	systemctl stop sentruo-alloy >> $LOG 2>&1
+	systemctl disable sentruo-alloy >> $LOG 2>&1
+	rm -f /etc/systemd/system/sentruo-alloy.service
+	systemctl daemon-reload >> $LOG 2>&1
+fi
+if crontab -u root -l 2>/dev/null | grep -q 'alloy-config-sync.sh'; then
+	crontab -u root -l 2>/dev/null | grep -v 'alloy-config-sync.sh' | crontab -u root -
+fi
+
 # Remove previous installation
 if [ -f /opt/sentruo/agent.sh ]; then
 	# Remove folder
