@@ -197,6 +197,13 @@ class App {
 
             $assettype = __('SSL Certificate');
         }
+        if($assettype == "log") {
+            $alert = getRowById("app_servers_logs_alerts", $alertid);
+            $asset = getRowById("app_servers", $alert['serverid']);
+            $database->update("app_servers_logs_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $assettype = __('Server Log');
+        }
 
         //websites
         if($alert['type'] == "responsecode") $typestring = __('HTTP Response Code') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
@@ -249,6 +256,12 @@ class App {
         if($alert['type'] == "ping") $typestring = __('Ping Latency') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
         if($alert['type'] == "netdl") $typestring = __('Network Download Speed MB/s') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
         if($alert['type'] == "netup") $typestring = __('Network Upload Speed MB/s') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
+
+        //server logs
+        if($alert['type'] == "matchcount") $typestring = __('Log Pattern Match Count') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
+        if($alert['type'] == "levelcount") $typestring = __('Error/Critical Log Line Count') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
+        if($alert['type'] == "absence") $typestring = __('No Log Data Received');
+        if($alert['type'] == "ratespike") $typestring = __('Log Rate Spike') . " > " . $alert['comparison_limit'] . "x " . __('baseline');
 
 
 

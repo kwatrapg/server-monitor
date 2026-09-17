@@ -241,6 +241,43 @@ switch($_GET['modal']) {
     break;
 
 
+    case "logsources/add":
+        // NOT $servers - that name collides with data.php's "dashboard" route,
+        // which runs unconditionally after this file and overwrites $servers
+        // with only on_map=1 servers (a modal request's $route defaults to
+        // "dashboard" since it has no route= param of its own).
+        $logsource_servers = getTableFiltered("app_servers","groupid",$liu_groups,"","","*","name","ASC");
+    break;
+
+    case "logsources/edit":
+        $logsource = getRowById("app_servers_logsources",$_GET['id']);
+        $logsource_labels = Log::formatLabelsForInput($logsource['labels']);
+        $logsource_servers = getTableFiltered("app_servers","groupid",$liu_groups,"","","*","name","ASC");
+    break;
+
+    case "logalerts/add":
+        $logsource = getRowById("app_servers_logsources", $_GET['routeid']);
+        $logsourceServer = getRowById("app_servers", $logsource['serverid']);
+        $logsourceSiblingSources = getTableFiltered("app_servers_logsources","serverid",$logsourceServer['id'],"","","*","name","ASC");
+        $contacts = getTable("app_contacts");
+    break;
+
+    case "logalerts/edit":
+        $logalert = getRowById("app_servers_logs_alerts", $_GET['id']);
+        $logsource = getRowById("app_servers_logsources", $_GET['routeid']);
+        $logsourceServer = getRowById("app_servers", $logsource['serverid']);
+        $logsourceSiblingSources = getTableFiltered("app_servers_logsources","serverid",$logsourceServer['id'],"","","*","name","ASC");
+        $contacts = getTable("app_contacts");
+        $selected_contacts = unserialize($logalert['contacts']);
+        if(!$selected_contacts) $selected_contacts = [];
+        if(empty($selected_contacts)) $selected_contacts = [];
+    break;
+
+    case "logalerts/editComment":
+        $logincident = getRowById("app_servers_logs_incidents", $_GET['id']);
+    break;
+
+
 } // end switch
 
 ?>

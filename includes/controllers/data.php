@@ -1060,6 +1060,31 @@ if ($route == "system/settings") {
 if ($route == "profile") { $languages = getTable("core_languages"); $pageTitle = __("Profile"); }
 
 
+// SERVER LOGS - SOURCES
+if ($route == "logs/sources") {
+	isAuthorized("viewServerLogs");
+	$pageTitle = __("Log Sources");
+}
+
+if ($route == "logs/sources/manage") {
+	isAuthorized("viewServerLogs");
+	$logsource = getRowById("app_servers_logsources", $_GET['id']);
+	$logsourceServer = getRowById("app_servers", $logsource['serverid']);
+	checkGroupRedirect($logsourceServer['groupid']);
+
+	$start = $_SESSION['range_start'];
+	$end = $_SESSION['range_end'];
+
+	// Alert rules can be scoped to "all sources on this server" (sourceid=0), so show
+	// every rule for the server here rather than just ones tied to this one source.
+	$logsourceSiblingSources = getTableFiltered("app_servers_logsources","serverid",$logsourceServer['id'],"","","*","name","ASC");
+	$logAlerts = getTableFiltered("app_servers_logs_alerts","serverid",$logsourceServer['id'],"","","*","id","ASC");
+	$logIncidents = getTableFiltered("app_servers_logs_incidents","serverid",$logsourceServer['id'],"","","*","id","DESC");
+
+	$pageTitle = $logsource['name'];
+}
+
+
 
 
 ?>

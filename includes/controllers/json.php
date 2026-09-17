@@ -1201,9 +1201,215 @@ switch($_GET['json']) {
     break;
 
 
+    case "logsources":
+
+        $results = array();
+
+        // count all items (group-scoped - never trust the client to scope this)
+        $allcount = $database->count("app_servers_logsources", [ "[>]app_servers" => ["serverid" => "id"] ], "app_servers_logsources.id", [
+            "app_servers.groupid" => $liu_groups,
+        ]);
+
+        // column order mappings
+        if(!isset($_GET['order']['0']['dir'])) $_GET['order']['0']['dir'] = "";
+        if(!isset($_GET['order']['0']['column'])) $_GET['order']['0']['column'] = "";
+
+        if($_GET['order']['0']['dir'] == "") $sort_direction = "ASC";
+        if($_GET['order']['0']['dir'] == "desc") $sort_direction = "DESC";
+        if($_GET['order']['0']['dir'] == "asc") $sort_direction = "ASC";
+
+        if($_GET['order']['0']['column'] == "") $sort_column = "app_servers_logsources.id";
+        if($_GET['order']['0']['column'] == "0") $sort_column = "app_servers_logsources.mode";
+        if($_GET['order']['0']['column'] == "1") $sort_column = "app_servers_logsources.id";
+        if($_GET['order']['0']['column'] == "2") $sort_column = "app_servers.name";
+        if($_GET['order']['0']['column'] == "3") $sort_column = "app_servers_logsources.name";
+
+        $columns = [
+            "app_servers_logsources.id",
+            "app_servers_logsources.name",
+            "app_servers_logsources.path_glob",
+            "app_servers_logsources.mode",
+            "app_servers_logsources.rate_limit",
+            "app_servers_logsources.sample_rate",
+            "app_servers.id(serverid)",
+            "app_servers.name(servername)",
+        ];
+
+        if( $_GET['search']['value'] != "") {
+            $items = $database->select("app_servers_logsources", [ "[>]app_servers" => ["serverid" => "id"] ], $columns, [
+                "AND" =>
+                    [
+                        "app_servers.groupid" => $liu_groups,
+                        "OR" =>
+                            [
+                                "app_servers_logsources.id[~]" => $_GET['search']['value'],
+                                "app_servers_logsources.name[~]" => $_GET['search']['value'],
+                                "app_servers_logsources.path_glob[~]" => $_GET['search']['value'],
+                                "app_servers.name[~]" => $_GET['search']['value'],
+                            ],
+                    ],
+                "LIMIT" => [ $_GET['start'],$_GET['length'] ],
+                "ORDER" => [$sort_column => $sort_direction]
+            ]);
+            $filteredcount = count($items);
+            $results["recordsFiltered"] = $filteredcount;
+        }
+
+        if( $_GET['search']['value'] == "") {
+            $items = $database->select("app_servers_logsources", [ "[>]app_servers" => ["serverid" => "id"] ], $columns, [
+                "app_servers.groupid" => $liu_groups,
+                "LIMIT" => [ $_GET['start'],$_GET['length'] ],
+                "ORDER" => [$sort_column => $sort_direction]
+            ]);
+            $results["recordsFiltered"] = $allcount;
+        }
+
+        $i = 0;
+        $results["draw"] = $_GET['draw'];
+        $results["recordsTotal"] = $allcount;
+        $results["data"] = array();
+
+        $modeLabels = [
+            "disabled"    => '<span class="label label-default">' . __('Disabled') . '</span>',
+            "errors_only" => '<span class="label label-warning">' . __('Errors Only') . '</span>',
+            "filtered"    => '<span class="label label-primary">' . __('Filtered') . '</span>',
+            "everything"  => '<span class="label label-success">' . __('Everything') . '</span>',
+        ];
+
+        foreach($items as $item) {
+
+            $results["data"][$i][0] = $modeLabels[$item['mode']] ?? $item['mode'];
+            $results["data"][$i][1] = $item['id'];
+            $results["data"][$i][2] = $item['servername'];
+            $results["data"][$i][3] = $item['name'] . '<br><small class="text-muted">' . htmlspecialchars($item['path_glob']) . '</small>';
+
+            $rate = ((int)$item['rate_limit'] > 0) ? $item['rate_limit'] . ' ' . __('lines/min') : __('unlimited');
+            $sample = ((int)$item['sample_rate'] > 1) ? ' &middot; 1-in-' . $item['sample_rate'] : '';
+            $results["data"][$i][4] = $rate . $sample;
+
+            $results["data"][$i][5] = "<div class='pull-right'><div class='btn-group'>";
+
+                $results["data"][$i][5] .= '<a href="?route=logs/sources/manage&id='.$item['id'].'" class="btn btn-primary btn-flat btn-sm"><i class="fa fa-eye"></i></a>';
+
+                if(in_array("manageLogSources",$perms))
+                    $results["data"][$i][5] .= '<a href="#" onClick=\'showM("?modal=logsources/edit&reroute=logs/sources&routeid=&id='.$item['id'].'&section=");return false\' class="btn btn-success btn-flat btn-sm"><i class="fa fa-edit"></i></a>';
+
+                if(in_array("manageLogSources",$perms))
+                    $results["data"][$i][5] .= '<a href="#" onClick=\'showM("?modal=logsources/delete&reroute=logs/sources&routeid=&id='.$item['id'].'&section=");return false\' class="btn btn-danger btn-flat btn-sm"><i class="fa fa-trash-o"></i></a>';
+
+            $results["data"][$i][5] .= "</div></div>";
+
+            $i++;
+        }
+
+        echo json_encode($results);
+
+    break;
 
 
+    case "logsearch":
+        if (!in_array("viewServerLogs", $perms)) {
+            http_response_code(403);
+            echo json_encode(["error" => "Forbidden"]);
+            break;
+        }
 
+        $server = getRowById("app_servers", (int)($_GET['serverid'] ?? 0));
+        if (empty($server) || !checkGroup($server['groupid'])) {
+            http_response_code(403);
+            echo json_encode(["error" => "Forbidden"]);
+            break;
+        }
+
+        try {
+            // getLogStore() first - it require_once's class.logstore.php, which is
+            // what actually defines LogQuery. Constructing LogQuery before calling
+            // it depends on autoload picking the right class first, which it won't.
+            $store = getLogStore();
+            $q = new LogQuery();
+            $q->serverids = [(int)$server['id']];
+            if (!empty($_GET['sourceid'])) $q->sourceids = [(int)$_GET['sourceid']];
+            if (!empty($_GET['levels']) && is_array($_GET['levels'])) $q->levels = $_GET['levels'];
+            if (!empty($_GET['text'])) $q->text = (string)$_GET['text'];
+            $q->from = (string)($_GET['from'] ?? '');
+            $q->to = (string)($_GET['to'] ?? '');
+            $q->limit = min(2000, max(1, (int)($_GET['limit'] ?? 500)));
+            $q->direction = (($_GET['direction'] ?? 'backward') === 'forward') ? 'forward' : 'backward';
+
+            $result = $store->search($q);
+            echo json_encode(["rows" => $result->rows, "cursor" => $result->cursor, "hasMore" => $result->hasMore]);
+        } catch (Throwable $e) {
+            http_response_code(502);
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    break;
+
+
+    case "logtail":
+        if (!in_array("viewServerLogs", $perms)) {
+            http_response_code(403);
+            echo json_encode(["error" => "Forbidden"]);
+            break;
+        }
+
+        $server = getRowById("app_servers", (int)($_GET['serverid'] ?? 0));
+        if (empty($server) || !checkGroup($server['groupid'])) {
+            http_response_code(403);
+            echo json_encode(["error" => "Forbidden"]);
+            break;
+        }
+
+        try {
+            $store = getLogStore();
+            $q = new LogQuery();
+            $q->serverids = [(int)$server['id']];
+            if (!empty($_GET['sourceid'])) $q->sourceids = [(int)$_GET['sourceid']];
+            if (!empty($_GET['levels']) && is_array($_GET['levels'])) $q->levels = $_GET['levels'];
+            if (!empty($_GET['text'])) $q->text = (string)$_GET['text'];
+            $q->limit = min(1000, max(1, (int)($_GET['limit'] ?? 200)));
+
+            $result = $store->tail($q, (string)($_GET['cursor'] ?? ''));
+            echo json_encode(["rows" => $result->rows, "cursor" => $result->cursor]);
+        } catch (Throwable $e) {
+            http_response_code(502);
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    break;
+
+
+    case "loghistogram":
+        if (!in_array("viewServerLogs", $perms)) {
+            http_response_code(403);
+            echo json_encode(["error" => "Forbidden"]);
+            break;
+        }
+
+        $server = getRowById("app_servers", (int)($_GET['serverid'] ?? 0));
+        if (empty($server) || !checkGroup($server['groupid'])) {
+            http_response_code(403);
+            echo json_encode(["error" => "Forbidden"]);
+            break;
+        }
+
+        try {
+            $store = getLogStore();
+            $q = new LogQuery();
+            $q->serverids = [(int)$server['id']];
+            if (!empty($_GET['sourceid'])) $q->sourceids = [(int)$_GET['sourceid']];
+            $q->from = (string)($_GET['from'] ?? date('c', time() - 86400));
+            $q->to = (string)($_GET['to'] ?? date('c'));
+
+            $rangeSeconds = max(60, strtotime($q->to) - strtotime($q->from));
+            // aim for roughly 24-48 buckets across whatever range was picked
+            $step = (int)($_GET['step'] ?? max(60, (int)round($rangeSeconds / 36)));
+
+            $buckets = $store->histogram($q, $step);
+            echo json_encode(["buckets" => $buckets, "step" => $step]);
+        } catch (Throwable $e) {
+            http_response_code(502);
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    break;
 
 
 }

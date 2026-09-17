@@ -405,6 +405,75 @@ switch($_POST['action']) {
 		isAuthorized("manageSettings"); $status = Settings::editNotification($_POST);
     break;
 
+	// server log sources - group-scoped on top of the permission check, since
+	// a source's access boundary is its server's group, not a group of its own
+	case "addLogSource":
+		isAuthorized("manageLogSources");
+		$server = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($server['groupid']);
+		$status = Log::addSource($_POST);
+	break;
+
+	case "editLogSource":
+		isAuthorized("manageLogSources");
+		$existing = getRowById("app_servers_logsources", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$newServer = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($newServer['groupid']);
+		$status = Log::editSource($_POST);
+	break;
+
+	case "deleteLogSource":
+		isAuthorized("manageLogSources");
+		$existing = getRowById("app_servers_logsources", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Log::deleteSource($_POST['id']);
+	break;
+
+	// server log alerts
+	case "addLogAlert":
+		isAuthorized("editLogAlert");
+		$server = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($server['groupid']);
+		$status = Log::addAlert($_POST);
+	break;
+
+	case "editLogAlert":
+		isAuthorized("editLogAlert");
+		$existing = getRowById("app_servers_logs_alerts", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$newServer = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($newServer['groupid']);
+		$status = Log::editAlert($_POST);
+	break;
+
+	case "deleteLogAlert":
+		isAuthorized("editLogAlert");
+		$existing = getRowById("app_servers_logs_alerts", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Log::deleteAlert($_POST['id']);
+	break;
+
+	case "markLogIncident":
+		isAuthorized("editLogAlert");
+		$existing = getRowById("app_servers_logs_incidents", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Log::markIncident($_POST['id']);
+	break;
+
+	case "editLogIncidentComment":
+		isAuthorized("editLogAlert");
+		$existing = getRowById("app_servers_logs_incidents", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Log::editComment($_POST);
+	break;
+
 }
 
 
