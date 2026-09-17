@@ -38,6 +38,7 @@
 								<input type="hidden" name="range_start" id="range_start" value="">
 								<input type="hidden" name="range_end" id="range_end" value="">
 								<input type="hidden" name="range_label" id="range_label" value="">
+								<input type="hidden" name="range_offset" id="range_offset" value="">
 
 								<input type="hidden" name="asset" value="check-<?php echo e($_GET['id'] ?? ''); ?>">
 

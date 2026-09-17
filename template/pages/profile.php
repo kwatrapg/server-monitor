@@ -34,7 +34,13 @@
 
 									<div class="form-group">
 										<label for="password"><?php _e('Change Password'); ?></label>
-										<input type="password" class="form-control" id="password" name="password" placeholder="<?php _e('Enter only if you want to change'); ?>">
+										<input type="password" class="form-control" id="password" name="password" placeholder="<?php _e('Enter only if you want to change'); ?>" data-password-checklist="#password-requirements">
+										<ul class="password-requirements" id="password-requirements">
+											<li data-rule="length"><?php _e('At least 12 characters'); ?></li>
+											<li data-rule="upper"><?php _e('One upper-case letter'); ?></li>
+											<li data-rule="lower"><?php _e('One lower-case letter'); ?></li>
+											<li data-rule="digit"><?php _e('One number'); ?></li>
+										</ul>
 									</div>
 
 									<div class="form-group">
@@ -133,5 +139,6 @@
 
 
 
+	<script src="template/assets/js/password-policy.js"></script>
 	</section><!-- /.content -->
 </aside><!-- /.right-side -->

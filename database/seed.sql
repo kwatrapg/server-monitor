@@ -26,7 +26,9 @@ INSERT INTO `core_statuses` (`id`, `code`, `type`, `message`) VALUES (45,10,'suc
 (56,1600,'success','Success. Please log in with your new password! '),
 (57,1,'danger','Unauthorized Access'),
 (58,50,'warning','Disabled in demo mode!'),
-(59,1201,'warning','You must set a new password before continuing.');
+(59,1201,'warning','You must set a new password before continuing.'),
+(60,1202,'danger','Password must be at least 12 characters and include upper-case, lower-case and a number.'),
+(61,41,'danger','Invalid image. Please upload a PNG or JPG file within the size limit.');
 /*!40000 ALTER TABLE `core_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 

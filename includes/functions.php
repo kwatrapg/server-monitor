@@ -393,7 +393,7 @@ function resetPassword($resetkey,$password) { //reset password
 	if (!$valid) { setStatus(1500); header("Location:?route=forgot"); exit; }
 
 	if (($policyError = sm_password_policy_error($password)) !== null) {
-		setStatus(1500);
+		setStatus(1202);
 		header("Location:?route=forgot&resetkey=" . urlencode((string) $resetkey));
 		exit;
 	}
@@ -523,12 +523,13 @@ function logSMS($mobile,$sms) { //add to sms log
 // ----------------------------------------------------------------------------------------------
 // COMMUNICATIONS FUNCTIONS
 
-function sendEmail($to,$subject,$message,$userid="0",$ccs=array()) { //send email
-	// SMTP credentials come from the environment (.env), never the database
-	// (VAPT F-04). Non-secret toggles/host may still fall back to core_config.
-	$smtpHost = sm_env('SMTP_HOST', getConfigValue("email_smtp_host"));
-	$smtpUser = sm_env('SMTP_USERNAME', getConfigValue("email_smtp_username"));
-	$smtpPass = sm_env('SMTP_PASSWORD', getConfigValue("email_smtp_password"));
+function sendEmail($to,$subject,$message,$userid="0",$ccs=array(),&$error=null) { //send email
+	// SMTP config is managed entirely from Settings > Email (core_config).
+	// The password is encrypted at rest with APP_KEY (VAPT F-04 revision) —
+	// .env is no longer read for mail settings; only APP_KEY itself stays there.
+	$smtpHost = getConfigValue("email_smtp_host");
+	$smtpUser = getConfigValue("email_smtp_username");
+	$smtpPass = sm_decrypt_secret(getConfigValue("email_smtp_password"));
 	$smtpEnabled = ($smtpHost !== '' && $smtpHost !== null)
 		|| getConfigValue("email_smtp_enable") == "true";
 
@@ -540,16 +541,18 @@ function sendEmail($to,$subject,$message,$userid="0",$ccs=array()) { //send emai
 		$mail->SMTPAuth = ($smtpUser !== '' && $smtpUser !== null);
 		$mail->Username = $smtpUser;
 		$mail->Password = $smtpPass;
-		$mail->SMTPSecure = sm_env('SMTP_SECURITY', getConfigValue("email_smtp_security"));
-		$mail->Port = (int) sm_env('SMTP_PORT', getConfigValue("email_smtp_port") ?: 587);
+		// PHPMailer compares SMTPSecure with strict === against lowercase
+		// 'tls'/'ssl'; the Settings UI dropdown stores "TLS"/"SSL".
+		$mail->SMTPSecure = strtolower((string) getConfigValue("email_smtp_security"));
+		$mail->Port = (int) (getConfigValue("email_smtp_port") ?: 587);
 		if (getConfigValue("email_smtp_domain") != "") {
 			$mail->AuthType = 'NTLM';
 			$mail->Realm = getConfigValue("email_smtp_domain");
 		}
 	}
 
-	$mail->From = sm_env('SMTP_FROM_ADDRESS', getConfigValue("email_from_address"));
-	$mail->FromName = sm_env('SMTP_FROM_NAME', getConfigValue("email_from_name"));
+	$mail->From = getConfigValue("email_from_address");
+	$mail->FromName = getConfigValue("email_from_name");
 	$mail->addAddress($to);
 	foreach($ccs as $cc) { $mail->AddCC($cc); }
 	$mail->Subject = $subject;
@@ -557,6 +560,7 @@ function sendEmail($to,$subject,$message,$userid="0",$ccs=array()) { //send emai
 	$mail->IsHTML(true);
 
 	if(!$mail->send()) {
+		$error = $mail->ErrorInfo;
 		logEmail($userid,$to,$subject,$mail->ErrorInfo);
 		return 0; //error
 	}

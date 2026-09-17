@@ -77,12 +77,34 @@
 				var start = moment("<?php echo e($_SESSION['range_start']); ?>");
 				var end = moment("<?php echo e($_SESSION['range_end']); ?>");
 
+				var ranges = {
+					'Last 30 Minutes': [moment().subtract(30, 'minutes').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 60 Minutes': [moment().subtract(1, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 3 Hours': [moment().subtract(3, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 6 Hours': [moment().subtract(6, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 12 Hours': [moment().subtract(12, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 24 Hours': [moment().subtract(24, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 3 Days': [moment().subtract(3, 'days').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 7 Days': [moment().subtract(7, 'days').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+					'Last 30 Days': [moment().subtract(30, 'days').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
+				};
+
 				function rangeSubmit(start, end, label) {
 					$('#daterange-btn span').html(start.format('<?php echo strtoupper(jsFormat()); ?> HH:mm:ss') + ' - ' + end.format('<?php echo strtoupper(jsFormat()); ?> HH:mm:ss'));
 
 					$('#range_start').val(start.format('YYYY-MM-DD HH:mm:ss'));
 					$('#range_end').val(end.format('YYYY-MM-DD HH:mm:ss'));
 					$('#range_label').val(label);
+
+					// A "Last N Minutes/Hours/Days" preset should keep meaning "the most
+					// recent N", not freeze the exact clock time it was clicked at — so for
+					// presets (label matches one of the named ranges below) we also send how
+					// many seconds wide the window is; the server recomputes start/end from
+					// "now" on every load using that offset. A manually picked calendar range
+					// has no offset and stays a fixed, absolute window as picked.
+					var offsetSeconds = ranges.hasOwnProperty(label) ? end.diff(start, 'seconds') : 0;
+					$('#range_offset').val(offsetSeconds);
+
 					$("#rangeForm").submit();
 				}
 
@@ -98,17 +120,7 @@
 					locale: { format: '<?php echo strtoupper(jsFormat()); ?>' },
 					startDate: start,
 					endDate: end,
-					ranges: {
-						'Last 30 Minutes': [moment().subtract(30, 'minutes').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 60 Minutes': [moment().subtract(1, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 3 Hours': [moment().subtract(3, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 6 Hours': [moment().subtract(6, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 12 Hours': [moment().subtract(12, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 24 Hours': [moment().subtract(24, 'hours').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 3 Days': [moment().subtract(3, 'days').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 7 Days': [moment().subtract(7, 'days').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-						'Last 30 Days': [moment().subtract(30, 'days').tz("<?php echo getConfigValue("timezone"); ?>"), moment().tz("<?php echo getConfigValue("timezone"); ?>")],
-					}
+					ranges: ranges
 				}, rangeSubmit);
 
 				cb(start, end);

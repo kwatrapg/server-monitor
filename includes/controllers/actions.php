@@ -308,6 +308,14 @@ switch($_POST['action']) {
 		Settings::update("xss_filtering", $xss_filtering);
 
 		$status = 40;
+
+		if (!empty($_FILES['logo']['tmp_name'])) {
+			$status = Settings::uploadLogo($_FILES['logo']);
+		}
+		if (!empty($_FILES['favicon']['tmp_name'])) {
+			$faviconStatus = Settings::uploadFavicon($_FILES['favicon']);
+			if ($faviconStatus !== 40) $status = $faviconStatus;
+		}
 	break;
 
 	case "monitoringSettings":
@@ -336,7 +344,11 @@ switch($_POST['action']) {
 		Settings::update("email_smtp_host", $_POST['email_smtp_host']);
 		Settings::update("email_smtp_port", $_POST['email_smtp_port']);
 		Settings::update("email_smtp_username", $_POST['email_smtp_username']);
-		Settings::update("email_smtp_password", $_POST['email_smtp_password']);
+		// Blank means "leave unchanged" — the field is never pre-filled with the
+		// current secret (see settings.php), so an empty submit isn't "clear it".
+		if (trim((string) $_POST['email_smtp_password']) !== '') {
+			Settings::update("email_smtp_password", sm_encrypt_secret($_POST['email_smtp_password']));
+		}
 		Settings::update("email_smtp_security", $_POST['email_smtp_security']);
 		if (isset($_POST['email_smtp_auth'])) $email_smtp_auth = "true"; else $email_smtp_auth = "false";
 		Settings::update("email_smtp_auth", $email_smtp_auth);
@@ -345,6 +357,17 @@ switch($_POST['action']) {
 		Settings::update("email_smtp_domain", $_POST['email_smtp_domain']);
 		$status = 40;
 	break;
+
+	case "testEmailSettings":
+		isAuthorized("manageSettings");
+		header('Content-Type: application/json');
+		$testTo = trim((string) ($_POST['email_test_to'] ?? ''));
+		if ($testTo === '' || !filter_var($testTo, FILTER_VALIDATE_EMAIL)) {
+			echo json_encode(["success" => false, "error" => __('Please enter a valid email address to send the test to.')]);
+			exit;
+		}
+		echo json_encode(Settings::testEmail($testTo, $liu['id']));
+		exit;
 
 	case "smsSettings":
 		isAuthorized("manageSettings");

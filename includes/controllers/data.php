@@ -8,11 +8,14 @@
 // GENERAL
 
 // autorefresh pages
-$autorefresh_pages = ['dashboard','servers','servers/manage','websites','websites/manage','checks','checks/manage','domains','domains/manage','ssl','ssl/manage'];
+$autorefresh_pages = ['dashboard','servers','servers/manage-linux','servers/manage-windows','websites','websites/manage','checks','checks/manage','domains','domains/manage','ssl','ssl/manage'];
 
 // reset datetime range when switching assets
 if($_SESSION['range_type'] == "manual") {
-	if ($route == "servers/manage") {
+	// server manage pages are split by OS ("servers/manage-linux" / "servers/manage-windows"),
+	// not a single "servers/manage" route — match both so the range actually resets when
+	// switching servers instead of carrying over the previous server's frozen window.
+	if ($route == "servers/manage-linux" || $route == "servers/manage-windows") {
 		if($_SESSION['asset'] != "server-".$_GET['id']) App::resetRange();
 	}
 	if ($route == "websites/manage") {
@@ -100,6 +103,40 @@ if ($route == "dashboard") {
 	$checks = getTableFiltered("app_checks","on_map","1","groupid",$liu_groups,"*","id","ASC");
 	$servers = getTableFiltered("app_servers","on_map","1","groupid",$liu_groups,"*","id","ASC");
 	$websites = getTableFiltered("app_websites","on_map","1","groupid",$liu_groups,"*","id","ASC");
+
+	// KPI overview: how many of each asset currently have an unresolved incident ("down")
+	$servers_down = count(array_unique(array_column($main_servers_unresolved,'serverid')));
+	$websites_down = count(array_unique(array_column($main_websites_unresolved,'websiteid')));
+	$checks_down = count(array_unique(array_column($main_checks_unresolved,'checkid')));
+	$domains_down = count(array_unique(array_column($main_domains_unresolved,'domainid')));
+	$ssl_down = count(array_unique(array_column($main_ssl_unresolved,'sslid')));
+
+	$servers_up = max(0, $servers_count - $servers_down);
+	$websites_up = max(0, $websites_count - $websites_down);
+	$checks_up = max(0, $checks_count - $checks_down);
+	$domains_up = max(0, $domains_count - $domains_down);
+	$ssl_up = max(0, $ssl_count - $ssl_down);
+
+	// Health per category, restricted to what this user is allowed to see
+	$dashboard_health = [
+		['label' => __('Servers'), 'up' => $servers_up, 'down' => $servers_down, 'color' => '#3b82f6', 'dot' => 'dot-blue'],
+		['label' => __('Websites'), 'up' => $websites_up, 'down' => $websites_down, 'color' => '#8b6cf2', 'dot' => 'dot-purple'],
+		['label' => __('Checks'), 'up' => $checks_up, 'down' => $checks_down, 'color' => '#17c98d', 'dot' => 'dot-green'],
+	];
+	if(in_array("viewDomains",$perms)) $dashboard_health[] = ['label' => __('Domains'), 'up' => $domains_up, 'down' => $domains_down, 'color' => '#22c3d6', 'dot' => 'dot-teal'];
+	if(in_array("viewSsl",$perms)) $dashboard_health[] = ['label' => __('SSL'), 'up' => $ssl_up, 'down' => $ssl_down, 'color' => '#e0568a', 'dot' => 'dot-maroon'];
+
+	// Distribution of monitored assets, restricted the same way
+	$dashboard_distribution = [
+		['label' => __('Servers'), 'count' => $servers_count, 'color' => '#3b82f6', 'dot' => 'dot-blue'],
+		['label' => __('Websites'), 'count' => $websites_count, 'color' => '#8b6cf2', 'dot' => 'dot-purple'],
+		['label' => __('Checks'), 'count' => $checks_count, 'color' => '#17c98d', 'dot' => 'dot-green'],
+	];
+	if(in_array("viewDomains",$perms)) $dashboard_distribution[] = ['label' => __('Domains'), 'count' => $domains_count, 'color' => '#22c3d6', 'dot' => 'dot-teal'];
+	if(in_array("viewSsl",$perms)) $dashboard_distribution[] = ['label' => __('SSL'), 'count' => $ssl_count, 'color' => '#e0568a', 'dot' => 'dot-maroon'];
+
+	$dashboard_total_up = array_sum(array_column($dashboard_health,'up'));
+	$dashboard_total_down = array_sum(array_column($dashboard_health,'down'));
 }
 
 // SERVERS

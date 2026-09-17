@@ -33,3 +33,7 @@ RedirectMatch 404 (?i)/crons/(?!cron\.php$).*
     Header always unset X-Powered-By
     Header unset X-Powered-By
 </IfModule>
+
+# TEMP DEBUG
+php_flag display_errors on
+php_value error_reporting 32767

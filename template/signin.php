@@ -41,6 +41,8 @@
       <div class="login-logo">
           <?php if(file_exists($scriptpath . "/assets/logo.png")) { ?>
               <img src="assets/logo.png" class="img-responsive" style="margin: 0 auto;">
+          <?php } else { ?>
+              <span class="login-brand-icon"><i class="fa fa-heartbeat"></i></span>
           <?php } ?>
 
           <?php echo getConfigValue("app_name"); ?>
@@ -54,20 +56,13 @@
           <?php echo csrf_field(); ?>
           <div class="form-group has-feedback">
             <input type="email" name="email" class="form-control" placeholder="<?php _e('Email'); ?>" required autofocus/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <span class="fa fa-envelope-o form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
             <input type="password" name="password" class="form-control" placeholder="<?php _e('Password'); ?>" required/>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <span class="fa fa-lock form-control-feedback"></span>
           </div>
-          <div class="row">
-            <div class="col-xs-8">
-
-            </div><!-- /.col -->
-            <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Sign In'); ?></button>
-            </div><!-- /.col -->
-          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Sign In'); ?></button>
 		<input type="hidden" name="signin"/>
         </form>
 

@@ -7,8 +7,13 @@
 $debug = false;
 
 if($debug == false) {
-    error_reporting(0);
+    // error_reporting(0) not only hides errors from the response, it also stops
+    // PHP from logging them anywhere (log_errors respects the reporting level),
+    // so production fatals vanish without a trace. Keep display off but let
+    // PHP's normal error log (Apache error.log here) record what happened.
+    error_reporting(E_ALL);
     ini_set('display_errors', '0');
+    ini_set('log_errors', '1');
 }
 
 if($debug == true) {

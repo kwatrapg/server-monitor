@@ -30,7 +30,7 @@ class Profile extends App {
         		return "20";
         	}
         	else {
-        		if (sm_password_policy_error($data['password']) !== null) { return "1200"; }
+        		if (sm_password_policy_error($data['password']) !== null) { return "1202"; }
         		$password = sm_password_hash($data['password']);
         		$database->update("core_users", [
         			"name" => $data['name'],

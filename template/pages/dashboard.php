@@ -8,213 +8,150 @@
 
 	<!-- Main content -->
 	<section class="content">
-		<?php if(!empty($statusmessage)): ?>
-				<div class="row"><div class='col-md-8'><div class="alert alert-<?php print $statusmessage["type"]; ?> alert-auto" role="alert"><?php print __($statusmessage["message"]); ?></div></div></div>
+		<?php if(!empty($statusmessage)):
+			$statusicon = ['success' => 'fa-check', 'danger' => 'fa-times-circle', 'warning' => 'fa-exclamation-triangle', 'info' => 'fa-info-circle'];
+		?>
+				<div class="row"><div class='col-md-8'><div class="alert alert-<?php print $statusmessage["type"]; ?> alert-auto" role="alert"><i class="fa <?php echo e($statusicon[$statusmessage["type"]] ?? 'fa-info-circle'); ?>"></i> <?php print __($statusmessage["message"]); ?></div></div></div>
 		<?php endif; ?>
 
 		<?php if(file_exists("install") == 1): ?>
-			  <div class="row"><div class='col-md-8'><div class="alert alert-danger" role="alert"><b><?php _e('Plese delete the "install" directory!'); ?></b></div></div></div>
+			  <div class="row"><div class='col-md-8'><div class="alert alert-warning" role="alert"><i class="fa fa-exclamation-triangle"></i> <b><?php _e('Plese delete the "install" directory!'); ?></b></div></div></div>
 	    <?php endif; ?>
 
-		<!-- Small boxes (Stat box) -->
-         <div class="row">
-         <!--  <div class="col-lg-4 col-xs-6"> -->
-<div class="col-lg-8">
-             <!-- small box -->
-             <div class="small-box bg-green">
-               <div class="inner">
-                 <h3><?php echo $servers_count; ?></h3>
-                 <p><?php _e('Servers'); ?></p>
-               </div>
-               <div class="icon">
-                 <i class="fa fa-server"></i>
-               </div>
-               <a href="?route=servers" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-             </div>
-           </div>
-           <!-- ./col -->
-           <div class="col-lg-8 col-xs-0">
-             <!-- small box -->
-             <div class="small-box bg-blue">
-               <div class="inner">
-                 <h3><?php echo $websites_count; ?></h3>
-                 <p><?php _e('Websites'); ?></p>
-               </div>
-               <div class="icon">
-                 <i class="fa fa-globe"></i>
-               </div>
-               <a href="?route=websites" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-             </div>
-           </div>
-           <!-- ./col -->
-           <?php if(in_array("viewDomains",$perms)) { ?>
-           <div class="col-lg-8 col-xs-0">
-             <!-- small box -->
-             <div class="small-box bg-purple">
-               <div class="inner">
-                 <h3><?php echo $domains_count; ?></h3>
-                 <p><?php _e('Domains'); ?></p>
-               </div>
-               <div class="icon">
-                 <i class="fa fa-id-card"></i>
-               </div>
-               <a href="?route=domains" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-             </div>
-           </div>
-           <?php } ?>
-           <!-- ./col -->
-           <?php if(in_array("viewSsl",$perms)) { ?>
-           <div class="col-lg-8 col-xs-0">
-             <!-- small box -->
-             <div class="small-box bg-maroon">
-               <div class="inner">
-                 <h3><?php echo $ssl_count; ?></h3>
-                 <p><?php _e('SSL Certificates'); ?></p>
-               </div>
-               <div class="icon">
-                 <i class="fa fa-lock"></i>
-               </div>
-               <a href="?route=ssl" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-             </div>
-           </div>
-           <?php } ?>
-           <!-- ./col -->
-  		 <div class="col-lg-3 col-xs-6">
-             <!-- small box -->
-   <!--          <div class="small-box bg-teal">
-               <div class="inner">
-                 <h3><?php echo $checks_count; ?></h3>
-                 <p><?php _e('Check Services'); ?></p>
-               </div>
-               <div class="icon">
-                 <i class="fa fa-check-circle"></i>
-               </div>
-               <a href="?route=checks" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-             </div>
--->
-           </div>
-    <!-- ./col -->
-           <div class="col-lg-3 col-xs-6">
-             <!-- small box -->
-<!--
-  	           <div class="small-box bg-yellow">
-  	             <div class="inner">
-  	               <h3><?php echo $contacts_count; ?></h3>
-  	               <p><?php _e('Contacts'); ?></p>
-  	             </div>
-  	             <div class="icon">
-  	               <i class="fa fa-users"></i>
-  	             </div>
-  	             <a href="?route=alerting/contacts" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-  	           </div>
-
-
-           </div> -->
-           <!-- ./col -->
-
-  <!--       </div> -->
-         <!-- /.row -->
-
-
-<!-- 		<div class="row"> -->
-</div>
-	<div class="col-md-8"> 
-
-
-
-        <!-- <div class="col-lg-5 col-xs-6"> -->
-<div >
-             <!-- small box -->
-             <div class="small-box bg-teal">
-               <div class="inner">
-                 <h3><?php echo $checks_count; ?></h3>
-                 <p><?php _e('Check Services'); ?></p>
-               </div>
-               <div class="icon">
-                 <i class="fa fa-check-circle"></i>
-               </div>
-               <a href="?route=checks" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-             </div>
-           </div>
-           <!-- ./col -->
-
-
-
-
-
-
-<!-- <div class="col-lg-5 col-xs-6"> -->
-<div>
-             <!-- small box -->
-
-                   <div class="small-box bg-yellow">
-                     <div class="inner">
-                       <h3><?php echo $contacts_count; ?></h3>
-                       <p><?php _e('Contacts'); ?></p>
-                     </div>    
-                     <div class="icon">
-                       <i class="fa fa-users"></i>
-                     </div>    
-                     <a href="?route=alerting/contacts" class="small-box-footer"><?php _e('View all'); ?> <i class="fa fa-arrow-circle-right"></i></a>
-                   </div>
-
-
-           </div>
-           <!-- ./col -->
-
-
-
-
-
-
-
-
-<!--
-				<?php if(!$isGoogleMaps) { ?>
-					<div class="row"><div class='col-md-12'><div class="alert alert-info" role="alert"><b><?php _e('Add a Google Maps API key in System > Settings in order to display monitors status on map.'); ?></b></div></div></div>
-				<?php } ?>
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<h3 class="box-title"><?php _e('Around the world'); ?></h3>
-						<div class="box-tools pull-right">
-							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-						</div>
-					</div>
--->
-					<!-- /.box-header -->
-<!--
-					<div class="box-body no-padding">
-
-						<?php if(!$isGoogleMaps) { ?>
-							<div class="pad">
-								<!-- Map will be created here -->
-				<!--				<div id="world-map-markers" style="height: 450px;"></div> 
-							</div>
-						<?php } ?>
-
-						<?php if($isGoogleMaps) { ?>
-							<div id="googleMap" style="width:100%;height:530px;"></div>
-						<?php } ?>
-
-					</div>
-
--->					<!-- /.box-body -->
-<!--
-					<?php if(!$isGoogleMaps) { ?>
-						<div class="box-footer">
-							<span class="text-gray"><?php _e('Add a Google Maps API key in settings for a more detailed map.'); ?></span>
-						</div>
-					<?php } ?>
+		<!-- KPI tiles -->
+		<div class="kpi-grid">
+			<a href="?route=servers" class="kpi-card kpi-blue">
+				<div class="kpi-icon"><i class="fa fa-server"></i></div>
+				<div>
+					<span class="kpi-label"><?php _e('Servers'); ?></span>
+					<span class="kpi-value"><?php echo $servers_count; ?></span>
 				</div>
-				<!-- /.box -->
+				<span class="kpi-link"><?php _e('View all'); ?> <i class="fa fa-angle-right"></i></span>
+			</a>
 
+			<a href="?route=websites" class="kpi-card kpi-purple">
+				<div class="kpi-icon"><i class="fa fa-globe"></i></div>
+				<div>
+					<span class="kpi-label"><?php _e('Websites'); ?></span>
+					<span class="kpi-value"><?php echo $websites_count; ?></span>
+				</div>
+				<span class="kpi-link"><?php _e('View all'); ?> <i class="fa fa-angle-right"></i></span>
+			</a>
+
+			<?php if(in_array("viewDomains",$perms)) { ?>
+			<a href="?route=domains" class="kpi-card kpi-teal">
+				<div class="kpi-icon"><i class="fa fa-id-card"></i></div>
+				<div>
+					<span class="kpi-label"><?php _e('Domains'); ?></span>
+					<span class="kpi-value"><?php echo $domains_count; ?></span>
+				</div>
+				<span class="kpi-link"><?php _e('View all'); ?> <i class="fa fa-angle-right"></i></span>
+			</a>
+			<?php } ?>
+
+			<?php if(in_array("viewSsl",$perms)) { ?>
+			<a href="?route=ssl" class="kpi-card kpi-maroon">
+				<div class="kpi-icon"><i class="fa fa-lock"></i></div>
+				<div>
+					<span class="kpi-label"><?php _e('SSL Certificates'); ?></span>
+					<span class="kpi-value"><?php echo $ssl_count; ?></span>
+				</div>
+				<span class="kpi-link"><?php _e('View all'); ?> <i class="fa fa-angle-right"></i></span>
+			</a>
+			<?php } ?>
+
+			<a href="?route=checks" class="kpi-card kpi-green">
+				<div class="kpi-icon"><i class="fa fa-check-circle"></i></div>
+				<div>
+					<span class="kpi-label"><?php _e('Check Services'); ?></span>
+					<span class="kpi-value"><?php echo $checks_count; ?></span>
+				</div>
+				<span class="kpi-link"><?php _e('View all'); ?> <i class="fa fa-angle-right"></i></span>
+			</a>
+
+			<a href="?route=alerting/contacts" class="kpi-card kpi-yellow">
+				<div class="kpi-icon"><i class="fa fa-users"></i></div>
+				<div>
+					<span class="kpi-label"><?php _e('Contacts'); ?></span>
+					<span class="kpi-value"><?php echo $contacts_count; ?></span>
+				</div>
+				<span class="kpi-link"><?php _e('View all'); ?> <i class="fa fa-angle-right"></i></span>
+			</a>
+		</div>
+		<!-- /.kpi-grid -->
+
+		<!-- Overview charts -->
+		<div class="row overview-row">
+			<div class="col-md-4">
+				<div class="box chart-card">
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-pie-chart"></i> <?php _e('Status Overview'); ?></h3>
+					</div>
+					<div class="box-body">
+						<div class="donut-wrap">
+							<canvas id="statusOverviewChart"></canvas>
+							<div class="donut-center">
+								<span><?php echo $dashboard_total_up + $dashboard_total_down; ?></span>
+								<small><?php _e('Total'); ?></small>
+							</div>
+						</div>
+						<ul class="chart-legend-list">
+							<li><span class="dot dot-green"></span><?php _e('Up'); ?><b><?php echo $dashboard_total_up; ?></b></li>
+							<li><span class="dot dot-red"></span><?php _e('Down'); ?><b><?php echo $dashboard_total_down; ?></b></li>
+						</ul>
+					</div>
+				</div>
 			</div>
+
+			<div class="col-md-4">
+				<div class="box chart-card">
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-circle-o-notch"></i> <?php _e('Monitor Distribution'); ?></h3>
+					</div>
+					<div class="box-body">
+						<div class="donut-wrap">
+							<canvas id="assetDistributionChart"></canvas>
+							<div class="donut-center">
+								<span><?php echo array_sum(array_column($dashboard_distribution,'count')); ?></span>
+								<small><?php _e('Monitors'); ?></small>
+							</div>
+						</div>
+						<ul class="chart-legend-list">
+							<?php foreach ($dashboard_distribution as $d) { ?>
+								<li><span class="dot <?php echo e($d['dot']); ?>"></span><?php echo e($d['label']); ?><b><?php echo $d['count']; ?></b></li>
+							<?php } ?>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="box chart-card">
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-bar-chart"></i> <?php _e('Overall Health'); ?></h3>
+					</div>
+					<div class="box-body">
+						<div class="health-chart-wrap">
+							<canvas id="categoryHealthChart"></canvas>
+						</div>
+						<ul class="chart-legend-list">
+							<li><span class="dot dot-green"></span><?php _e('Up'); ?></li>
+							<li><span class="dot dot-red"></span><?php _e('Down'); ?></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.overview-row -->
+
+		<div class="row dashboard-overview">
+	<div class="col-md-8">
 
 
 			<div class="col-md-4">
 				<div class="box box-primary">
 					<div class="box-header ">
-						<h3 class="box-title"><?php _e('Servers Overview'); ?></h3>
+						<h3 class="box-title"><i class="fa fa-server"></i> <?php _e('Servers Overview'); ?> <?php if(count($main_servers_unresolved) > 0) { ?><span class="badge-count badge-count-alert"><?php echo count($main_servers_unresolved); ?></span><?php } else { ?><span class="badge-count badge-count-ok"><?php _e('OK'); ?></span><?php } ?></h3>
 						<div class="pull-right box-tools">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -316,7 +253,7 @@
 
 				<div class="box box-primary">
 					<div class="box-header ">
-						<h3 class="box-title"><?php _e('Websites Overview'); ?></h3>
+						<h3 class="box-title"><i class="fa fa-globe"></i> <?php _e('Websites Overview'); ?> <?php if(count($main_websites_unresolved) > 0) { ?><span class="badge-count badge-count-alert"><?php echo count($main_websites_unresolved); ?></span><?php } else { ?><span class="badge-count badge-count-ok"><?php _e('OK'); ?></span><?php } ?></h3>
 						<div class="pull-right box-tools">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -383,7 +320,7 @@
 
 				<div class="box box-primary">
 					<div class="box-header ">
-						<h3 class="box-title"><?php _e('Check Services Overview'); ?></h3>
+						<h3 class="box-title"><i class="fa fa-check-circle"></i> <?php _e('Check Services Overview'); ?> <?php if(count($main_checks_unresolved) > 0) { ?><span class="badge-count badge-count-alert"><?php echo count($main_checks_unresolved); ?></span><?php } else { ?><span class="badge-count badge-count-ok"><?php _e('OK'); ?></span><?php } ?></h3>
 						<div class="pull-right box-tools">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -456,7 +393,7 @@
 				<?php if(in_array("viewDomains",$perms)) { ?>
 				<div class="box box-primary">
 					<div class="box-header ">
-						<h3 class="box-title"><?php _e('Domains Overview'); ?></h3>
+						<h3 class="box-title"><i class="fa fa-id-card"></i> <?php _e('Domains Overview'); ?> <?php if(count($main_domains_unresolved) > 0) { ?><span class="badge-count badge-count-alert"><?php echo count($main_domains_unresolved); ?></span><?php } else { ?><span class="badge-count badge-count-ok"><?php _e('OK'); ?></span><?php } ?></h3>
 						<div class="pull-right box-tools">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -516,7 +453,7 @@
 				<?php if(in_array("viewSsl",$perms)) { ?>
 				<div class="box box-primary">
 					<div class="box-header ">
-						<h3 class="box-title"><?php _e('SSL Certificates Overview'); ?></h3>
+						<h3 class="box-title"><i class="fa fa-lock"></i> <?php _e('SSL Certificates Overview'); ?> <?php if(count($main_ssl_unresolved) > 0) { ?><span class="badge-count badge-count-alert"><?php echo count($main_ssl_unresolved); ?></span><?php } else { ?><span class="badge-count badge-count-ok"><?php _e('OK'); ?></span><?php } ?></h3>
 						<div class="pull-right box-tools">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
 						</div>
@@ -571,6 +508,7 @@
 			</div>
 
 		</div>
+		</div><!-- /.row.dashboard-overview -->
 
 
 
@@ -812,3 +750,91 @@
 
 	</script>
 <?php } ?>
+
+<script type="text/javascript">
+	$(function() {
+		var statusData = {
+			up: <?php echo (int) $dashboard_total_up; ?>,
+			down: <?php echo (int) $dashboard_total_down; ?>
+		};
+
+		var distribution = <?php echo json_encode($dashboard_distribution, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+		var health = <?php echo json_encode($dashboard_health, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+
+		var gridColor = 'rgba(255,255,255,.06)';
+		var tickColor = '#8b93a7';
+
+		Chart.defaults.global.defaultFontColor = tickColor;
+		Chart.defaults.global.defaultFontFamily = "'Source Sans Pro', sans-serif";
+
+		if (statusData.up + statusData.down > 0) {
+			new Chart(document.getElementById('statusOverviewChart'), {
+				type: 'doughnut',
+				data: {
+					labels: [<?php echo json_encode(__('Up')); ?>, <?php echo json_encode(__('Down')); ?>],
+					datasets: [{
+						data: [statusData.up, statusData.down],
+						backgroundColor: ['#17c98d', '#f0576a'],
+						borderWidth: 0
+					}]
+				},
+				options: {
+					cutoutPercentage: 68,
+					legend: { display: false },
+					tooltips: { enabled: true }
+				}
+			});
+		}
+
+		if (distribution.length) {
+			new Chart(document.getElementById('assetDistributionChart'), {
+				type: 'doughnut',
+				data: {
+					labels: distribution.map(function(d) { return d.label; }),
+					datasets: [{
+						data: distribution.map(function(d) { return d.count; }),
+						backgroundColor: distribution.map(function(d) { return d.color; }),
+						borderWidth: 0
+					}]
+				},
+				options: {
+					cutoutPercentage: 68,
+					legend: { display: false },
+					tooltips: { enabled: true }
+				}
+			});
+		}
+
+		if (health.length) {
+			new Chart(document.getElementById('categoryHealthChart'), {
+				type: 'bar',
+				data: {
+					labels: health.map(function(h) { return h.label; }),
+					datasets: [
+						{
+							label: <?php echo json_encode(__('Up')); ?>,
+							data: health.map(function(h) { return h.up; }),
+							backgroundColor: '#17c98d',
+							borderRadius: 4,
+							maxBarThickness: 22
+						},
+						{
+							label: <?php echo json_encode(__('Down')); ?>,
+							data: health.map(function(h) { return h.down; }),
+							backgroundColor: '#f0576a',
+							borderRadius: 4,
+							maxBarThickness: 22
+						}
+					]
+				},
+				options: {
+					legend: { display: false },
+					scales: {
+						xAxes: [{ gridLines: { color: gridColor, drawBorder: false }, ticks: { fontColor: tickColor } }],
+						yAxes: [{ gridLines: { color: gridColor, drawBorder: false }, ticks: { fontColor: tickColor, beginAtZero: true, precision: 0 } }]
+					}
+				}
+			});
+		}
+	});
+</script>

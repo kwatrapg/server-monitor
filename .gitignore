@@ -1,5 +1,6 @@
 /vendor/
 /.env
+/.claude/
 /uploads/*
 !/uploads/.gitkeep
 *.sql.gz

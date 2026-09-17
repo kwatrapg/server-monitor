@@ -26,6 +26,7 @@
         <link href="template/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
 		    <link href="template/assets/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+        <link href="template/assets/custom.css" rel="stylesheet" type="text/css" />
     </head>
 
 
@@ -35,6 +36,8 @@
 
           <?php if(file_exists($scriptpath . "/assets/logo.png")) { ?>
               <img src="assets/logo.png" class="img-responsive" style="margin: 0 auto;">
+          <?php } else { ?>
+              <span class="login-brand-icon"><i class="fa fa-heartbeat"></i></span>
           <?php } ?>
 
         <?php echo getConfigValue("app_name"); ?>
@@ -51,16 +54,9 @@
           <?php echo csrf_field(); ?>
           <div class="form-group has-feedback">
             <input type="email" name="email" class="form-control" placeholder="<?php _e('Email'); ?>" required autofocus/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <span class="fa fa-envelope-o form-control-feedback"></span>
           </div>
-          <div class="row">
-            <div class="col-xs-6">
-
-            </div><!-- /.col -->
-            <div class="col-xs-6">
-              <button type="submit" class="btn btn-primary btn-block btn-flat" ><?php _e('Continue'); ?></button>
-            </div><!-- /.col -->
-          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Continue'); ?></button>
 		<input type="hidden" name="resetConfirmation"/>
         </form>
       </div><!-- /.login-box-body -->
@@ -76,17 +72,16 @@
         <form action="?route=forgot" method="post">
           <?php echo csrf_field(); ?>
             <div class="form-group has-feedback">
-              <input type="password" name="password" class="form-control" placeholder="<?php _e('New Password'); ?>" required autofocus/>
-              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+              <input type="password" name="password" class="form-control" placeholder="<?php _e('New Password'); ?>" required autofocus data-password-checklist="#password-requirements"/>
+              <span class="fa fa-lock form-control-feedback"></span>
             </div>
-          <div class="row">
-            <div class="col-xs-8">
-
-            </div><!-- /.col -->
-            <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Continue'); ?></button>
-            </div><!-- /.col -->
-          </div>
+            <ul class="password-requirements" id="password-requirements">
+                <li data-rule="length"><?php _e('At least 12 characters'); ?></li>
+                <li data-rule="upper"><?php _e('One upper-case letter'); ?></li>
+                <li data-rule="lower"><?php _e('One lower-case letter'); ?></li>
+                <li data-rule="digit"><?php _e('One number'); ?></li>
+            </ul>
+          <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Continue'); ?></button>
 		<input type="hidden" name="resetPassword"/>
         <input type="hidden" name="resetkey" value="<?php echo e($_GET['resetkey'] ?? ''); ?>"/>
         </form>
@@ -98,6 +93,7 @@
     <!-- jQuery -->
     <script src="template/assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 	<script src="template/assets/js/jquery-xss-shim.js"></script>
+	<script src="template/assets/js/password-policy.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="template/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 

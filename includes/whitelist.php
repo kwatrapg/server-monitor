@@ -59,7 +59,7 @@ function sm_valid_modal($modal, $appRoot) {
 
 /** Quick-action ids accepted by includes/controllers/quickactions.php. */
 function sm_valid_qa($qa) {
-    return in_array($qa, ['setAutorefresh', 'removeAvatar'], true);
+    return in_array($qa, ['setAutorefresh', 'removeAvatar', 'removeLogo', 'removeFavicon'], true);
 }
 
 /** JSON datasource ids accepted by includes/controllers/json.php. */
@@ -93,7 +93,7 @@ function sm_valid_action($action) {
         'editProfile',
         'generalSettings', 'monitoringSettings', 'localisationSettings',
         'emailSettings', 'smsSettings', 'twitterSettings', 'pushoverSettings',
-        'editNotification',
+        'editNotification', 'testEmailSettings',
     ];
     return in_array($action, $actions, true);
 }

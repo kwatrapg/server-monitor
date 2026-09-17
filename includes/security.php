@@ -51,6 +51,52 @@ function sm_hash_equals($known, $given) {
 }
 
 // ---------------------------------------------------------------------------
+// At-rest secret encryption (VAPT F-04 revision) — lets secrets that must be
+// admin-editable (e.g. SMTP password) live in core_config without being
+// stored in the clear. Keyed by APP_KEY (config.php 'encryption_key'), which
+// itself stays in .env only. A DB dump/SQLi leak yields ciphertext, not the
+// secret.
+// ---------------------------------------------------------------------------
+
+/**
+ * Encrypt a secret for storage in the database (AES-256-GCM).
+ * Returns '' for empty input so "leave blank to keep unchanged" form flows work.
+ */
+function sm_encrypt_secret($plaintext) {
+    global $config;
+    $plaintext = (string) $plaintext;
+    if ($plaintext === '') return '';
+    $key = @hex2bin((string) ($config['encryption_key'] ?? ''));
+    if ($key === false || strlen($key) !== 32) {
+        throw new RuntimeException('APP_KEY is not set/valid; cannot encrypt secret for storage.');
+    }
+    $iv = random_bytes(12);
+    $tag = '';
+    $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
+    return base64_encode($iv . $tag . $ciphertext);
+}
+
+/**
+ * Decrypt a secret previously stored with sm_encrypt_secret(). Returns ''
+ * on any failure (missing key, corrupt value) rather than throwing, since
+ * callers treat '' the same as "not configured".
+ */
+function sm_decrypt_secret($stored) {
+    global $config;
+    $stored = (string) $stored;
+    if ($stored === '') return '';
+    $raw = base64_decode($stored, true);
+    if ($raw === false || strlen($raw) < 12 + 16) return '';
+    $key = @hex2bin((string) ($config['encryption_key'] ?? ''));
+    if ($key === false || strlen($key) !== 32) return '';
+    $iv  = substr($raw, 0, 12);
+    $tag = substr($raw, 12, 16);
+    $ciphertext = substr($raw, 28);
+    $plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
+    return $plaintext === false ? '' : $plaintext;
+}
+
+// ---------------------------------------------------------------------------
 // Password hashing (VAPT F-05) — argon2id when available, else bcrypt.
 // Legacy unsalted sha1 hashes are accepted once on login and transparently
 // upgraded (see signIn()).

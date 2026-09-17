@@ -19,6 +19,13 @@ class App {
         $_SESSION['range_start'] = $norm($data['range_start'] ?? '');
         $_SESSION['range_end']   = $norm($data['range_end'] ?? '');
         $_SESSION['range_label'] = preg_replace('/[^\w \-:\/]/', '', (string) ($data['range_label'] ?? ''));
+
+        // Width (seconds) of a "Last N Minutes/Hours/Days" preset, sent by the picker
+        // JS only when a preset (not a manually picked calendar range) was chosen.
+        // includes/loader.php uses this to recompute range_start/range_end from "now"
+        // on every load, so a preset keeps sliding forward instead of freezing at the
+        // clock time it was clicked.
+        $_SESSION['range_offset'] = max(0, (int) ($data['range_offset'] ?? 0));
     }
 
     public static function resetRange() {
@@ -29,6 +36,7 @@ class App {
         $_SESSION['range_start'] = date("Y-m-d H:i:s", strtotime('-3 hours'));
         $_SESSION['range_end'] = date("Y-m-d H:i:s");
         $_SESSION['range_label'] = "";
+        $_SESSION['range_offset'] = 0;
     }
 
 

@@ -2,10 +2,11 @@
 /**
  * Sentruo — minimal .env loader (no external dependency).
  *
- * Secrets (DB credentials, APP_KEY, SMTP, SMS, map keys) live in the process
+ * Secrets (DB credentials, APP_KEY, SMS, map keys) live in the process
  * environment or in a `.env` file kept OUTSIDE the web root / chmod 600 and
  * git-ignored (VAPT F-04 / F-15). Real environment variables always win over
- * the file.
+ * the file. SMTP config is Settings-managed (core_config), its password
+ * encrypted at rest with APP_KEY — see includes/security.php.
  */
 
 // Always loaded via require_once. (A function_exists() guard here would be

@@ -328,15 +328,19 @@ class Server extends App {
                 $disktotal += $disk_data[2];
                 $diskused += $disk_data[3];
             }
+            if($disktotal == 0) $disktotal = 0.01; // pre division by zero (e.g. corrupt/missing history data)
             $qstats['totaldiskusedp'] = round( ($diskused/$disktotal)*100 );
 
             //ram usage
-            $qstats['ramtotal'] = Server::extractData('ram_total', $data, true);
-            $qstats['ramcaches'] = Server::extractData('ram_caches', $data, true);
-            $qstats['rambuffers'] = Server::extractData('ram_buffers', $data, true);
+            // Cast to float: extractData() returns "" for a missing/corrupt tag (e.g. when
+            // gzuncompress() failed on this row's data), and PHP 8 throws a TypeError on
+            // "" + "" rather than coercing to 0 like PHP 7 did.
+            $qstats['ramtotal'] = (float) Server::extractData('ram_total', $data, true);
+            $qstats['ramcaches'] = (float) Server::extractData('ram_caches', $data, true);
+            $qstats['rambuffers'] = (float) Server::extractData('ram_buffers', $data, true);
 
-            $qstats['ramfree'] = Server::extractData('ram_free', $data, true) + $qstats['ramcaches'] + $qstats['rambuffers'];
-            $qstats['ramused'] = Server::extractData('ram_total', $data, true) - Server::extractData('ram_free', $data, true);
+            $qstats['ramfree'] = (float) Server::extractData('ram_free', $data, true) + $qstats['ramcaches'] + $qstats['rambuffers'];
+            $qstats['ramused'] = $qstats['ramtotal'] - (float) Server::extractData('ram_free', $data, true);
             $qstats['ramreal'] = $qstats['ramused'] - $qstats['ramcaches'] - $qstats['rambuffers'];
 
 
@@ -379,15 +383,16 @@ class Server extends App {
                     $diskused += $filesystem['used'];
                 }
             }
+            if($disktotal == 0) $disktotal = 0.01; // pre division by zero (e.g. corrupt/missing history data)
             $qstats['totaldiskusedp'] = round( ($diskused/$disktotal)*100 );
 
             //ram usage
-            $qstats['ramtotal'] = Server::extractData('ram_total', $data, true);
+            $qstats['ramtotal'] = (float) Server::extractData('ram_total', $data, true);
             $qstats['ramcaches'] = 0;
             $qstats['rambuffers'] = 0;
 
-            $qstats['ramfree'] = Server::extractData('ram_free', $data, true);
-            $qstats['ramused'] = Server::extractData('ram_usage', $data, true);
+            $qstats['ramfree'] = (float) Server::extractData('ram_free', $data, true);
+            $qstats['ramused'] = (float) Server::extractData('ram_usage', $data, true);
             $qstats['ramreal'] = $qstats['ramused'] - $qstats['ramcaches'] - $qstats['rambuffers'];
 
 

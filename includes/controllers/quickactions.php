@@ -22,4 +22,18 @@ switch($_GET['qa']) {
 		header("Location:?route=profile");
 	break;
 
+	case "removeLogo":
+		csrf_check_or_die();
+		isAuthorized("manageSettings");
+		Settings::removeLogo();
+		header("Location:?route=system/settings");
+	break;
+
+	case "removeFavicon":
+		csrf_check_or_die();
+		isAuthorized("manageSettings");
+		Settings::removeFavicon();
+		header("Location:?route=system/settings");
+	break;
+
 } // end switch

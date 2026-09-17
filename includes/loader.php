@@ -127,6 +127,15 @@ if($_SESSION['range_type'] == "auto") {
     $_SESSION['asset'] = "";
 }
 
+// A "Last N Minutes/Hours/Days" preset (range_type=manual with a range_offset)
+// is a sliding window, not a one-time snapshot — recompute it against "now" on
+// every load, same as the auto range above. A manually picked calendar range
+// has no offset (0) and is left as the fixed, absolute window the user picked.
+if($_SESSION['range_type'] == "manual" && !empty($_SESSION['range_offset'])) {
+    $_SESSION['range_end'] = date("Y-m-d H:i:s");
+    $_SESSION['range_start'] = date("Y-m-d H:i:s", strtotime('-' . (int) $_SESSION['range_offset'] . ' seconds'));
+}
+
 
 ##################################
 ###        LOAD LANGUAGE       ###

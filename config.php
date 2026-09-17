@@ -16,12 +16,12 @@ $config = [
     'database_type' => 'mysql',
     'database_name' => sm_env('DB_NAME', 'monitor'),
     'server'        => sm_env('DB_HOST', 'localhost'),
-    'username'      => sm_env('DB_USER', ''),
-    'password'      => sm_env('DB_PASSWORD', ''),
+    'username'      => sm_env('DB_USER', 'datamine'),
+    'password'      => sm_env('DB_PASSWORD', 'mypass'),
     'charset'       => sm_env('DB_CHARSET', 'utf8mb4'),
     'port'          => (int) sm_env('DB_PORT', 3306),
 
-    // Application secret (HMACs, token hashing). 64 hex chars. Never commit it.
+    // Application secret (HMACs, token hashing, at-rest secret encryption). 64 hex chars. Never commit it.
     'encryption_key' => (string) sm_env('APP_KEY', ''),
 ];
 

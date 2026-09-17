@@ -1,5 +1,6 @@
 <script src='template/assets/plugins/peity/jquery.peity.min.js'></script>
 <script type="text/javascript" language="javascript" src="template/assets/plugins/datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="template/assets/js/email-test.js"></script>
 
 
 <aside class="right-side">
@@ -31,7 +32,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane <?php if ($section == "") echo 'active'; ?>" id="general">
-							<form role="form" action="" method="post" id="generalSettingsForm">
+							<form role="form" action="" method="post" id="generalSettingsForm" enctype="multipart/form-data">
 								<div class="form-group">
 									<label for="app_name" class="control-label"><?php _e('Application Name'); ?></label>
 									<input class="form-control" id="app_name" value="<?php echo getConfigValue("app_name"); ?>" placeholder="Application Name" type="text" name="app_name" required>
@@ -53,6 +54,28 @@
 									<textarea class="form-control" rows="3" placeholder="Company Details ..." id="company_details" name="company_details"><?php echo getConfigValue("company_details"); ?></textarea>
 									<p class="help-block"><?php _e('Company Details used in the system for reports'); ?></p>
 								</div>
+								<div class="form-group">
+									<label class="control-label"><?php _e('Logo'); ?></label><br>
+									<?php if (file_exists($scriptpath . "/assets/logo.png")) { ?>
+										<img src="assets/logo.png?v=<?php echo filemtime($scriptpath . "/assets/logo.png"); ?>" style="max-height:60px;max-width:240px;display:block;margin-bottom:8px;background:#f4f4f4;padding:4px;" alt="Logo">
+										<a href="?qa=removeLogo&csrf_token=<?php echo e(csrf_token()); ?>" onclick="return confirm('<?php _e('Remove the custom logo?'); ?>');" class="text-danger"><i class="fa fa-trash"></i> <?php _e('Remove Logo'); ?></a>
+										<br><br>
+									<?php } ?>
+									<input class="form-control" type="file" name="logo" accept="image/png,image/jpeg" style="max-width:400px;">
+									<p class="help-block"><?php _e('Shown on the login page. PNG or JPG, max 2MB.'); ?></p>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label"><?php _e('Favicon'); ?></label><br>
+									<?php if (file_exists($scriptpath . "/assets/icon.png")) { ?>
+										<img src="assets/icon.png?v=<?php echo filemtime($scriptpath . "/assets/icon.png"); ?>" style="max-height:48px;max-width:48px;display:block;margin-bottom:8px;background:#f4f4f4;padding:4px;" alt="Favicon">
+										<a href="?qa=removeFavicon&csrf_token=<?php echo e(csrf_token()); ?>" onclick="return confirm('<?php _e('Remove the custom favicon?'); ?>');" class="text-danger"><i class="fa fa-trash"></i> <?php _e('Remove Favicon'); ?></a>
+										<br><br>
+									<?php } ?>
+									<input class="form-control" type="file" name="favicon" accept="image/png" style="max-width:400px;">
+									<p class="help-block"><?php _e('Browser tab icon. PNG only, square image recommended (e.g. 64x64px), max 1MB.'); ?></p>
+								</div>
+
 								<div class="form-group">
 									<label for="log_retention" class="control-label"><?php _e('System Log Retention'); ?></label>
 									<input class="form-control" id="log_retention" value="<?php echo getConfigValue("log_retention"); ?>" placeholder="Log Retention (days)" type="number" name="log_retention" required>
@@ -248,21 +271,21 @@
 
 								<div class="form-group">
 									<label for="email_smtp_host" class="control-label"><?php _e('SMTP Host'); ?></label>
-									<input class="form-control" id="email_smtp_host" value="<?php echo getConfigValue("email_smtp_host"); ?>" placeholder="SMTP Host" type="text" name="email_smtp_host">
+									<input class="form-control" id="email_smtp_host" value="<?php echo e(getConfigValue("email_smtp_host")); ?>" placeholder="SMTP Host" type="text" name="email_smtp_host">
 								</div>
 								<div class="form-group">
 									<label for="email_smtp_port" class="control-label"><?php _e('SMTP Port'); ?></label>
-									<input class="form-control" id="email_smtp_port" value="<?php echo getConfigValue("email_smtp_port"); ?>" placeholder="SMTP Port" type="text" name="email_smtp_port">
+									<input class="form-control" id="email_smtp_port" value="<?php echo e(getConfigValue("email_smtp_port")); ?>" placeholder="SMTP Port" type="text" name="email_smtp_port">
 									<p class="help-block"></p>
 								</div>
 								<div class="form-group">
 									<label for="email_smtp_username" class="control-label"><?php _e('SMTP Username'); ?></label>
-									<input class="form-control" id="email_smtp_username" value="<?php echo getConfigValue("email_smtp_username"); ?>" placeholder="SMTP Username" type="text" name="email_smtp_username">
+									<input class="form-control" id="email_smtp_username" value="<?php echo e(getConfigValue("email_smtp_username")); ?>" placeholder="SMTP Username" type="text" name="email_smtp_username">
 									<p class="help-block"></p>
 								</div>
 								<div class="form-group">
 									<label for="email_smtp_password" class="control-label"><?php _e('SMTP Password'); ?></label>
-									<input class="form-control" id="email_smtp_password" value="<?php echo getConfigValue("email_smtp_password"); ?>" placeholder="SMTP Password" type="password" name="email_smtp_password">
+									<input class="form-control" id="email_smtp_password" value="" autocomplete="new-password" placeholder="<?php echo getConfigValue("email_smtp_password") !== '' ? __('Leave blank to keep the current password') : __('SMTP Password'); ?>" type="password" name="email_smtp_password">
 									<p class="help-block"></p>
 								</div>
 								<div class="form-group">
@@ -291,6 +314,21 @@
 								<input type="hidden" name="route" value="system/settings">
 								<input type="hidden" name="section" value="email">
 							</form>
+
+							<hr>
+
+							<h4><?php _e('Test Connection'); ?></h4>
+							<p class="text-muted"><?php _e('Sends a sample test email using the currently saved connection settings above, so you can confirm delivery is working. Save your changes first if you just edited the settings above.'); ?></p>
+							<div class="form-group">
+								<label for="email_test_to" class="control-label"><?php _e('Send Test Email To'); ?></label>
+								<input class="form-control" id="email_test_to" value="<?php echo e($liu['email']); ?>" placeholder="test@example.com" type="email" style="max-width:400px;">
+							</div>
+							<div class="form-group">
+								<button type="button" id="testEmailBtn" class="btn btn-flat btn-default"><i class="fa fa-paper-plane-o"></i> <?php _e('Test Connection'); ?></button>
+								<span id="testEmailSpinner" style="display:none; margin-left:10px;"><i class="fa fa-spinner fa-spin"></i> <?php _e('Sending test email...'); ?></span>
+								<div id="testEmailResult" style="margin-top:10px;"></div>
+							</div>
+
                         </div><!-- /.tab-pane -->
 
 
