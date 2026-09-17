@@ -263,6 +263,14 @@
 		crit:'#a10000', error:'#c0392b', warn:'#e6a817', notice:'#2d8659', info:'#3e95cd', debug:'#888888', unknown:'#555555'
 	};
 
+	// Firefox (and some other browsers) restore checkbox .checked state on a plain
+	// refresh regardless of autocomplete="off" - these filters have no server-side
+	// "checked" state at all (nothing persists them), so a restored checkbox here is
+	// always stale relative to what's actually being requested below. Force every
+	// level filter back to unchecked on load so the visible state always matches
+	// "no filter = all levels", independent of browser history restoration.
+	$('.log-level-filter').prop('checked', false).closest('label.btn').removeClass('active');
+
 	var $lines = $('#log-lines');
 	var oldestCursor = null;   // for "load older" (backward search pagination)
 	var liveOn = false;
