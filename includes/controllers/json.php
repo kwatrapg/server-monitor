@@ -24,6 +24,7 @@ $__json_perms = [
     'logsearch'     => 'viewServerLogs',
     'logtail'       => 'viewServerLogs',
     'loghistogram'  => 'viewServerLogs',
+    'commands'      => 'viewCommands',
 ];
 $__need = $__json_perms[$_GET['json']] ?? null;
 if ($__need === null || !is_array($perms) || !in_array($__need, $perms, true)) {
@@ -1413,6 +1414,105 @@ switch($_GET['json']) {
             http_response_code(502);
             echo json_encode(["error" => $e->getMessage()]);
         }
+    break;
+
+
+    case "commands":
+
+        $results = array();
+
+        $allcount = $database->count("app_servers_commands", [ "[>]app_servers" => ["serverid" => "id"] ], "app_servers_commands.id", [
+            "app_servers.groupid" => $liu_groups,
+        ]);
+
+        if(!isset($_GET['order']['0']['dir'])) $_GET['order']['0']['dir'] = "";
+        if(!isset($_GET['order']['0']['column'])) $_GET['order']['0']['column'] = "";
+
+        if($_GET['order']['0']['dir'] == "") $sort_direction = "ASC";
+        if($_GET['order']['0']['dir'] == "desc") $sort_direction = "DESC";
+        if($_GET['order']['0']['dir'] == "asc") $sort_direction = "ASC";
+
+        if($_GET['order']['0']['column'] == "") $sort_column = "app_servers_commands.id";
+        if($_GET['order']['0']['column'] == "0") $sort_column = "app_servers_commands.last_exit_code";
+        if($_GET['order']['0']['column'] == "1") $sort_column = "app_servers_commands.id";
+        if($_GET['order']['0']['column'] == "2") $sort_column = "app_servers.name";
+        if($_GET['order']['0']['column'] == "3") $sort_column = "app_servers_commands.name";
+
+        $columns = [
+            "app_servers_commands.id",
+            "app_servers_commands.name",
+            "app_servers_commands.command",
+            "app_servers_commands.last_exit_code",
+            "app_servers_commands.last_output",
+            "app_servers_commands.last_checked",
+            "app_servers.id(serverid)",
+            "app_servers.name(servername)",
+        ];
+
+        if( $_GET['search']['value'] != "") {
+            $items = $database->select("app_servers_commands", [ "[>]app_servers" => ["serverid" => "id"] ], $columns, [
+                "AND" =>
+                    [
+                        "app_servers.groupid" => $liu_groups,
+                        "OR" =>
+                            [
+                                "app_servers_commands.id[~]" => $_GET['search']['value'],
+                                "app_servers_commands.name[~]" => $_GET['search']['value'],
+                                "app_servers_commands.command[~]" => $_GET['search']['value'],
+                                "app_servers.name[~]" => $_GET['search']['value'],
+                            ],
+                    ],
+                "LIMIT" => [ $_GET['start'],$_GET['length'] ],
+                "ORDER" => [$sort_column => $sort_direction]
+            ]);
+            $filteredcount = count($items);
+            $results["recordsFiltered"] = $filteredcount;
+        }
+
+        if( $_GET['search']['value'] == "") {
+            $items = $database->select("app_servers_commands", [ "[>]app_servers" => ["serverid" => "id"] ], $columns, [
+                "app_servers.groupid" => $liu_groups,
+                "LIMIT" => [ $_GET['start'],$_GET['length'] ],
+                "ORDER" => [$sort_column => $sort_direction]
+            ]);
+            $results["recordsFiltered"] = $allcount;
+        }
+
+        $i = 0;
+        $results["draw"] = $_GET['draw'];
+        $results["recordsTotal"] = $allcount;
+        $results["data"] = array();
+
+        foreach($items as $item) {
+
+            if ($item['last_exit_code'] === null) {
+                $results["data"][$i][0] = '<span class="label label-default">' . __('Never run') . '</span>';
+            } elseif ((int) $item['last_exit_code'] === 0) {
+                $results["data"][$i][0] = '<span class="label label-success">' . __('OK') . '</span>';
+            } else {
+                $results["data"][$i][0] = '<span class="label label-danger">' . __('Exit') . ' ' . (int) $item['last_exit_code'] . '</span>';
+            }
+
+            $results["data"][$i][1] = $item['id'];
+            $results["data"][$i][2] = $item['servername'];
+            $results["data"][$i][3] = $item['name'] . '<br><small class="text-muted">' . htmlspecialchars($item['command']) . '</small>';
+            $results["data"][$i][4] = $item['last_checked'] ? dateTimeDisplay($item['last_checked']) : __('Never');
+
+            $results["data"][$i][5] = "<div class='pull-right'><div class='btn-group'>";
+
+                if(in_array("manageCommands",$perms))
+                    $results["data"][$i][5] .= '<a href="#" onClick=\'showM("?modal=commands/edit&reroute=commands&routeid=&id='.$item['id'].'&section=");return false\' class="btn btn-success btn-flat btn-sm"><i class="fa fa-edit"></i></a>';
+
+                if(in_array("manageCommands",$perms))
+                    $results["data"][$i][5] .= '<a href="#" onClick=\'showM("?modal=commands/delete&reroute=commands&routeid=&id='.$item['id'].'&section=");return false\' class="btn btn-danger btn-flat btn-sm"><i class="fa fa-trash-o"></i></a>';
+
+            $results["data"][$i][5] .= "</div></div>";
+
+            $i++;
+        }
+
+        echo json_encode($results);
+
     break;
 
 

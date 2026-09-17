@@ -474,6 +474,49 @@ switch($_POST['action']) {
 		$status = Log::editComment($_POST);
 	break;
 
+	// custom commands - group-scoped on top of the permission check, same
+	// pattern as log sources: a command's access boundary is its server's group
+	case "addCommand":
+		isAuthorized("manageCommands");
+		$server = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($server['groupid']);
+		$status = Command::addCommand($_POST);
+	break;
+
+	case "editCommand":
+		isAuthorized("manageCommands");
+		$existing = getRowById("app_servers_commands", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$newServer = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($newServer['groupid']);
+		$status = Command::editCommand($_POST);
+	break;
+
+	case "deleteCommand":
+		isAuthorized("manageCommands");
+		$existing = getRowById("app_servers_commands", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Command::deleteCommand($_POST['id']);
+	break;
+
+	case "markCommandIncident":
+		isAuthorized("manageCommands");
+		$existing = getRowById("app_servers_commands_incidents", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Command::markIncident($_POST['id']);
+	break;
+
+	case "editCommandIncidentComment":
+		isAuthorized("manageCommands");
+		$existing = getRowById("app_servers_commands_incidents", $_POST['id']);
+		$existingServer = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($existingServer['groupid']);
+		$status = Command::editComment($_POST);
+	break;
+
 }
 
 

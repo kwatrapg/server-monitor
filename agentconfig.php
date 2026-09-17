@@ -8,8 +8,17 @@
 // tail and HOW to filter/label/rate-limit at the edge, per app_servers_logsources.
 
 $debug = false;
-error_reporting($debug ? E_ALL & ~E_NOTICE : 0);
-ini_set('display_errors', $debug ? '1' : '0');
+if ($debug) {
+    error_reporting(E_ALL & ~E_NOTICE);
+    ini_set('display_errors', '1');
+} else {
+    // error_reporting(0) doesn't just hide errors from the response, it also stops
+    // PHP from logging them anywhere (log_errors respects the reporting level) -
+    // see docs/incidents/2026-09-14.md. Keep display off but keep logging on.
+    error_reporting(E_ALL);
+    ini_set('display_errors', '0');
+    ini_set('log_errors', '1');
+}
 
 $scriptpath = __DIR__;
 

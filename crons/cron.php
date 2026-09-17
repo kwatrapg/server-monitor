@@ -180,6 +180,10 @@ $result .= "Sent $unresolved_ssl_incidents unresolved SSL incidents.<br>";
 $unresolved_log_incidents = Log::sendUnresolvedNotifications();
 $result .= "Sent $unresolved_log_incidents unresolved server log incidents.<br>";
 
+// unresolved_command_incidents
+$unresolved_command_incidents = Command::sendUnresolvedNotifications();
+$result .= "Sent $unresolved_command_incidents unresolved command incidents.<br>";
+
 
 
 

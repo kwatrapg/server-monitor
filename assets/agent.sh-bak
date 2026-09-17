@@ -241,3 +241,55 @@ printf 'data=%s' "$PAYLOAD" | curl -m 50 -s \
     -H "X-Agent-Timestamp: ${TS}" \
     -H "X-Agent-Signature: ${SIG}" \
     --data-binary @- "$GATEWAY"
+
+
+##################################
+###   CUSTOM COMMANDS          ###
+##################################
+# Optional and best-effort - the metrics upload above already fully completed
+# by this point, so anything that goes wrong here is skipped, never fatal.
+# Requires jq (installed by install.sh) to safely parse the fetched command
+# list and build the result payload - command text and its output can contain
+# arbitrary characters and must never be hand-escaped into JSON with sed/awk.
+
+if command -v jq >/dev/null 2>&1; then
+
+    CMD_BASE=$(echo "$GATEWAY" | sed 's#/agent\.php$##')
+    CMD_CONFIG=$(curl -m 30 -k -s "$CMD_BASE/commandsconfig.php?serverkey=$SERVERKEY")
+
+    if [ -n "$CMD_CONFIG" ] && echo "$CMD_CONFIG" | jq -e 'type == "array"' >/dev/null 2>&1; then
+
+        CMD_RESULTS="[]"
+        CMD_COUNT=$(echo "$CMD_CONFIG" | jq 'length')
+
+        i=0
+        while [ "$i" -lt "$CMD_COUNT" ]; do
+            CMD_ID=$(echo "$CMD_CONFIG" | jq -r ".[$i].id")
+            CMD_TEXT=$(echo "$CMD_CONFIG" | jq -r ".[$i].command")
+            CMD_TIMEOUT=$(echo "$CMD_CONFIG" | jq -r ".[$i].timeout_seconds")
+
+            CMD_OUTPUT=$(timeout "${CMD_TIMEOUT}" bash -c "$CMD_TEXT" 2>&1)
+            CMD_EXIT=$?
+
+            CMD_ENTRY=$(jq -n --argjson id "$CMD_ID" --argjson exit_code "$CMD_EXIT" --arg output "$CMD_OUTPUT" \
+                '{id: $id, exit_code: $exit_code, output: $output}')
+            CMD_RESULTS=$(echo "$CMD_RESULTS" | jq --argjson entry "$CMD_ENTRY" '. + [$entry]')
+
+            i=$((i + 1))
+        done
+
+        if [ "$(echo "$CMD_RESULTS" | jq 'length')" -gt 0 ]; then
+
+            CMD_PAYLOAD=$(echo "$CMD_RESULTS" | jq -c '.' | openssl base64 -A | tr '+/' '-_')
+            CMD_TS=$(date +%s)
+            CMD_SIG=$(printf '%s' "${CMD_TS}.${CMD_PAYLOAD}" | openssl dgst -sha256 -hmac "$SIGNING_KEY" -r | cut -d' ' -f1)
+
+            curl -m 50 -k -s \
+                -H "X-Agent-Timestamp: ${CMD_TS}" \
+                -H "X-Agent-Signature: ${CMD_SIG}" \
+                --data-urlencode "serverkey=${SERVERKEY}" \
+                --data-urlencode "data=${CMD_PAYLOAD}" \
+                "$CMD_BASE/commandresult.php" > /dev/null 2>&1
+        fi
+    fi
+fi
