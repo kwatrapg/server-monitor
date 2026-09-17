@@ -530,6 +530,14 @@
               </li>
               <?php } ?>
 
+              <?php if(in_array("viewServerLogs",$perms)) { ?>
+              <li <?php if(strpos($route,'logs/') !== false) echo 'class="active"'; ?>>
+                  <a href="?route=logs/sources">
+                      <i class="fa fa-file-text-o fa-fw"></i> <span><?php _e('Server Logs'); ?></span>
+                  </a>
+              </li>
+              <?php } ?>
+
               <li class="treeview<?php if(strpos($route,'alerting/') !== false) echo ' active'; ?>">
                   <a href="#">
                       <i class="fa fa-comments fa-fw"></i> <span><?php _e('Alerting'); ?></span>

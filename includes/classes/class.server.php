@@ -10,6 +10,7 @@ class Server extends App {
             "type" => $data['type'],
     		"name" => $data['name'],
             "serverkey" => randomString(64),
+            "logs_token" => randomString(64),
             "status" => 0,
             "geodata" => "",
             "on_map" => $data['on_map'],

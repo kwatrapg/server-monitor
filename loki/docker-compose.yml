@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  loki:
+    image: grafana/loki:3.5.4
+    container_name: loki
+    restart: unless-stopped
+
+    command:
+      - "-config.file=/etc/loki/config.yml"
+
+    # No "ports:" here - Loki is reachable only from other containers on
+    # loki-network. loki-proxy is the sole path in from the host (T-2.1).
+    expose:
+      - "3100"
+
+    volumes:
+      - ./loki/config.yml:/etc/loki/config.yml:ro
+      - ./data/loki:/loki
+
+    networks:
+      - loki-network
+
+  loki-proxy:
+    image: nginx:1.27-alpine
+    container_name: loki-proxy
+    restart: unless-stopped
+
+    depends_on:
+      - loki
+
+    ports:
+      - "3100:3100"
+
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+
+    extra_hosts:
+      # Docker Engine 20.10+/compose v2 - lets the proxy container reach the
+      # app's Apache/PHP, which runs on the host, not in this compose file.
+      - "host.docker.internal:host-gateway"
+
+    networks:
+      - loki-network
+
+networks:
+  loki-network:
+    driver: bridge

@@ -1,0 +1,5 @@
+# The agent distribution directory — these files are meant to be downloaded.
+<FilesMatch "\.(sh|exe)$">
+    Require all granted
+</FilesMatch>
+Options -Indexes

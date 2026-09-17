@@ -149,6 +149,10 @@ $result .= "Processed $processed_domains domains.<br>";
 $processed_ssl = Ssl::processAll();
 $result .= "Processed $processed_ssl SSL certificates.<br>";
 
+// process server log alerts
+$processed_logs = Log::processAll();
+$result .= "Processed $processed_logs server log alert rules.<br>";
+
 
 
 
@@ -171,6 +175,10 @@ $result .= "Sent $unresolved_domain_incidents unresolved domain incidents.<br>";
 // unresolved_ssl_incidents
 $unresolved_ssl_incidents = Ssl::sendUnresolvedNotifications();
 $result .= "Sent $unresolved_ssl_incidents unresolved SSL incidents.<br>";
+
+// unresolved_log_incidents
+$unresolved_log_incidents = Log::sendUnresolvedNotifications();
+$result .= "Sent $unresolved_log_incidents unresolved server log incidents.<br>";
 
 
 

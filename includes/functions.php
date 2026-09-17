@@ -289,6 +289,29 @@ function appClassAutoload($classname) {
 
 
 // ----------------------------------------------------------------------------------------------
+// LOG STORAGE
+
+function getLogStore() { // returns the configured LogStore backend (singleton per request)
+	global $scriptpath;
+	static $instance = null;
+	if ($instance !== null) return $instance;
+
+	// class.logstore.php holds LogStore/LogQuery/LogResult/LokiLogStore together;
+	// require it explicitly rather than relying on autoload picking the right class first.
+	require_once $scriptpath . '/includes/classes/class.logstore.php';
+
+	$backend = getConfigValue('log_backend');
+	if ($backend === 'loki') {
+		$instance = new LokiLogStore(getConfigValue('loki_url'), getConfigValue('loki_read_token'));
+	} else {
+		throw new RuntimeException('Unsupported log_backend: ' . $backend);
+	}
+
+	return $instance;
+}
+
+
+// ----------------------------------------------------------------------------------------------
 // TEXT OUTPUT
 
 function __($text) {

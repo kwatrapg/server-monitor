@@ -71,6 +71,13 @@
 								</div>
 
 								<div class="col-md-3">
+									<h4>Server Logs</h4>
+									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="manageLogSources" <?php if(in_array("manageLogSources",$roleperms)) echo "checked"; ?> > <?php _e('Manage Sources'); ?></label></div>
+									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="editLogAlert" <?php if(in_array("editLogAlert",$roleperms)) echo "checked"; ?> > <?php _e('Manage Alerts'); ?></label></div>
+									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="viewServerLogs" <?php if(in_array("viewServerLogs",$roleperms)) echo "checked"; ?> > <?php _e('View'); ?></label></div>
+								</div>
+
+								<div class="col-md-3">
 									<h4>Contacts</h4>
 									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="addContact" <?php if(in_array("addContact",$roleperms)) echo "checked"; ?> > <?php _e('Add'); ?></label></div>
 									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="editContact" <?php if(in_array("editContact",$roleperms)) echo "checked"; ?> > <?php _e('Edit'); ?></label></div>
