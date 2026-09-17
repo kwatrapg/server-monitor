@@ -20,6 +20,10 @@ $__json_perms = [
     'emaillog'    => 'viewLogs',
     'smslog'      => 'viewLogs',
     'cronlog'     => 'viewLogs',
+    'logsources'    => 'viewServerLogs',
+    'logsearch'     => 'viewServerLogs',
+    'logtail'       => 'viewServerLogs',
+    'loghistogram'  => 'viewServerLogs',
 ];
 $__need = $__json_perms[$_GET['json']] ?? null;
 if ($__need === null || !is_array($perms) || !in_array($__need, $perms, true)) {
