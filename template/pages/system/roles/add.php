@@ -79,6 +79,12 @@
 								</div>
 
 								<div class="col-md-3">
+									<h4>Commands</h4>
+									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="manageCommands" <?php if(in_array("manageCommands",$roleperms)) echo "checked"; ?> > <?php _e('Manage'); ?></label></div>
+									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="viewCommands" <?php if(in_array("viewCommands",$roleperms)) echo "checked"; ?> > <?php _e('View'); ?></label></div>
+								</div>
+
+								<div class="col-md-3">
 									<h4>Contacts</h4>
 									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="addContact" <?php if(in_array("addContact",$roleperms)) echo "checked"; ?> > <?php _e('Add'); ?></label></div>
 									<div class="checkbox"><label><input type="checkbox" name="perms[]" value="editContact" <?php if(in_array("editContact",$roleperms)) echo "checked"; ?> > <?php _e('Edit'); ?></label></div>

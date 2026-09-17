@@ -538,6 +538,14 @@
               </li>
               <?php } ?>
 
+              <?php if(in_array("viewCommands",$perms)) { ?>
+              <li <?php if(strpos($route,'commands') !== false) echo 'class="active"'; ?>>
+                  <a href="?route=commands">
+                      <i class="fa fa-terminal fa-fw"></i> <span><?php _e('Commands'); ?></span>
+                  </a>
+              </li>
+              <?php } ?>
+
               <li class="treeview<?php if(strpos($route,'alerting/') !== false) echo ' active'; ?>">
                   <a href="#">
                       <i class="fa fa-comments fa-fw"></i> <span><?php _e('Alerting'); ?></span>

@@ -68,6 +68,7 @@ function sm_valid_json($json) {
         'servers', 'websites', 'checks', 'domains', 'ssl',
         'alertinglog', 'activitylog', 'emaillog', 'smslog', 'cronlog',
         'logsources', 'logsearch', 'logtail', 'loghistogram',
+        'commands',
     ], true);
 }
 
@@ -98,6 +99,8 @@ function sm_valid_action($action) {
         'addLogSource', 'editLogSource', 'deleteLogSource',
         'addLogAlert', 'editLogAlert', 'deleteLogAlert',
         'markLogIncident', 'editLogIncidentComment',
+        'addCommand', 'editCommand', 'deleteCommand',
+        'markCommandIncident', 'editCommandIncidentComment',
     ];
     return in_array($action, $actions, true);
 }

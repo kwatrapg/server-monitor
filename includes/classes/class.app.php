@@ -204,6 +204,19 @@ class App {
 
             $assettype = __('Server Log');
         }
+        if($assettype == "command") {
+            // $alertid is the command's own id here - a command is both its own
+            // check and its own alert, there's no separate rule row to look up.
+            $alert = getRowById("app_servers_commands", $alertid);
+            $asset = getRowById("app_servers", $alert['serverid']);
+            $database->update("app_servers_commands_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'commandid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $typestring = $alert['name'] . " (" . __('Exit Code') . " " . $alert['last_exit_code'] . ")";
+            if (!empty($alert['last_output'])) $typestring .= " - " . $alert['last_output'];
+            $alert['type'] = ''; // no 'type' column on this table - skip the cascade below harmlessly
+
+            $assettype = __('Command');
+        }
 
         //websites
         if($alert['type'] == "responsecode") $typestring = __('HTTP Response Code') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];

@@ -278,6 +278,22 @@ switch($_GET['modal']) {
     break;
 
 
+    case "commands/add":
+        // NOT $servers - see the identical note on logsources/add above.
+        $command_servers = getTableFiltered("app_servers","groupid",$liu_groups,"","","*","name","ASC");
+        $contacts = getTable("app_contacts");
+    break;
+
+    case "commands/edit":
+        $command = getRowById("app_servers_commands",$_GET['id']);
+        $command_servers = getTableFiltered("app_servers","groupid",$liu_groups,"","","*","name","ASC");
+        $contacts = getTable("app_contacts");
+        $selected_contacts = unserialize($command['contacts']);
+        if(!$selected_contacts) $selected_contacts = [];
+        if(empty($selected_contacts)) $selected_contacts = [];
+    break;
+
+
 } // end switch
 
 ?>

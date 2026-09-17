@@ -1082,6 +1082,13 @@ if ($route == "logs/sources/manage") {
 }
 
 
+// CUSTOM COMMANDS
+if ($route == "commands") {
+	isAuthorized("viewCommands");
+	$pageTitle = __("Commands");
+}
+
+
 
 
 ?>
