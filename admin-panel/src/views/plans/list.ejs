@@ -1,0 +1,26 @@
+<%- include('../partials/header', { title: 'Plans' }) %>
+<div class="page-header">
+  <h1>Plans</h1>
+  <a class="btn" href="/plans/new">+ New plan</a>
+</div>
+<table class="data-table">
+  <thead>
+    <tr><th>Name</th><th>Price</th><th>Interval</th><th>Limits</th><th>Status</th><th></th></tr>
+  </thead>
+  <tbody>
+    <% plans.forEach(function(p) { %>
+    <tr>
+      <td><a href="/plans/<%= p.id %>/edit"><%= p.name %></a></td>
+      <td><%= (p.price_cents / 100).toFixed(2) %> <%= p.currency %></td>
+      <td><%= p.billing_interval %></td>
+      <td><%= p.max_servers %> servers / <%= p.max_websites %> sites / <%= p.max_checks %> checks</td>
+      <td><span class="badge <%= p.is_active ? 'badge-active' : 'badge-suspended' %>"><%= p.is_active ? 'active' : 'inactive' %></span></td>
+      <td><a href="/plans/<%= p.id %>/edit">Edit</a></td>
+    </tr>
+    <% }); %>
+    <% if (plans.length === 0) { %>
+    <tr><td colspan="6" class="empty">No plans yet. <a href="/plans/new">Create one</a>.</td></tr>
+    <% } %>
+  </tbody>
+</table>
+<%- include('../partials/footer') %>

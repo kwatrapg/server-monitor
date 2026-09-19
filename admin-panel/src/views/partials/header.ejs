@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title + ' · Sentruo Admin' : 'Sentruo Admin' %></title>
+  <link rel="stylesheet" href="/public/css/style.css" />
+</head>
+<body>
+<% if (isAuthed) { %>
+<header class="topbar">
+  <div class="brand">Sentruo Admin</div>
+  <nav>
+    <a href="/">Dashboard</a>
+    <a href="/customers">Customers</a>
+    <a href="/plans">Plans</a>
+    <a href="/licenses">Licenses</a>
+  </nav>
+  <div class="topbar-right">
+    <span class="whoami"><%= username %></span>
+    <form action="/logout" method="post" class="logout-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <button type="submit" class="link-button">Log out</button>
+    </form>
+  </div>
+</header>
+<% } %>
+<main class="container">

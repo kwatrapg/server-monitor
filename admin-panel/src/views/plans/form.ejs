@@ -1,0 +1,54 @@
+<%- include('../partials/header', { title: plan && plan.id ? 'Edit plan' : 'New plan' }) %>
+<h1><%= plan && plan.id ? 'Edit plan' : 'New plan' %></h1>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<form method="post" action="<%= plan && plan.id ? '/plans/' + plan.id : '/plans' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Name
+    <input type="text" name="name" value="<%= plan ? plan.name : '' %>" required maxlength="120" />
+  </label>
+
+  <label>Description
+    <textarea name="description" maxlength="2000"><%= plan ? plan.description : '' %></textarea>
+  </label>
+
+  <div class="form-row">
+    <label>Price (in cents)
+      <input type="number" name="price_cents" min="0" value="<%= plan ? plan.price_cents : 0 %>" required />
+    </label>
+    <label>Currency
+      <input type="text" name="currency" maxlength="8" value="<%= plan ? plan.currency : 'USD' %>" required />
+    </label>
+    <label>Billing interval
+      <select name="billing_interval">
+        <% ['monthly','yearly','lifetime'].forEach(function(i) { %>
+        <option value="<%= i %>" <%= plan && plan.billing_interval === i ? 'selected' : '' %>><%= i %></option>
+        <% }); %>
+      </select>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>Max servers
+      <input type="number" name="max_servers" min="0" value="<%= plan ? plan.max_servers : 1 %>" required />
+    </label>
+    <label>Max websites
+      <input type="number" name="max_websites" min="0" value="<%= plan ? plan.max_websites : 1 %>" required />
+    </label>
+    <label>Max checks
+      <input type="number" name="max_checks" min="0" value="<%= plan ? plan.max_checks : 10 %>" required />
+    </label>
+  </div>
+
+  <% if (plan && plan.id) { %>
+  <label class="checkbox">
+    <input type="checkbox" name="is_active" value="1" <%= plan.is_active ? 'checked' : '' %> />
+    Active
+  </label>
+  <% } %>
+
+  <button type="submit">Save plan</button>
+</form>
+<%- include('../partials/footer') %>

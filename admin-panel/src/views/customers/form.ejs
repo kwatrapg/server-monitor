@@ -1,0 +1,41 @@
+<%- include('../partials/header', { title: customer && customer.id ? 'Edit customer' : 'New customer' }) %>
+<h1><%= customer && customer.id ? 'Edit customer' : 'New customer' %></h1>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<form method="post" action="<%= customer && customer.id ? '/customers/' + customer.id : '/customers' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Name
+    <input type="text" name="name" value="<%= customer ? customer.name : '' %>" required maxlength="200" />
+  </label>
+  <label>Email
+    <input type="email" name="email" value="<%= customer ? customer.email : '' %>" required maxlength="255" />
+  </label>
+  <label>Company
+    <input type="text" name="company" value="<%= customer ? customer.company : '' %>" maxlength="200" />
+  </label>
+  <label>Notes
+    <textarea name="notes" maxlength="2000"><%= customer ? customer.notes : '' %></textarea>
+  </label>
+
+  <button type="submit">Save customer</button>
+</form>
+
+<% if (typeof licenses !== 'undefined' && licenses.length > 0) { %>
+<h2>Licenses</h2>
+<table class="data-table">
+  <thead><tr><th>Key</th><th>Plan</th><th>Status</th><th>Expires</th></tr></thead>
+  <tbody>
+    <% licenses.forEach(function(l) { %>
+    <tr>
+      <td><a href="/licenses/<%= l.id %>/edit"><code><%= l.license_key %></code></a></td>
+      <td><%= l.plan_name %></td>
+      <td><span class="badge badge-<%= l.status %>"><%= l.status %></span></td>
+      <td><%= l.expires_at || '—' %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } %>
+<%- include('../partials/footer') %>

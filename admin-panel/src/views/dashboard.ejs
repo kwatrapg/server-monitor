@@ -1,0 +1,30 @@
+<%- include('partials/header', { title: 'Dashboard' }) %>
+<h1>Dashboard</h1>
+<div class="stat-grid">
+  <div class="stat-card"><span class="stat-value"><%= stats.customers %></span><span class="stat-label">Customers</span></div>
+  <div class="stat-card"><span class="stat-value"><%= stats.plans %></span><span class="stat-label">Active plans</span></div>
+  <div class="stat-card"><span class="stat-value"><%= stats.activeLicenses %></span><span class="stat-label">Active licenses</span></div>
+  <div class="stat-card <%= stats.expiringSoon > 0 ? 'stat-warn' : '' %>"><span class="stat-value"><%= stats.expiringSoon %></span><span class="stat-label">Expiring in 7 days</span></div>
+</div>
+
+<h2>Recent licenses</h2>
+<table class="data-table">
+  <thead>
+    <tr><th>Key</th><th>Customer</th><th>Plan</th><th>Status</th><th>Expires</th></tr>
+  </thead>
+  <tbody>
+    <% recentLicenses.forEach(function(l) { %>
+    <tr>
+      <td><code><%= l.license_key %></code></td>
+      <td><%= l.customer_name %></td>
+      <td><%= l.plan_name %></td>
+      <td><span class="badge badge-<%= l.status %>"><%= l.status %></span></td>
+      <td><%= l.expires_at || '—' %></td>
+    </tr>
+    <% }); %>
+    <% if (recentLicenses.length === 0) { %>
+    <tr><td colspan="5" class="empty">No licenses yet.</td></tr>
+    <% } %>
+  </tbody>
+</table>
+<%- include('partials/footer') %>

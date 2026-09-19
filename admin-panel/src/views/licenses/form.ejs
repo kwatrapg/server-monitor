@@ -1,0 +1,85 @@
+<%- include('../partials/header', { title: license && license.id ? 'Manage license' : 'New license' }) %>
+<h1><%= license && license.id ? 'Manage license' : 'New license' %></h1>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<% if (license && license.id) { %>
+<p class="license-key">License key: <code><%= license.license_key %></code></p>
+<div class="action-row">
+  <form method="post" action="/licenses/<%= license.id %>/status" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="status" value="active" />
+    <button type="submit" <%= license.status === 'active' ? 'disabled' : '' %>>Activate</button>
+  </form>
+  <form method="post" action="/licenses/<%= license.id %>/status" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="status" value="suspended" />
+    <button type="submit" <%= license.status === 'suspended' ? 'disabled' : '' %>>Suspend</button>
+  </form>
+  <form method="post" action="/licenses/<%= license.id %>/status" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="status" value="revoked" />
+    <button type="submit" class="btn-danger" <%= license.status === 'revoked' ? 'disabled' : '' %>>Revoke</button>
+  </form>
+  <form method="post" action="/licenses/<%= license.id %>/regenerate-key" class="inline-form" onsubmit="return confirm('Regenerate the license key? The old key will stop working immediately.');">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <button type="submit">Regenerate key</button>
+  </form>
+</div>
+<% } %>
+
+<form method="post" action="<%= license && license.id ? '/licenses/' + license.id : '/licenses' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Customer
+    <select name="customer_id" required>
+      <option value="">Select a customer</option>
+      <% customers.forEach(function(c) { %>
+      <option value="<%= c.id %>" <%= license && String(license.customer_id) === String(c.id) ? 'selected' : '' %>><%= c.name %> (<%= c.email %>)</option>
+      <% }); %>
+    </select>
+  </label>
+
+  <label>Plan
+    <select name="plan_id" required>
+      <option value="">Select a plan</option>
+      <% plans.forEach(function(p) { %>
+      <option value="<%= p.id %>" <%= license && String(license.plan_id) === String(p.id) ? 'selected' : '' %>><%= p.name %></option>
+      <% }); %>
+    </select>
+  </label>
+
+  <label>Bound domain (optional)
+    <input type="text" name="domain" value="<%= license ? license.domain : '' %>" placeholder="customer-site.com" maxlength="255" />
+  </label>
+
+  <div class="form-row">
+    <label>Activation limit
+      <input type="number" name="activation_limit" min="1" max="1000" value="<%= license ? license.activation_limit : 1 %>" required />
+    </label>
+    <label>Expires at (optional)
+      <input type="date" name="expires_at" value="<%= license && license.expires_at ? license.expires_at.substring(0,10) : '' %>" />
+    </label>
+  </div>
+
+  <button type="submit">Save license</button>
+</form>
+
+<% if (typeof activations !== 'undefined' && activations.length > 0) { %>
+<h2>Activations</h2>
+<table class="data-table">
+  <thead><tr><th>Fingerprint</th><th>Domain</th><th>IP</th><th>Activated</th><th>Last seen</th></tr></thead>
+  <tbody>
+    <% activations.forEach(function(a) { %>
+    <tr>
+      <td><code><%= a.fingerprint %></code></td>
+      <td><%= a.domain || '—' %></td>
+      <td><%= a.ip %></td>
+      <td><%= a.activated_at %></td>
+      <td><%= a.last_seen_at %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } %>
+<%- include('../partials/footer') %>
