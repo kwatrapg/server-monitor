@@ -394,6 +394,13 @@ switch($_POST['action']) {
 		$status = 40;
 	break;
 
+	case "licenseSettings":
+		isAuthorized("manageSettings");
+		License::setKey($_POST['license_key'] ?? '');
+		$result = License::status(true);
+		$status = $result['valid'] ? 42 : 43;
+	break;
+
 	case "editNotification":
 		isAuthorized("manageSettings"); $status = Settings::editNotification($_POST);
     break;

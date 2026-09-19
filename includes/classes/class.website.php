@@ -5,6 +5,7 @@ class Website extends App {
 
     public static function add($data) {
     	global $database;
+    	if (!License::canAdd('max_websites')) return "12";
     	$lastid = $database->insert("app_websites", [
             "groupid" => $data['groupid'],
     		"name" => $data['name'],
