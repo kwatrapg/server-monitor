@@ -24,7 +24,20 @@ if (config.trustProxy) app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(helmet());
+app.use(
+  helmet({
+    // In production, HSTS + upgrade-insecure-requests assume this app is served
+    // over HTTPS (e.g. behind a TLS-terminating reverse proxy). Off otherwise,
+    // so it doesn't force HTTPS while testing over plain HTTP.
+    hsts: config.env === 'production',
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        upgradeInsecureRequests: config.env === 'production' ? [] : null,
+      },
+    },
+  })
+);
 app.use(express.urlencoded({ extended: false, limit: '100kb' }));
 app.use(express.json({ limit: '100kb' }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
