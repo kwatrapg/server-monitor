@@ -36,4 +36,12 @@ switch($_GET['qa']) {
 		header("Location:?route=system/settings");
 	break;
 
+	case "verifyLicense":
+		csrf_check_or_die();
+		isAuthorized("manageSettings");
+		$result = License::status(true);
+		setStatus($result['valid'] ? 42 : 43);
+		header("Location:?route=system/settings&section=license");
+	break;
+
 } // end switch

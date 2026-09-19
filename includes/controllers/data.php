@@ -905,6 +905,9 @@ if ($route == "system/settings") {
 	if(!$selected_contacts) $selected_contacts = [];
 	$pageTitle = __("Settings");
 
+	$licenseStatus = License::status();
+	$licenseUsage = License::getUsage();
+
 	$tzlist = array (
 	    '(UTC-11:00) Midway Island' => 'Pacific/Midway',
 	    '(UTC-11:00) Samoa' => 'Pacific/Samoa',

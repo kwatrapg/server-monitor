@@ -463,3 +463,45 @@ function sm_safe_http_get($url, $timeout = 10, $maxRedirects = 3) {
         return ['status' => $status, 'body' => (string) $body, 'error' => null];
     }
 }
+
+/**
+ * HTTP POST with a JSON body to an ADMIN-CONFIGURED, trusted endpoint (e.g.
+ * LICENSE_API_URL) — not for user-suppliable targets. Deliberately does not
+ * go through HostGuard: unlike check/website probe targets, this URL comes
+ * from .env, not from user input, and commonly points at 127.0.0.1/a private
+ * IP (the license service co-located with this app or on the same LAN), which
+ * HostGuard's SSRF allow-list would otherwise reject. Still hardened: TLS
+ * verified, no redirect following, bounded timeout, http(s) only.
+ * Requires ext-curl; returns ['status'=>int,'body'=>string,'error'=>?string].
+ */
+function sm_trusted_http_post($url, $jsonBody, $timeout = 10) {
+    if (!function_exists('curl_init')) {
+        return ['status' => 0, 'body' => '', 'error' => 'curl unavailable'];
+    }
+    $scheme = strtolower((string) parse_url((string) $url, PHP_URL_SCHEME));
+    if (!in_array($scheme, ['http', 'https'], true)) {
+        return ['status' => 0, 'body' => '', 'error' => 'Blocked URL scheme: ' . $scheme];
+    }
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $url,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => (string) $jsonBody,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json', 'Content-Length: ' . strlen((string) $jsonBody)],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER         => false,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_CONNECTTIMEOUT => min(10, $timeout),
+        CURLOPT_TIMEOUT        => $timeout,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+        CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+        CURLOPT_USERAGENT      => 'Sentruo-Monitor/1.0',
+    ]);
+    $body   = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    $err    = curl_errno($ch) ? curl_error($ch) : null;
+    curl_close($ch);
+
+    return ['status' => $status, 'body' => (string) $body, 'error' => $err];
+}

@@ -5,6 +5,7 @@ class Server extends App {
 
     public static function add($data) {
     	global $database;
+    	if (!License::canAdd('max_servers')) return "12";
     	$lastid = $database->insert("app_servers", [
             "groupid" => $data['groupid'],
             "type" => $data['type'],

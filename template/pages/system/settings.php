@@ -27,6 +27,7 @@
 						<li <?php if ($section == "sms") echo 'class="active"'; ?> ><a href="#sms" data-toggle="tab"><?php _e('SMS Gateway'); ?></a></li>
 						<li <?php if ($section == "twitter") echo 'class="active"'; ?> ><a href="#twitter" data-toggle="tab"><?php _e('Twitter'); ?></a></li>
 						<li <?php if ($section == "pushover") echo 'class="active"'; ?> ><a href="#pushover" data-toggle="tab"><?php _e('Pushover'); ?></a></li>
+						<li <?php if ($section == "license") echo 'class="active"'; ?> ><a href="#license" data-toggle="tab"><?php _e('License'); ?></a></li>
 						<li <?php if ($section == "templates") echo 'class="active"'; ?> ><a href="#templates" data-toggle="tab"><?php _e('Notifications'); ?></a></li>
 						<li <?php if ($section == "crons") echo 'class="active"'; ?> ><a href="#crons" data-toggle="tab"><?php _e('Cron Jobs'); ?></a></li>
                     </ul>
@@ -432,6 +433,61 @@
 								<input type="hidden" name="route" value="system/settings">
 								<input type="hidden" name="section" value="pushover">
 							</form>
+                        </div><!-- /.tab-pane -->
+
+						<div class="tab-pane <?php if ($section == "license") echo 'active'; ?>" id="license">
+							<?php if (!$licenseStatus['enabled']): ?>
+								<p class="text-muted"><?php _e('Licensing is not enabled for this installation — no usage limits are enforced. This section is used when this app is deployed as a licensed SaaS instance (LICENSE_API_URL configured).'); ?></p>
+							<?php else: ?>
+								<?php
+									$badgeClass = $licenseStatus['valid'] ? 'label-success' : 'label-warning';
+									$badgeText = $licenseStatus['valid'] ? __('Active') : ucfirst(str_replace('_', ' ', (string) $licenseStatus['reason']));
+								?>
+								<div class="form-group">
+									<label class="control-label"><?php _e('Status'); ?></label><br>
+									<span class="label <?php echo $badgeClass; ?>"><?php echo e($badgeText); ?></span>
+									<?php if ($licenseStatus['plan_name']): ?>
+										&nbsp; <span class="label label-default"><?php echo e($licenseStatus['plan_name']); ?></span>
+									<?php endif; ?>
+									<?php if ($licenseStatus['expires_at']): ?>
+										<p class="help-block"><?php echo sprintf(__('Expires: %s'), e($licenseStatus['expires_at'])); ?></p>
+									<?php endif; ?>
+									<?php if ($licenseStatus['checked_at']): ?>
+										<p class="help-block"><?php echo sprintf(__('Last checked: %s (%s)'), e($licenseStatus['checked_at']), e($licenseStatus['source'])); ?></p>
+									<?php endif; ?>
+								</div>
+
+								<form role="form" action="" method="post" id="licenseSettingsForm">
+									<div class="form-group">
+										<label for="license_key" class="control-label"><?php _e('License Key'); ?></label>
+										<input class="form-control" id="license_key" value="<?php echo e(License::getKey()); ?>" placeholder="SNTR-XXXX-XXXX-XXXX-XXXX" type="text" name="license_key" autocomplete="off">
+										<p class="help-block"><?php _e('Enter the license key issued for this installation. Saving re-checks it immediately.'); ?></p>
+									</div>
+
+									<div class="form-group">
+										<div class="pull-right" style="margin:10px 0px;">
+											<a href="?route=system/settings&section=license&qa=verifyLicense&csrf_token=<?php echo e(csrf_token()); ?>" class="btn btn-flat btn-default"><?php _e('Verify Now'); ?></a>
+											<button type='submit' class="btn btn-flat btn-success"><?php _e('Save Changes'); ?></button>
+										</div>
+									</div>
+									<div style="clear:both;"></div>
+
+									<input type="hidden" name="action" value="licenseSettings">
+									<input type="hidden" name="route" value="system/settings">
+									<input type="hidden" name="section" value="license">
+								</form>
+
+								<hr>
+								<h4><?php _e('Plan Limits'); ?></h4>
+								<table class="table table-striped table-hover">
+									<thead><tr><th><?php _e('Resource'); ?></th><th><?php _e('Used'); ?></th><th><?php _e('Limit'); ?></th></tr></thead>
+									<tbody>
+										<tr><td><?php _e('Servers'); ?></td><td><?php echo (int) $licenseUsage['max_servers']['used']; ?></td><td><?php echo $licenseUsage['max_servers']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_servers']['limit']; ?></td></tr>
+										<tr><td><?php _e('Websites'); ?></td><td><?php echo (int) $licenseUsage['max_websites']['used']; ?></td><td><?php echo $licenseUsage['max_websites']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_websites']['limit']; ?></td></tr>
+										<tr><td><?php _e('Checks'); ?></td><td><?php echo (int) $licenseUsage['max_checks']['used']; ?></td><td><?php echo $licenseUsage['max_checks']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_checks']['limit']; ?></td></tr>
+									</tbody>
+								</table>
+							<?php endif; ?>
                         </div><!-- /.tab-pane -->
 
                         <div class="tab-pane <?php if ($section == "templates") echo 'active'; ?>" id="templates">

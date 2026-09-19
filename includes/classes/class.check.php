@@ -7,6 +7,8 @@ class Check extends App {
     public static function add($data) {
     	global $database;
 
+    	if (!License::canAdd('max_checks')) return "12";
+
     	// Callback checks are authenticated by a per-check CSPRNG secret, not by
     	// their host string (VAPT A-4). The host field is not used for this type.
     	$callbackkey = ($data['type'] == "callback") ? sm_random_token(40) : null;
