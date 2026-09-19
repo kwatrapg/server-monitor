@@ -1,6 +1,6 @@
 #!/bin/bash
-# Rebuilds assets/install.sh and assets/agent.sh as self-decrypting stubs
-# from the plaintext sources in assets/install.sh-bak and assets/agent.sh-bak.
+# Rebuilds assets/install.sh, assets/agent.sh and assets/uninstall.sh as
+# self-decrypting stubs from the plaintext sources in assets/*.sh-bak.
 #
 # Edit the -bak files (plain bash), then re-run this to regenerate the
 # deployed files. Each stub embeds a random passphrase and its own
@@ -29,5 +29,6 @@ STUB
 
 make_stub "$ASSETS_DIR/install.sh-bak" "$ASSETS_DIR/install.sh"
 make_stub "$ASSETS_DIR/agent.sh-bak" "$ASSETS_DIR/agent.sh"
+make_stub "$ASSETS_DIR/uninstall.sh-bak" "$ASSETS_DIR/uninstall.sh"
 
-echo "Rebuilt $ASSETS_DIR/install.sh and $ASSETS_DIR/agent.sh"
+echo "Rebuilt $ASSETS_DIR/install.sh, $ASSETS_DIR/agent.sh and $ASSETS_DIR/uninstall.sh"
