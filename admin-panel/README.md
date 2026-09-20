@@ -43,9 +43,12 @@ entirely (no working admin account), update `password_hash` directly in
   whichever currency is selected — stored as cents internally for
   precision, converted at the form boundary, never shown or entered as raw
   cents), currency (dropdown, `src/utils/currencies.js` — new plans default
-  to Settings > General's configured currency), billing interval, and usage
+  to Settings > General's configured currency), billing interval, usage
   limits (max servers/websites/checks) that map to the main monitor app's
-  plan tiers.
+  plan tiers, and a **GST Inclusive / Exclusive** toggle — shown on the
+  plan card in both the admin list and the customer-facing plan picker, so
+  it's clear whether GST is already baked into the price or gets added at
+  checkout.
 - **Licenses** — a generated key (`SNTR-XXXX-XXXX-XXXX-XXXX`) tied to a
   customer and plan, with status (active/suspended/revoked/expired),
   optional domain binding, an activation limit, an expiry date, and the
@@ -59,17 +62,32 @@ entirely (no working admin account), update `password_hash` directly in
   you can't delete the account you're currently signed in as.
 - **Settings** (`/settings`):
   - **General** — site name, support email, default currency.
-  - **Payment Gateways** (`/settings/payment-gateways`) — store credentials
-    for Razorpay, Stripe, PayPal or PayU and mark one or more as
-    enabled/test/live. Secrets are AES-256-GCM encrypted at rest with
-    `ENCRYPTION_KEY` and never re-displayed in the form (blank = keep the
-    saved value). **This saves and encrypts gateway credentials only** — it
-    does not implement a checkout flow or webhook handling; wiring an
-    actual payment provider's SDK/checkout/webhooks up to license
-    creation or renewal is a separate integration.
+  - **Payment Gateways** (`/settings/payment-gateways`) — one tab per
+    provider (Razorpay, Stripe, PayPal, PayU), each with its own
+    enabled/on-off badge and configuration form; visiting the index
+    redirects to the first provider. Secrets are AES-256-GCM encrypted at
+    rest with `ENCRYPTION_KEY` and never re-displayed in the form (blank =
+    keep the saved value). **This saves and encrypts gateway credentials
+    only** — it does not implement a checkout flow or webhook handling;
+    wiring an actual payment provider's SDK/checkout/webhooks up to
+    license creation or renewal is a separate integration.
   - **Invoice** (`/settings/invoice`) — company name, address, state, GST
-    number and GST rate shown on customer invoices, plus a free-form field
-    for anything else (PAN, bank details, terms).
+    number and GST rate used when computing invoices, plus a free-form
+    field for anything else (PAN, bank details, terms).
+- **Invoices** (`/invoices`) — created automatically whenever a customer
+  completes checkout for a paid (non-demo) plan; list and open any
+  invoice to view its full breakdown or edit its status/notes/amounts.
+  GST is only calculated when the customer has a GST invoice on file
+  (Billing page); otherwise it's a plain receipt with no tax split. When
+  GST applies:
+  - **Company state (Settings > Invoice) == customer's GST state → CGST +
+    SGST**, each half of the configured GST rate (e.g. 18% → 9% + 9%).
+  - **Different states → IGST** at the full rate.
+  - The plan's GST Inclusive/Exclusive setting controls whether the tax is
+    backed out of the plan price or added on top.
+  Every invoice snapshots the customer's billing/GST details and the
+  company's invoice settings *at the time of purchase* — editing either
+  afterward never rewrites an already-issued invoice.
 
 ## Customer portal (`/portal`)
 

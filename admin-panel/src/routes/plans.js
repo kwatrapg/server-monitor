@@ -28,6 +28,7 @@ const validatePlan = [
   body('max_websites').isInt({ min: 0 }),
   body('max_checks').isInt({ min: 0 }),
   body('trial_days').optional({ checkFalsy: true }).isInt({ min: 1, max: 365 }),
+  body('gst_type').isIn(['inclusive', 'exclusive']),
 ];
 
 router.get('/', requireAuth, (req, res) => {
@@ -45,15 +46,15 @@ router.post('/', requireAuth, validatePlan, csrfProtect, (req, res) => {
     return res.status(400).render('plans/form', { plan: req.body, errors: errors.array(), currencies: CURRENCIES, defaultCurrency: getSetting('currency', 'USD') });
   }
 
-  const { name, description, price, currency, billing_interval, max_servers, max_websites, max_checks, trial_days } = req.body;
+  const { name, description, price, currency, billing_interval, max_servers, max_websites, max_checks, trial_days, gst_type } = req.body;
   const isDemo = req.body.is_demo ? 1 : 0;
   const slug = slugify(name);
 
   try {
     const result = db
       .prepare(
-        `INSERT INTO saas_plans (name, slug, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks, is_demo, trial_days)
-         VALUES (@name, @slug, @description, @price_cents, @currency, @billing_interval, @max_servers, @max_websites, @max_checks, @is_demo, @trial_days)`
+        `INSERT INTO saas_plans (name, slug, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks, is_demo, trial_days, gst_type)
+         VALUES (@name, @slug, @description, @price_cents, @currency, @billing_interval, @max_servers, @max_websites, @max_checks, @is_demo, @trial_days, @gst_type)`
       )
       .run({
         name,
@@ -67,6 +68,7 @@ router.post('/', requireAuth, validatePlan, csrfProtect, (req, res) => {
         max_checks: parseInt(max_checks, 10),
         is_demo: isDemo,
         trial_days: isDemo && trial_days ? parseInt(trial_days, 10) : null,
+        gst_type,
       });
     logAction(req, 'create', 'plan', result.lastInsertRowid, { name });
     res.redirect('/plans');
@@ -95,7 +97,7 @@ router.post('/:id', requireAuth, validatePlan, csrfProtect, (req, res) => {
     return res.status(400).render('plans/form', { plan: { ...req.body, id: req.params.id }, errors: errors.array(), currencies: CURRENCIES, defaultCurrency: getSetting('currency', 'USD') });
   }
 
-  const { name, description, price, currency, billing_interval, max_servers, max_websites, max_checks, is_active, trial_days } = req.body;
+  const { name, description, price, currency, billing_interval, max_servers, max_websites, max_checks, is_active, trial_days, gst_type } = req.body;
   const isDemo = req.body.is_demo ? 1 : 0;
 
   db.prepare(
@@ -103,7 +105,7 @@ router.post('/:id', requireAuth, validatePlan, csrfProtect, (req, res) => {
        name = @name, description = @description, price_cents = @price_cents,
        currency = @currency, billing_interval = @billing_interval,
        max_servers = @max_servers, max_websites = @max_websites, max_checks = @max_checks,
-       is_active = @is_active, is_demo = @is_demo, trial_days = @trial_days, updated_at = datetime('now')
+       is_active = @is_active, is_demo = @is_demo, trial_days = @trial_days, gst_type = @gst_type, updated_at = datetime('now')
      WHERE id = @id`
   ).run({
     id: req.params.id,
@@ -118,6 +120,7 @@ router.post('/:id', requireAuth, validatePlan, csrfProtect, (req, res) => {
     is_active: is_active ? 1 : 0,
     is_demo: isDemo,
     trial_days: isDemo && trial_days ? parseInt(trial_days, 10) : null,
+    gst_type,
   });
 
   logAction(req, 'update', 'plan', req.params.id, { name });

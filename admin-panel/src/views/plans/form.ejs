@@ -35,6 +35,14 @@
     </label>
   </div>
 
+  <label>GST
+    <div class="toggle-group">
+      <label class="toggle-option"><input type="radio" name="gst_type" value="exclusive" <%= !plan || plan.gst_type !== 'inclusive' ? 'checked' : '' %> /> Exclusive (GST added on top)</label>
+      <label class="toggle-option"><input type="radio" name="gst_type" value="inclusive" <%= plan && plan.gst_type === 'inclusive' ? 'checked' : '' %> /> Inclusive (price already includes GST)</label>
+    </div>
+    <span class="hint">Shown on the plan card so customers know whether GST is added at checkout.</span>
+  </label>
+
   <div class="form-row">
     <label>Max servers
       <input type="number" name="max_servers" min="0" value="<%= plan ? plan.max_servers : 1 %>" required />

@@ -17,6 +17,7 @@ const customerRoutes = require('./routes/customers');
 const licenseRoutes = require('./routes/licenses');
 const settingsRoutes = require('./routes/settings');
 const adminUserRoutes = require('./routes/adminusers');
+const invoiceRoutes = require('./routes/invoices');
 const apiRoutes = require('./routes/api');
 const portalRoutes = require('./routes/portal');
 
@@ -88,6 +89,7 @@ adminApp.use('/customers', customerRoutes);
 adminApp.use('/licenses', licenseRoutes);
 adminApp.use('/settings', settingsRoutes);
 adminApp.use('/admin-users', adminUserRoutes);
+adminApp.use('/invoices', invoiceRoutes);
 
 app.use('/', adminApp);
 
