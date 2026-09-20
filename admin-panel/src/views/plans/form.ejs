@@ -15,11 +15,16 @@
   </label>
 
   <div class="form-row">
-    <label>Price (in cents)
-      <input type="number" name="price_cents" min="0" value="<%= plan ? plan.price_cents : 0 %>" required />
+    <label>Price
+      <input type="number" name="price" min="0" step="0.01" value="<%= plan ? (plan.price_cents !== undefined ? (plan.price_cents / 100).toFixed(2) : plan.price) : '' %>" placeholder="e.g. 100 = 100.00" required />
+      <span class="hint">Final amount, not cents — 100 means 100.00 in the currency selected.</span>
     </label>
     <label>Currency
-      <input type="text" name="currency" maxlength="8" value="<%= plan ? plan.currency : 'USD' %>" required />
+      <select name="currency" required>
+        <% currencies.forEach(function(c) { %>
+        <option value="<%= c.code %>" <%= (plan ? plan.currency : defaultCurrency) === c.code ? 'selected' : '' %>><%= c.label %></option>
+        <% }); %>
+      </select>
     </label>
     <label>Billing interval
       <select name="billing_interval">
