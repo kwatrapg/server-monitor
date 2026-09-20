@@ -18,6 +18,9 @@ router.get('/', requireAuth, (req, res) => {
          AND datetime(expires_at) <= datetime('now', '+7 days')`
       )
       .get().n,
+    pendingDemoRequests: db
+      .prepare("SELECT COUNT(*) AS n FROM saas_licenses WHERE status = 'pending_approval'")
+      .get().n,
   };
 
   const recentLicenses = db

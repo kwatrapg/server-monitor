@@ -99,12 +99,36 @@ router.post('/:id', requireAuth, validateLicense, csrfProtect, (req, res) => {
 
 router.post('/:id/status', requireAuth, csrfProtect, (req, res) => {
   const { status } = req.body;
-  if (!['active', 'suspended', 'revoked'].includes(status)) {
+  if (!['active', 'suspended', 'revoked', 'rejected'].includes(status)) {
     return res.status(400).send('Invalid status');
   }
   const result = db.prepare("UPDATE saas_licenses SET status = ?, updated_at = datetime('now') WHERE id = ?").run(status, req.params.id);
   if (result.changes === 0) return res.status(404).send('License not found');
   logAction(req, `status_${status}`, 'license', req.params.id, {});
+  res.redirect('/licenses');
+});
+
+// Approving a demo request starts its trial clock now (not at request time) —
+// expires_at is set to today + the plan's trial_days.
+router.post('/:id/approve-demo', requireAuth, csrfProtect, (req, res) => {
+  const license = db
+    .prepare(
+      `SELECT l.*, p.trial_days FROM saas_licenses l JOIN saas_plans p ON p.id = l.plan_id WHERE l.id = ?`
+    )
+    .get(req.params.id);
+  if (!license) return res.status(404).send('License not found');
+  if (license.status !== 'pending_approval') {
+    return res.status(400).send('This license is not awaiting approval.');
+  }
+
+  const trialDays = license.trial_days || 15;
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + trialDays);
+
+  db.prepare("UPDATE saas_licenses SET status = 'active', expires_at = ?, updated_at = datetime('now') WHERE id = ?")
+    .run(expiresAt.toISOString().slice(0, 10), req.params.id);
+
+  logAction(req, 'approve_demo', 'license', req.params.id, { trialDays });
   res.redirect('/licenses');
 });
 

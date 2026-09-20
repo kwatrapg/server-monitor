@@ -86,6 +86,21 @@ Not behind `TRUSTED_ADMIN_IPS` (customers sign up from anywhere).
   in `src/routes/portal.js` for a real gateway confirmation (e.g. verifying
   a Razorpay payment signature) once you're ready to test that against real
   gateway credentials.
+- **Demo plan** — a plan with its "This is a demo/trial plan" checkbox set
+  (Plans → edit → `is_demo` + `trial_days`) skips payment entirely and
+  works differently from a normal checkout: requesting it creates the
+  license as `pending_approval` with no expiry date yet, instead of
+  activating it immediately. An admin must approve it from the license's
+  edit page (Approve demo / Reject buttons appear automatically for
+  `pending_approval` licenses) — approving sets `status = active` and
+  `expires_at` to *that day* plus the plan's `trial_days` (the trial clock
+  starts at approval, not at request time). **A customer can only ever
+  request a demo once** — enforced server-side by checking for any existing
+  license (approved, pending, or rejected) tied to a plan with `is_demo = 1`
+  for that customer, not just hidden in the UI. A default "Demo" plan
+  (15 days) is seeded automatically on first run; edit its limits/trial
+  length like any other plan, or mark additional plans as demo plans the
+  same way.
 - **Dashboard** (`/portal/dashboard`) — every license the customer owns:
   key, plan limits, activations used vs. the license's activation limit,
   amount paid, payment status, issue/expiry dates, last verified time.

@@ -13,9 +13,16 @@
 <div class="gateway-card" <%= highlightId === l.id ? 'style="border-color:var(--ok);"' : '' %>>
   <div class="gateway-header">
     <h3><%= l.plan_name %></h3>
-    <span class="badge badge-<%= l.status %>"><%= l.status %></span>
+    <span class="badge badge-<%= l.status %>"><%= l.status.replace('_', ' ') %></span>
   </div>
   <p class="license-key">License key: <code><%= l.license_key %></code></p>
+
+  <% if (l.status === 'pending_approval') { %>
+    <p class="muted">Your demo request is waiting for an admin to approve it. Your trial period starts once approved.</p>
+  <% } else if (l.status === 'rejected') { %>
+    <p class="muted">This demo request was not approved. Please contact support or choose a paid plan.</p>
+  <% } %>
+
   <table class="data-table">
     <tbody>
       <tr><td>Servers limit</td><td><%= l.max_servers %></td></tr>
@@ -25,7 +32,10 @@
       <tr><td>Amount paid</td><td><%= l.amount_cents != null ? (l.amount_cents / 100).toFixed(2) + ' ' + l.currency : '—' %></td></tr>
       <tr><td>Payment status</td><td><%= l.payment_status %></td></tr>
       <tr><td>Issued</td><td><%= l.issued_at %></td></tr>
-      <tr><td>Expires</td><td><%= l.expires_at || 'Never (lifetime)' %></td></tr>
+      <tr><td>Expires</td><td>
+        <% if (l.status === 'pending_approval') { %>Not started yet
+        <% } else { %><%= l.expires_at || 'Never (lifetime)' %><% } %>
+      </td></tr>
       <tr><td>Last verified</td><td><%= l.last_verified_at || 'never' %></td></tr>
     </tbody>
   </table>

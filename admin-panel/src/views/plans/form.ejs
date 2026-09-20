@@ -49,6 +49,28 @@
   </label>
   <% } %>
 
+  <label class="checkbox">
+    <input type="checkbox" name="is_demo" id="isDemo" value="1" <%= plan && plan.is_demo ? 'checked' : '' %> />
+    This is a demo/trial plan
+  </label>
+
+  <div id="trialDaysField" style="display:none;">
+    <label>Trial length (days)
+      <input type="number" name="trial_days" min="1" max="365" value="<%= plan && plan.trial_days ? plan.trial_days : 15 %>" />
+      <span class="hint">A customer's license expiry is set to this many days after an admin approves their demo request. Each customer may request a demo plan once.</span>
+    </label>
+  </div>
+
   <button type="submit">Save plan</button>
+
+  <script>
+    (function () {
+      var checkbox = document.getElementById('isDemo');
+      var field = document.getElementById('trialDaysField');
+      function sync() { field.style.display = checkbox.checked ? 'block' : 'none'; }
+      checkbox.addEventListener('change', sync);
+      sync();
+    })();
+  </script>
 </form>
 <%- include('../partials/footer') %>

@@ -24,6 +24,7 @@ const validatePlan = [
   body('max_servers').isInt({ min: 0 }),
   body('max_websites').isInt({ min: 0 }),
   body('max_checks').isInt({ min: 0 }),
+  body('trial_days').optional({ checkFalsy: true }).isInt({ min: 1, max: 365 }),
 ];
 
 router.get('/', requireAuth, (req, res) => {
@@ -41,14 +42,15 @@ router.post('/', requireAuth, validatePlan, csrfProtect, (req, res) => {
     return res.status(400).render('plans/form', { plan: req.body, errors: errors.array() });
   }
 
-  const { name, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks } = req.body;
+  const { name, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks, trial_days } = req.body;
+  const isDemo = req.body.is_demo ? 1 : 0;
   const slug = slugify(name);
 
   try {
     const result = db
       .prepare(
-        `INSERT INTO saas_plans (name, slug, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks)
-         VALUES (@name, @slug, @description, @price_cents, @currency, @billing_interval, @max_servers, @max_websites, @max_checks)`
+        `INSERT INTO saas_plans (name, slug, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks, is_demo, trial_days)
+         VALUES (@name, @slug, @description, @price_cents, @currency, @billing_interval, @max_servers, @max_websites, @max_checks, @is_demo, @trial_days)`
       )
       .run({
         name,
@@ -60,6 +62,8 @@ router.post('/', requireAuth, validatePlan, csrfProtect, (req, res) => {
         max_servers: parseInt(max_servers, 10),
         max_websites: parseInt(max_websites, 10),
         max_checks: parseInt(max_checks, 10),
+        is_demo: isDemo,
+        trial_days: isDemo && trial_days ? parseInt(trial_days, 10) : null,
       });
     logAction(req, 'create', 'plan', result.lastInsertRowid, { name });
     res.redirect('/plans');
@@ -86,14 +90,15 @@ router.post('/:id', requireAuth, validatePlan, csrfProtect, (req, res) => {
     return res.status(400).render('plans/form', { plan: { ...req.body, id: req.params.id }, errors: errors.array() });
   }
 
-  const { name, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks, is_active } = req.body;
+  const { name, description, price_cents, currency, billing_interval, max_servers, max_websites, max_checks, is_active, trial_days } = req.body;
+  const isDemo = req.body.is_demo ? 1 : 0;
 
   db.prepare(
     `UPDATE saas_plans SET
        name = @name, description = @description, price_cents = @price_cents,
        currency = @currency, billing_interval = @billing_interval,
        max_servers = @max_servers, max_websites = @max_websites, max_checks = @max_checks,
-       is_active = @is_active, updated_at = datetime('now')
+       is_active = @is_active, is_demo = @is_demo, trial_days = @trial_days, updated_at = datetime('now')
      WHERE id = @id`
   ).run({
     id: req.params.id,
@@ -106,6 +111,8 @@ router.post('/:id', requireAuth, validatePlan, csrfProtect, (req, res) => {
     max_websites: parseInt(max_websites, 10),
     max_checks: parseInt(max_checks, 10),
     is_active: is_active ? 1 : 0,
+    is_demo: isDemo,
+    trial_days: isDemo && trial_days ? parseInt(trial_days, 10) : null,
   });
 
   logAction(req, 'update', 'plan', req.params.id, { name });

@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS saas_plans (
   max_websites INTEGER NOT NULL DEFAULT 1,
   max_checks INTEGER NOT NULL DEFAULT 10,
   is_active INTEGER NOT NULL DEFAULT 1,
+  is_demo INTEGER NOT NULL DEFAULT 0,
+  trial_days INTEGER, -- only meaningful when is_demo = 1; license expiry is set to approval time + trial_days
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -51,7 +53,7 @@ CREATE TABLE IF NOT EXISTS saas_licenses (
   license_key TEXT NOT NULL UNIQUE,
   customer_id INTEGER NOT NULL REFERENCES saas_customers(id) ON DELETE CASCADE,
   plan_id INTEGER NOT NULL REFERENCES saas_plans(id) ON DELETE RESTRICT,
-  status TEXT NOT NULL DEFAULT 'active', -- active | suspended | revoked | expired
+  status TEXT NOT NULL DEFAULT 'active', -- active | suspended | revoked | expired | pending_approval | rejected
   domain TEXT NOT NULL DEFAULT '',
   activation_limit INTEGER NOT NULL DEFAULT 1,
   amount_cents INTEGER, -- amount actually charged for this license (may differ from the plan's list price)

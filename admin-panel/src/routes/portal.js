@@ -148,14 +148,26 @@ router.post('/logout', csrfProtect, (req, res) => {
 
 router.get('/plans', requireCustomerAuth, (req, res) => {
   const plans = db.prepare('SELECT * FROM saas_plans WHERE is_active = 1 ORDER BY price_cents ASC').all();
-  res.render('portal/plans', { plans });
+  const usedDemo = hasUsedDemo(req.session.customerId);
+  res.render('portal/plans', { plans, usedDemo });
 });
+
+function hasUsedDemo(customerId) {
+  const row = db
+    .prepare(
+      `SELECT 1 FROM saas_licenses l JOIN saas_plans p ON p.id = l.plan_id
+       WHERE l.customer_id = ? AND p.is_demo = 1 LIMIT 1`
+    )
+    .get(customerId);
+  return Boolean(row);
+}
 
 router.get('/checkout/:planId', requireCustomerAuth, (req, res) => {
   const plan = db.prepare('SELECT * FROM saas_plans WHERE id = ? AND is_active = 1').get(req.params.planId);
   if (!plan) return res.status(404).send('Plan not found');
   const gateways = db.prepare('SELECT provider FROM payment_gateways WHERE enabled = 1').all().map((r) => r.provider);
-  res.render('portal/checkout', { plan, gateways });
+  const alreadyUsedDemo = plan.is_demo ? hasUsedDemo(req.session.customerId) : false;
+  res.render('portal/checkout', { plan, gateways, alreadyUsedDemo });
 });
 
 function computeExpiry(interval) {
@@ -170,9 +182,30 @@ function computeExpiry(interval) {
 // (see admin-panel/README.md) — this records the purchase and issues the
 // license immediately. Swap this handler for a real gateway confirmation
 // (e.g. verify a Razorpay payment signature) once that integration exists.
+//
+// Demo plans skip payment entirely and don't self-activate: they're created
+// as 'pending_approval' (no expiry yet) for an admin to approve or reject —
+// see POST /licenses/:id/approve-demo. A customer may only ever have one
+// demo license, checked here server-side (not just hidden in the UI).
 router.post('/checkout/:planId', requireCustomerAuth, csrfProtect, (req, res) => {
   const plan = db.prepare('SELECT * FROM saas_plans WHERE id = ? AND is_active = 1').get(req.params.planId);
   if (!plan) return res.status(404).send('Plan not found');
+
+  if (plan.is_demo) {
+    if (hasUsedDemo(req.session.customerId)) {
+      return res.status(400).send('You have already used your one-time demo. Please choose a paid plan.');
+    }
+    const licenseKey = generateLicenseKey();
+    const result = db
+      .prepare(
+        `INSERT INTO saas_licenses (license_key, customer_id, plan_id, activation_limit, status, amount_cents, payment_status, payment_method)
+         VALUES (?, ?, ?, 1, 'pending_approval', 0, 'n/a', 'demo')`
+      )
+      .run(licenseKey, req.session.customerId, plan.id);
+
+    logAction(req, 'demo_requested', 'license', result.lastInsertRowid, { customerId: req.session.customerId, plan: plan.slug });
+    return res.redirect(`/portal/dashboard?new=${result.lastInsertRowid}`);
+  }
 
   const licenseKey = generateLicenseKey();
   const expiresAt = computeExpiry(plan.billing_interval);
