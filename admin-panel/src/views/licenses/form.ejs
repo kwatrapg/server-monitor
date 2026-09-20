@@ -5,6 +5,22 @@
 
 <% if (license && license.id) { %>
 <p class="license-key">License key: <code><%= license.license_key %></code></p>
+
+<% if (license.status === 'pending_approval') { %>
+<p class="alert" style="background:rgba(59,130,246,0.15);color:var(--accent);">This is a demo request awaiting your approval. Approving it starts the trial period from today.</p>
+<div class="action-row">
+  <form method="post" action="/licenses/<%= license.id %>/approve-demo" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <button type="submit">Approve demo</button>
+  </form>
+  <form method="post" action="/licenses/<%= license.id %>/status" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="status" value="rejected" />
+    <button type="submit" class="btn-danger">Reject</button>
+  </form>
+</div>
+<% } %>
+
 <div class="action-row">
   <form method="post" action="/licenses/<%= license.id %>/status" class="inline-form">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />

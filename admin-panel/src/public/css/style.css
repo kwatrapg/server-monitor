@@ -95,7 +95,8 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 .badge { padding: 2px 8px; border-radius: 999px; font-size: 0.78em; font-weight: 600; text-transform: uppercase; }
 .badge-active { background: rgba(34,197,94,0.15); color: var(--ok); }
 .badge-suspended { background: rgba(245,158,11,0.15); color: var(--warn); }
-.badge-revoked, .badge-expired { background: rgba(239,68,68,0.15); color: var(--danger); }
+.badge-revoked, .badge-expired, .badge-rejected { background: rgba(239,68,68,0.15); color: var(--danger); }
+.badge-pending_approval { background: rgba(59,130,246,0.15); color: var(--accent); }
 
 .alert { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; }
 .alert-error { background: rgba(239,68,68,0.15); color: #fca5a5; }

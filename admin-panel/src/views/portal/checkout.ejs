@@ -1,23 +1,38 @@
 <%- include('partials/header', { title: 'Checkout' }) %>
-<h1>Checkout</h1>
+<h1><%= plan.is_demo ? 'Request demo access' : 'Checkout' %></h1>
 <div class="gateway-card" style="max-width:480px;">
   <h3><%= plan.name %></h3>
-  <div class="plan-price"><%= (plan.price_cents / 100).toFixed(2) %> <%= plan.currency %> <span class="muted">/ <%= plan.billing_interval %></span></div>
+  <% if (plan.is_demo) { %>
+    <div class="plan-price">Free for <%= plan.trial_days %> days</div>
+  <% } else { %>
+    <div class="plan-price"><%= (plan.price_cents / 100).toFixed(2) %> <%= plan.currency %> <span class="muted">/ <%= plan.billing_interval %></span></div>
+  <% } %>
   <ul class="plan-limits">
     <li><%= plan.max_servers %> servers</li>
     <li><%= plan.max_websites %> websites</li>
     <li><%= plan.max_checks %> checks</li>
   </ul>
 
-  <% if (gateways.length > 0) { %>
-    <p class="muted">Configured payment method(s): <%= gateways.join(', ') %>. Live card charging isn't wired up yet — completing this order issues your license directly.</p>
+  <% if (plan.is_demo) { %>
+    <% if (alreadyUsedDemo) { %>
+      <p class="alert alert-error">You've already used your one-time demo. Please choose a paid plan instead.</p>
+    <% } else { %>
+      <p class="muted">This request needs admin approval before your <%= plan.trial_days %>-day trial starts. You'll see it on your dashboard as "pending approval" until then. You may only request a demo once.</p>
+      <form method="post" action="/portal/checkout/<%= plan.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button type="submit">Request demo access</button>
+      </form>
+    <% } %>
   <% } else { %>
-    <p class="muted">No payment gateway is configured yet — completing this order issues your license directly (no charge).</p>
+    <% if (gateways.length > 0) { %>
+      <p class="muted">Configured payment method(s): <%= gateways.join(', ') %>. Live card charging isn't wired up yet — completing this order issues your license directly.</p>
+    <% } else { %>
+      <p class="muted">No payment gateway is configured yet — completing this order issues your license directly (no charge).</p>
+    <% } %>
+    <form method="post" action="/portal/checkout/<%= plan.id %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <button type="submit">Complete purchase</button>
+    </form>
   <% } %>
-
-  <form method="post" action="/portal/checkout/<%= plan.id %>">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-    <button type="submit">Complete purchase</button>
-  </form>
 </div>
 <%- include('partials/footer') %>

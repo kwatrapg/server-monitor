@@ -10,7 +10,7 @@
   <tbody>
     <% plans.forEach(function(p) { %>
     <tr>
-      <td><a href="/plans/<%= p.id %>/edit"><%= p.name %></a></td>
+      <td><a href="/plans/<%= p.id %>/edit"><%= p.name %></a> <% if (p.is_demo) { %><span class="badge badge-suspended">demo · <%= p.trial_days %>d</span><% } %></td>
       <td><%= (p.price_cents / 100).toFixed(2) %> <%= p.currency %></td>
       <td><%= p.billing_interval %></td>
       <td><%= p.max_servers %> servers / <%= p.max_websites %> sites / <%= p.max_checks %> checks</td>
