@@ -22,8 +22,12 @@
   </label>
 
   <label>Currency
-    <input type="text" name="currency" value="<%= settings.currency %>" maxlength="8" required />
-    <span class="hint">Default currency for plans and licenses (e.g. USD, INR, EUR).</span>
+    <select name="currency" required>
+      <% currencies.forEach(function(c) { %>
+      <option value="<%= c.code %>" <%= settings.currency === c.code ? 'selected' : '' %>><%= c.label %></option>
+      <% }); %>
+    </select>
+    <span class="hint">Default currency for new plans. Existing plans keep whatever currency they were created with.</span>
   </label>
 
   <button type="submit">Save settings</button>

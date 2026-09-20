@@ -7,6 +7,7 @@ const { getSetting, setSetting } = require('../utils/settings');
 const { encryptSecret, decryptSecret } = require('../utils/crypto');
 const { PROVIDERS } = require('../utils/paymentGateways');
 const { logAction } = require('../utils/audit');
+const { CURRENCIES, CURRENCY_CODES } = require('../utils/currencies');
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.get('/', requireAuth, (req, res) => {
       support_email: getSetting('support_email', ''),
       currency: getSetting('currency', 'USD'),
     },
+    currencies: CURRENCIES,
     errors: [],
   });
 });
@@ -27,13 +29,13 @@ router.post(
   [
     body('site_name').trim().isLength({ min: 1, max: 120 }),
     body('support_email').trim().optional({ checkFalsy: true }).isEmail(),
-    body('currency').trim().isLength({ min: 3, max: 8 }),
+    body('currency').trim().toUpperCase().isIn(CURRENCY_CODES),
   ],
   csrfProtect,
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render('settings/general', { settings: req.body, errors: errors.array() });
+      return res.status(400).render('settings/general', { settings: req.body, currencies: CURRENCIES, errors: errors.array() });
     }
     setSetting('site_name', req.body.site_name);
     setSetting('support_email', req.body.support_email || '');

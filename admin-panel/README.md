@@ -39,8 +39,13 @@ entirely (no working admin account), update `password_hash` directly in
 ## What it manages
 
 - **Customers** — name, email, company, notes.
-- **Plans** — price, billing interval, and usage limits (max servers /
-  websites / checks) that map to the main monitor app's plan tiers.
+- **Plans** — price (entered as a final amount, e.g. `100` means 100.00 in
+  whichever currency is selected — stored as cents internally for
+  precision, converted at the form boundary, never shown or entered as raw
+  cents), currency (dropdown, `src/utils/currencies.js` — new plans default
+  to Settings > General's configured currency), billing interval, and usage
+  limits (max servers/websites/checks) that map to the main monitor app's
+  plan tiers.
 - **Licenses** — a generated key (`SNTR-XXXX-XXXX-XXXX-XXXX`) tied to a
   customer and plan, with status (active/suspended/revoked/expired),
   optional domain binding, an activation limit, an expiry date, and the
