@@ -33,16 +33,16 @@
   </label>
 
   <div id="gstFields" style="display:none; flex-direction:column; gap:14px;">
-    <label>GST Number
-      <input type="text" name="gst_number" value="<%= customer.gst_number || '' %>" maxlength="30" />
+    <label>GST Number (GSTIN)
+      <input type="text" name="gst_number" value="<%= customer.gst_number || '' %>" maxlength="15" style="text-transform:uppercase;" placeholder="e.g. 27AAAAA0000A1Z5" />
+      <span class="hint">The state encoded in the first 2 digits of your GST number must match the billing address state above — we check this automatically, there's no separate state field to fill in.</span>
     </label>
     <label>GST Address
-      <textarea name="gst_address" maxlength="500"><%= customer.gst_address || '' %></textarea>
+      <textarea name="gst_address" maxlength="500" placeholder="Registered business address on your GST certificate"><%= customer.gst_address || '' %></textarea>
     </label>
-    <label>GST State
-      <input type="text" name="gst_state" id="gst_state" value="<%= customer.gst_state || '' %>" maxlength="100" />
-      <span class="hint">Must match the billing address state above.</span>
-    </label>
+    <% if (customer.gst_state) { %>
+      <p class="muted">Registered state (from GST number): <strong><%= customer.gst_state %></strong></p>
+    <% } %>
   </div>
 
   <button type="submit">Save billing details</button>
