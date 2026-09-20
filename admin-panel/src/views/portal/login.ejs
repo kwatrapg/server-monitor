@@ -1,0 +1,17 @@
+<%- include('partials/header', { title: 'Log in' }) %>
+<div class="auth-card">
+  <h1>Sentruo</h1>
+  <% if (error) { %><p class="alert alert-error"><%= error %></p><% } %>
+  <form method="post" action="/portal/login">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label>Email
+      <input type="email" name="email" autocomplete="email" required autofocus />
+    </label>
+    <label>Password
+      <input type="password" name="password" autocomplete="current-password" required />
+    </label>
+    <button type="submit">Log in</button>
+  </form>
+  <p class="muted" style="text-align:center;margin-top:12px;">New here? <a href="/portal/signup">Create an account</a></p>
+</div>
+<%- include('partials/footer') %>

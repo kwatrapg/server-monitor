@@ -103,4 +103,46 @@ router.post('/payment-gateways/:provider', requireAuth, csrfProtect, (req, res) 
   res.redirect('/settings/payment-gateways');
 });
 
+router.get('/invoice', requireAuth, (req, res) => {
+  res.render('settings/invoice', {
+    settings: {
+      invoice_company_name: getSetting('invoice_company_name', ''),
+      invoice_gst_number: getSetting('invoice_gst_number', ''),
+      invoice_gst_rate: getSetting('invoice_gst_rate', '18'),
+      invoice_company_address: getSetting('invoice_company_address', ''),
+      invoice_company_state: getSetting('invoice_company_state', ''),
+      invoice_other_details: getSetting('invoice_other_details', ''),
+    },
+    errors: [],
+  });
+});
+
+router.post(
+  '/invoice',
+  requireAuth,
+  [
+    body('invoice_company_name').trim().isLength({ min: 1, max: 200 }),
+    body('invoice_gst_number').trim().optional({ checkFalsy: true }).isLength({ max: 30 }),
+    body('invoice_gst_rate').trim().isFloat({ min: 0, max: 100 }),
+    body('invoice_company_address').trim().isLength({ max: 500 }).optional({ checkFalsy: true }),
+    body('invoice_company_state').trim().isLength({ max: 100 }).optional({ checkFalsy: true }),
+    body('invoice_other_details').trim().isLength({ max: 2000 }).optional({ checkFalsy: true }),
+  ],
+  csrfProtect,
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render('settings/invoice', { settings: req.body, errors: errors.array() });
+    }
+    setSetting('invoice_company_name', req.body.invoice_company_name);
+    setSetting('invoice_gst_number', req.body.invoice_gst_number || '');
+    setSetting('invoice_gst_rate', req.body.invoice_gst_rate);
+    setSetting('invoice_company_address', req.body.invoice_company_address || '');
+    setSetting('invoice_company_state', req.body.invoice_company_state || '');
+    setSetting('invoice_other_details', req.body.invoice_other_details || '');
+    logAction(req, 'update', 'invoice_settings', null, {});
+    res.redirect('/settings/invoice');
+  }
+);
+
 module.exports = router;

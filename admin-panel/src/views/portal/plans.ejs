@@ -1,0 +1,21 @@
+<%- include('partials/header', { title: 'Plans' }) %>
+<h1>Choose a plan</h1>
+<div class="plan-grid">
+  <% plans.forEach(function(p) { %>
+  <div class="plan-card">
+    <h3><%= p.name %></h3>
+    <div class="plan-price"><%= (p.price_cents / 100).toFixed(2) %> <%= p.currency %> <span class="muted">/ <%= p.billing_interval %></span></div>
+    <p class="muted"><%= p.description %></p>
+    <ul class="plan-limits">
+      <li><%= p.max_servers %> servers</li>
+      <li><%= p.max_websites %> websites</li>
+      <li><%= p.max_checks %> checks</li>
+    </ul>
+    <a class="btn" href="/portal/checkout/<%= p.id %>">Select</a>
+  </div>
+  <% }); %>
+  <% if (plans.length === 0) { %>
+  <p class="muted">No plans are available right now. Please check back later.</p>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

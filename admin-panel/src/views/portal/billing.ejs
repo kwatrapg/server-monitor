@@ -1,0 +1,60 @@
+<%- include('partials/header', { title: 'Billing' }) %>
+<h1>Billing details</h1>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<form method="post" action="/portal/billing" class="form" id="billingForm">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Billing Name
+    <input type="text" name="billing_name" value="<%= customer.billing_name || '' %>" required maxlength="200" />
+  </label>
+  <label>Billing Address
+    <textarea name="billing_address" required maxlength="500"><%= customer.billing_address || '' %></textarea>
+  </label>
+  <div class="form-row">
+    <label>City
+      <input type="text" name="billing_city" value="<%= customer.billing_city || '' %>" required maxlength="100" />
+    </label>
+    <label>State
+      <input type="text" name="billing_state" id="billing_state" value="<%= customer.billing_state || '' %>" required maxlength="100" />
+    </label>
+    <label>ZIP / Postal code
+      <input type="text" name="billing_zip" value="<%= customer.billing_zip || '' %>" required maxlength="20" />
+    </label>
+    <label>Country
+      <input type="text" name="billing_country" value="<%= customer.billing_country || '' %>" required maxlength="100" />
+    </label>
+  </div>
+
+  <label class="checkbox">
+    <input type="checkbox" name="wants_gst_invoice" id="wantsGst" value="1" <%= customer.wants_gst_invoice ? 'checked' : '' %> />
+    I need a GST invoice
+  </label>
+
+  <div id="gstFields" style="display:none; flex-direction:column; gap:14px;">
+    <label>GST Number
+      <input type="text" name="gst_number" value="<%= customer.gst_number || '' %>" maxlength="30" />
+    </label>
+    <label>GST Address
+      <textarea name="gst_address" maxlength="500"><%= customer.gst_address || '' %></textarea>
+    </label>
+    <label>GST State
+      <input type="text" name="gst_state" id="gst_state" value="<%= customer.gst_state || '' %>" maxlength="100" />
+      <span class="hint">Must match the billing address state above.</span>
+    </label>
+  </div>
+
+  <button type="submit">Save billing details</button>
+</form>
+
+<script>
+  (function () {
+    var checkbox = document.getElementById('wantsGst');
+    var fields = document.getElementById('gstFields');
+    function sync() { fields.style.display = checkbox.checked ? 'flex' : 'none'; }
+    checkbox.addEventListener('change', sync);
+    sync();
+  })();
+</script>
+<%- include('partials/footer') %>

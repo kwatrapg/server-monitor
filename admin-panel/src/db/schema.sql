@@ -31,6 +31,17 @@ CREATE TABLE IF NOT EXISTS saas_customers (
   email TEXT NOT NULL UNIQUE,
   company TEXT NOT NULL DEFAULT '',
   notes TEXT NOT NULL DEFAULT '',
+  password_hash TEXT, -- NULL until the customer sets up self-service portal access
+  billing_name TEXT NOT NULL DEFAULT '',
+  billing_address TEXT NOT NULL DEFAULT '',
+  billing_city TEXT NOT NULL DEFAULT '',
+  billing_state TEXT NOT NULL DEFAULT '',
+  billing_zip TEXT NOT NULL DEFAULT '',
+  billing_country TEXT NOT NULL DEFAULT '',
+  wants_gst_invoice INTEGER NOT NULL DEFAULT 0,
+  gst_number TEXT NOT NULL DEFAULT '',
+  gst_address TEXT NOT NULL DEFAULT '',
+  gst_state TEXT NOT NULL DEFAULT '', -- must equal billing_state when wants_gst_invoice is set (enforced in code)
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -44,6 +55,8 @@ CREATE TABLE IF NOT EXISTS saas_licenses (
   domain TEXT NOT NULL DEFAULT '',
   activation_limit INTEGER NOT NULL DEFAULT 1,
   amount_cents INTEGER, -- amount actually charged for this license (may differ from the plan's list price)
+  payment_status TEXT NOT NULL DEFAULT 'n/a', -- n/a (admin-issued) | paid | pending
+  payment_method TEXT NOT NULL DEFAULT '', -- e.g. razorpay, manual
   issued_at TEXT NOT NULL DEFAULT (datetime('now')),
   expires_at TEXT,
   last_verified_at TEXT,

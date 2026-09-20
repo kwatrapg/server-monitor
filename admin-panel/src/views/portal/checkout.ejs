@@ -1,0 +1,23 @@
+<%- include('partials/header', { title: 'Checkout' }) %>
+<h1>Checkout</h1>
+<div class="gateway-card" style="max-width:480px;">
+  <h3><%= plan.name %></h3>
+  <div class="plan-price"><%= (plan.price_cents / 100).toFixed(2) %> <%= plan.currency %> <span class="muted">/ <%= plan.billing_interval %></span></div>
+  <ul class="plan-limits">
+    <li><%= plan.max_servers %> servers</li>
+    <li><%= plan.max_websites %> websites</li>
+    <li><%= plan.max_checks %> checks</li>
+  </ul>
+
+  <% if (gateways.length > 0) { %>
+    <p class="muted">Configured payment method(s): <%= gateways.join(', ') %>. Live card charging isn't wired up yet — completing this order issues your license directly.</p>
+  <% } else { %>
+    <p class="muted">No payment gateway is configured yet — completing this order issues your license directly (no charge).</p>
+  <% } %>
+
+  <form method="post" action="/portal/checkout/<%= plan.id %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <button type="submit">Complete purchase</button>
+  </form>
+</div>
+<%- include('partials/footer') %>
