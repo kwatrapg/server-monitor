@@ -110,6 +110,20 @@ if (!$isPublicRoute) {
         header("Location:?route=profile");
         exit;
     }
+
+    // SaaS licensing gate: a valid license is mandatory. Every route is
+    // blocked in favour of the "license required/expired" page except the
+    // page itself, signing out, and Settings (so an admin can enter/fix the
+    // key — isAuthorized() inside that route still enforces manageSettings).
+    $licenseGateAllowedRoutes = ['licenserequired', 'system/settings', 'signout'];
+    if (!in_array($route, $licenseGateAllowedRoutes, true)
+        && !isset($_GET['json']) && !isset($_GET['qa'])) {
+        $licenseStatusForGate = License::status();
+        if (!$licenseStatusForGate['valid']) {
+            header("Location:?route=licenserequired");
+            exit;
+        }
+    }
 }
 
 ### GOOGLE MAPS ###

@@ -437,7 +437,7 @@
 
 						<div class="tab-pane <?php if ($section == "license") echo 'active'; ?>" id="license">
 							<?php if (!$licenseStatus['enabled']): ?>
-								<p class="text-muted"><?php _e('Licensing is not enabled for this installation — no usage limits are enforced. This section is used when this app is deployed as a licensed SaaS instance (LICENSE_API_URL configured).'); ?></p>
+								<div class="alert alert-warning alert-auto"><?php _e('LICENSE_API_URL is not configured on this server. A license is required to use this application — set LICENSE_API_URL and LICENSE_HMAC_SECRET in .env before a license key can be verified here.'); ?></div>
 							<?php else: ?>
 								<?php
 									$badgeClass = $licenseStatus['valid'] ? 'label-success' : 'label-warning';

@@ -24,11 +24,17 @@ $config = [
     // Application secret (HMACs, token hashing, at-rest secret encryption). 64 hex chars. Never commit it.
     'encryption_key' => (string) sm_env('APP_KEY', ''),
 
-    // SaaS license verification (admin-panel/ service). Optional — leave both
-    // blank to disable licensing entirely (self-hosted installs are
-    // unaffected; see includes/classes/class.license.php).
+    // SaaS license verification (admin-panel/ service). A license is
+    // mandatory (see includes/classes/class.license.php) — leaving these
+    // unset means no license can ever be verified, not that checking is
+    // skipped.
     'license_api_url'     => (string) sm_env('LICENSE_API_URL', ''),
     'license_hmac_secret' => (string) sm_env('LICENSE_HMAC_SECRET', ''),
+    // Public URL of the admin portal shown to a locked-out user (e.g. a
+    // customer-facing https://admin.example.com). Falls back to
+    // license_api_url if not set separately (e.g. when both are the same
+    // host, or during local testing).
+    'license_portal_url'  => (string) sm_env('LICENSE_PORTAL_URL', sm_env('LICENSE_API_URL', '')),
 ];
 
 if ($config['encryption_key'] === '' && PHP_SAPI !== 'cli') {

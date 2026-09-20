@@ -8,9 +8,11 @@
  * what its resource limits are, caching the result in core_config so normal
  * page loads never wait on a network call.
  *
- * Licensing is entirely opt-in: if LICENSE_API_URL is not set (the default),
- * isEnabled() is false and every limit is unlimited — existing self-hosted
- * installs are unaffected.
+ * Licensing is mandatory: includes/loader.php redirects every authenticated
+ * route to ?route=licenserequired whenever status()['valid'] is false,
+ * except the handful of routes needed to view that page, fix the key, or
+ * sign out. An unconfigured LICENSE_API_URL does not disable this — it just
+ * means no license can ever be verified, so the app stays unlicensed.
  */
 class License extends App {
 
@@ -60,18 +62,16 @@ class License extends App {
      * 'source' is one of: disabled | trial | cache | live.
      */
     public static function status($forceRefresh = false) {
+        // Licensing is mandatory: an unconfigured LICENSE_API_URL is not a way
+        // to opt out, it just means no license can be verified — same as
+        // having no key entered. Either way, the app is unlicensed.
         if (!self::isEnabled()) {
-            return [
-                'enabled' => false, 'valid' => true, 'reason' => 'disabled',
-                'plan' => null, 'plan_name' => null,
-                'limits' => ['max_servers' => null, 'max_websites' => null, 'max_checks' => null],
-                'expires_at' => null, 'checked_at' => null, 'source' => 'disabled',
-            ];
+            return self::trialStatus('not_configured', false);
         }
 
         $key = self::getKey();
         if ($key === '') {
-            return self::trialStatus('not_configured');
+            return self::trialStatus('not_configured', true);
         }
 
         $lastChecked = (int) getConfigValue('license_last_checked_at');
@@ -94,6 +94,17 @@ class License extends App {
 
     private static function cachedStatus($source) {
         $valid = getConfigValue('license_valid') === '1';
+        $reason = (string) getConfigValue('license_reason');
+        $expiresAt = getConfigValue('license_expires_at') ?: null;
+
+        // Authoritative locally, even from cache: don't wait out the cache TTL
+        // or the offline grace period to notice a license has passed its
+        // expiry date — that's checkable without a network round-trip.
+        if ($valid && $expiresAt && strtotime((string) $expiresAt) < time()) {
+            $valid = false;
+            $reason = 'expired';
+        }
+
         $limits = [
             'max_servers'  => self::nullableInt(getConfigValue('license_max_servers')),
             'max_websites' => self::nullableInt(getConfigValue('license_max_websites')),
@@ -103,20 +114,20 @@ class License extends App {
         return [
             'enabled' => true,
             'valid' => $valid,
-            'reason' => (string) getConfigValue('license_reason'),
+            'reason' => $reason,
             'plan' => getConfigValue('license_plan') ?: null,
             'plan_name' => getConfigValue('license_plan_name') ?: null,
             'limits' => $valid ? $limits : self::TRIAL_LIMITS,
-            'expires_at' => getConfigValue('license_expires_at') ?: null,
+            'expires_at' => $expiresAt,
             'checked_at' => $checkedAt ? date('Y-m-d H:i:s', $checkedAt) : null,
             'source' => $source,
         ];
     }
 
-    private static function trialStatus($reason) {
+    private static function trialStatus($reason, $enabled = true) {
         $checkedAt = (int) getConfigValue('license_last_checked_at');
         return [
-            'enabled' => true, 'valid' => false, 'reason' => $reason,
+            'enabled' => $enabled, 'valid' => false, 'reason' => $reason,
             'plan' => null, 'plan_name' => null,
             'limits' => self::TRIAL_LIMITS,
             'expires_at' => null,
