@@ -62,6 +62,37 @@ entirely (no working admin account), update `password_hash` directly in
     does not implement a checkout flow or webhook handling; wiring an
     actual payment provider's SDK/checkout/webhooks up to license
     creation or renewal is a separate integration.
+  - **Invoice** (`/settings/invoice`) — company name, address, state, GST
+    number and GST rate shown on customer invoices, plus a free-form field
+    for anything else (PAN, bank details, terms).
+
+## Customer portal (`/portal`)
+
+A separate, public-facing self-service area for your SaaS customers —
+completely different session/cookie (`sentruo.customer.sid`) from the admin
+session, so someone can be signed into both the admin panel and their own
+customer account in the same browser without either logging the other out.
+Not behind `TRUSTED_ADMIN_IPS` (customers sign up from anywhere).
+
+- **Sign up / log in** (`/portal/signup`, `/portal/login`) — a customer
+  creates their own account with an email + password. Signing up with an
+  email an admin already added as a `saas_customers` record (no password
+  set yet) claims that existing record rather than erroring.
+- **Plans → checkout → license** (`/portal/plans`, `/portal/checkout/:id`) —
+  the customer picks an active plan and completes the order. **No live
+  payment gateway is wired up to this checkout yet** (see Payment Gateways
+  above) — completing the order issues the license immediately, recorded
+  with `payment_status = paid`, `payment_method = manual`. Swap the handler
+  in `src/routes/portal.js` for a real gateway confirmation (e.g. verifying
+  a Razorpay payment signature) once you're ready to test that against real
+  gateway credentials.
+- **Dashboard** (`/portal/dashboard`) — every license the customer owns:
+  key, plan limits, activations used vs. the license's activation limit,
+  amount paid, payment status, issue/expiry dates, last verified time.
+- **Billing** (`/portal/billing`) — billing name/address/city/state/zip/
+  country, and an "I need a GST invoice" checkbox that reveals GST number,
+  GST address and GST state fields. **The GST state must match the billing
+  state** — enforced server-side, not just in the UI.
 
 ## License verification API
 

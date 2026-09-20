@@ -1,0 +1,44 @@
+<%- include('../partials/header', { title: 'Invoice Settings' }) %>
+<div class="page-header">
+  <h1>Settings</h1>
+</div>
+<div class="tabs">
+  <a href="/settings" class="tab">General</a>
+  <a href="/settings/payment-gateways" class="tab">Payment Gateways</a>
+  <a href="/settings/invoice" class="tab active">Invoice</a>
+</div>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<p class="muted">These details appear on invoices generated for customer purchases.</p>
+
+<form method="post" action="/settings/invoice" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Company Name
+    <input type="text" name="invoice_company_name" value="<%= settings.invoice_company_name %>" required maxlength="200" />
+  </label>
+
+  <label>Company Address
+    <textarea name="invoice_company_address" maxlength="500"><%= settings.invoice_company_address %></textarea>
+  </label>
+
+  <div class="form-row">
+    <label>Company State
+      <input type="text" name="invoice_company_state" value="<%= settings.invoice_company_state %>" maxlength="100" />
+    </label>
+    <label>GST Number
+      <input type="text" name="invoice_gst_number" value="<%= settings.invoice_gst_number %>" maxlength="30" placeholder="e.g. 22AAAAA0000A1Z5" />
+    </label>
+    <label>GST Rate (%)
+      <input type="number" name="invoice_gst_rate" value="<%= settings.invoice_gst_rate %>" min="0" max="100" step="0.01" required />
+    </label>
+  </div>
+
+  <label>Other Details
+    <textarea name="invoice_other_details" maxlength="2000" placeholder="PAN, bank details, terms, etc."><%= settings.invoice_other_details %></textarea>
+  </label>
+
+  <button type="submit">Save invoice settings</button>
+</form>
+<%- include('../partials/footer') %>

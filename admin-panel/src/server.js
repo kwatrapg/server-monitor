@@ -18,6 +18,7 @@ const licenseRoutes = require('./routes/licenses');
 const settingsRoutes = require('./routes/settings');
 const adminUserRoutes = require('./routes/adminusers');
 const apiRoutes = require('./routes/api');
+const portalRoutes = require('./routes/portal');
 
 const app = express();
 
@@ -47,9 +48,16 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 // Public license-verification API: no session/CSRF, called by remote installs.
 app.use('/api', apiRoutes);
 
-app.use(ipAllowlist);
+// Customer self-service portal: its own session/cookie/CSRF, deliberately NOT
+// behind the admin-only ipAllowlist — customers sign up from anywhere.
+app.use('/portal', portalRoutes);
 
-app.use(
+// --- Admin app: everything below requires the admin session + (optionally) an IP allowlist. ---
+const adminApp = express.Router();
+
+adminApp.use(ipAllowlist);
+
+adminApp.use(
   session({
     store: new SqliteSessionStore(),
     name: 'sentruo.admin.sid',
@@ -65,21 +73,23 @@ app.use(
   })
 );
 
-app.use(csrfToken);
+adminApp.use(csrfToken);
 
-app.use((req, res, next) => {
+adminApp.use((req, res, next) => {
   res.locals.isAuthed = Boolean(req.session && req.session.adminUserId);
   res.locals.username = req.session ? req.session.username : null;
   next();
 });
 
-app.use('/', authRoutes);
-app.use('/', dashboardRoutes);
-app.use('/plans', planRoutes);
-app.use('/customers', customerRoutes);
-app.use('/licenses', licenseRoutes);
-app.use('/settings', settingsRoutes);
-app.use('/admin-users', adminUserRoutes);
+adminApp.use('/', authRoutes);
+adminApp.use('/', dashboardRoutes);
+adminApp.use('/plans', planRoutes);
+adminApp.use('/customers', customerRoutes);
+adminApp.use('/licenses', licenseRoutes);
+adminApp.use('/settings', settingsRoutes);
+adminApp.use('/admin-users', adminUserRoutes);
+
+app.use('/', adminApp);
 
 app.use((req, res) => {
   res.status(404).send('Not found');
