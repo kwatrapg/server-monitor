@@ -21,13 +21,20 @@ npm install
 cp .env.example .env
 # Generate secrets:
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
-# Paste into SESSION_SECRET and LICENSE_HMAC_SECRET in .env (use different values for each)
+# Paste into SESSION_SECRET, LICENSE_HMAC_SECRET and ENCRYPTION_KEY in .env
+# (use a different generated value for each of the three)
 
 npm run create-admin -- --username=admin --email=you@example.com --password='a-strong-password-here'
 
 npm start
 # Admin panel now listening on http://localhost:4001
 ```
+
+Credentials are never stored in this repo. To reset a password, sign in as
+another admin and edit the account under Users. If you're locked out
+entirely (no working admin account), update `password_hash` directly in
+`data/admin.sqlite`'s `admin_users` table with a fresh bcrypt hash
+(`node -e "console.log(require('bcryptjs').hashSync('new-password', 12))"`).
 
 ## What it manages
 
@@ -36,7 +43,25 @@ npm start
   websites / checks) that map to the main monitor app's plan tiers.
 - **Licenses** — a generated key (`SNTR-XXXX-XXXX-XXXX-XXXX`) tied to a
   customer and plan, with status (active/suspended/revoked/expired),
-  optional domain binding, an activation limit, and an expiry date.
+  optional domain binding, an activation limit, an expiry date, and the
+  **amount actually charged** for that license (independent of the plan's
+  list price, e.g. for a discount or custom deal).
+- **Admin Users** (`/admin-users`) — the staff accounts that can log into
+  *this* admin panel (separate from SaaS customers). Add, edit, delete, or
+  **pause** an account. A paused account is immediately blocked from
+  logging in or continuing an existing session, but its history isn't
+  deleted. You can't pause or delete the last remaining active admin, and
+  you can't delete the account you're currently signed in as.
+- **Settings** (`/settings`):
+  - **General** — site name, support email, default currency.
+  - **Payment Gateways** (`/settings/payment-gateways`) — store credentials
+    for Razorpay, Stripe, PayPal or PayU and mark one or more as
+    enabled/test/live. Secrets are AES-256-GCM encrypted at rest with
+    `ENCRYPTION_KEY` and never re-displayed in the form (blank = keep the
+    saved value). **This saves and encrypts gateway credentials only** — it
+    does not implement a checkout flow or webhook handling; wiring an
+    actual payment provider's SDK/checkout/webhooks up to license
+    creation or renewal is a separate integration.
 
 ## License verification API
 
@@ -67,6 +92,9 @@ and rate-limited (30 requests/min per IP); it does not use the admin session.
   `.gitignore`.
 - Rotate `LICENSE_HMAC_SECRET` only if you also update every caller that
   verifies signatures — rotating it invalidates old cached verifications.
+- Rotating `ENCRYPTION_KEY` makes every already-saved payment gateway
+  credential undecryptable (it'll silently read back as empty) — re-enter
+  them after rotating.
 
 ## Deploying independently
 

@@ -15,6 +15,8 @@ const dashboardRoutes = require('./routes/dashboard');
 const planRoutes = require('./routes/plans');
 const customerRoutes = require('./routes/customers');
 const licenseRoutes = require('./routes/licenses');
+const settingsRoutes = require('./routes/settings');
+const adminUserRoutes = require('./routes/adminusers');
 const apiRoutes = require('./routes/api');
 
 const app = express();
@@ -76,6 +78,8 @@ app.use('/', dashboardRoutes);
 app.use('/plans', planRoutes);
 app.use('/customers', customerRoutes);
 app.use('/licenses', licenseRoutes);
+app.use('/settings', settingsRoutes);
+app.use('/admin-users', adminUserRoutes);
 
 app.use((req, res) => {
   res.status(404).send('Not found');

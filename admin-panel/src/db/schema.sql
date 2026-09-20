@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
   email TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'admin',
+  paused INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   last_login_at TEXT
 );
@@ -42,6 +43,7 @@ CREATE TABLE IF NOT EXISTS saas_licenses (
   status TEXT NOT NULL DEFAULT 'active', -- active | suspended | revoked | expired
   domain TEXT NOT NULL DEFAULT '',
   activation_limit INTEGER NOT NULL DEFAULT 1,
+  amount_cents INTEGER, -- amount actually charged for this license (may differ from the plan's list price)
   issued_at TEXT NOT NULL DEFAULT (datetime('now')),
   expires_at TEXT,
   last_verified_at TEXT,
@@ -69,6 +71,19 @@ CREATE TABLE IF NOT EXISTS audit_log (
   meta TEXT NOT NULL DEFAULT '{}',
   ip TEXT NOT NULL DEFAULT '',
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS app_settings (
+  name TEXT PRIMARY KEY,
+  value TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS payment_gateways (
+  provider TEXT PRIMARY KEY, -- razorpay | stripe | paypal | payu
+  enabled INTEGER NOT NULL DEFAULT 0,
+  mode TEXT NOT NULL DEFAULT 'test', -- test | live
+  config_encrypted TEXT NOT NULL DEFAULT '', -- JSON {key_id, key_secret, ...}, AES-256-GCM encrypted
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_licenses_customer ON saas_licenses(customer_id);

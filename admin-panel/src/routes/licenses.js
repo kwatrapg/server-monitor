@@ -14,7 +14,14 @@ const validateLicense = [
   body('domain').trim().isLength({ max: 255 }).optional({ checkFalsy: true }),
   body('activation_limit').isInt({ min: 1, max: 1000 }),
   body('expires_at').optional({ checkFalsy: true }).isISO8601(),
+  body('amount').optional({ checkFalsy: true }).isFloat({ min: 0 }),
 ];
+
+function toCents(amount) {
+  return amount !== undefined && amount !== null && amount !== ''
+    ? Math.round(parseFloat(amount) * 100)
+    : null;
+}
 
 function loadFormOptions() {
   return {
@@ -26,7 +33,7 @@ function loadFormOptions() {
 router.get('/', requireAuth, (req, res) => {
   const licenses = db
     .prepare(
-      `SELECT l.*, c.name AS customer_name, c.email AS customer_email, p.name AS plan_name
+      `SELECT l.*, c.name AS customer_name, c.email AS customer_email, p.name AS plan_name, p.currency AS currency
        FROM saas_licenses l
        JOIN saas_customers c ON c.id = l.customer_id
        JOIN saas_plans p ON p.id = l.plan_id
@@ -46,15 +53,15 @@ router.post('/', requireAuth, validateLicense, csrfProtect, (req, res) => {
     return res.status(400).render('licenses/form', { license: req.body, errors: errors.array(), ...loadFormOptions() });
   }
 
-  const { customer_id, plan_id, domain, activation_limit, expires_at } = req.body;
+  const { customer_id, plan_id, domain, activation_limit, expires_at, amount } = req.body;
   const licenseKey = generateLicenseKey();
 
   const result = db
     .prepare(
-      `INSERT INTO saas_licenses (license_key, customer_id, plan_id, domain, activation_limit, expires_at)
-       VALUES (?, ?, ?, ?, ?, ?)`
+      `INSERT INTO saas_licenses (license_key, customer_id, plan_id, domain, activation_limit, expires_at, amount_cents)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`
     )
-    .run(licenseKey, customer_id, plan_id, domain || '', activation_limit, expires_at || null);
+    .run(licenseKey, customer_id, plan_id, domain || '', activation_limit, expires_at || null, toCents(amount));
 
   logAction(req, 'create', 'license', result.lastInsertRowid, { licenseKey });
   res.redirect('/licenses');
@@ -78,13 +85,13 @@ router.post('/:id', requireAuth, validateLicense, csrfProtect, (req, res) => {
     return res.status(400).render('licenses/form', { license: { ...req.body, id: req.params.id }, errors: errors.array(), ...loadFormOptions() });
   }
 
-  const { customer_id, plan_id, domain, activation_limit, expires_at } = req.body;
+  const { customer_id, plan_id, domain, activation_limit, expires_at, amount } = req.body;
   db.prepare(
     `UPDATE saas_licenses SET
-       customer_id = ?, plan_id = ?, domain = ?, activation_limit = ?, expires_at = ?,
+       customer_id = ?, plan_id = ?, domain = ?, activation_limit = ?, expires_at = ?, amount_cents = ?,
        updated_at = datetime('now')
      WHERE id = ?`
-  ).run(customer_id, plan_id, domain || '', activation_limit, expires_at || null, req.params.id);
+  ).run(customer_id, plan_id, domain || '', activation_limit, expires_at || null, toCents(amount), req.params.id);
 
   logAction(req, 'update', 'license', req.params.id, {});
   res.redirect('/licenses');
