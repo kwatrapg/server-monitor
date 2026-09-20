@@ -28,7 +28,7 @@
   </div>
 
   <label class="checkbox">
-    <input type="checkbox" name="wants_gst_invoice" id="wantsGst" value="1" <%= customer.wants_gst_invoice ? 'checked' : '' %> />
+    <input type="checkbox" name="wants_gst_invoice" id="wantsGst" value="1" data-toggles="gstFields" data-toggle-display="flex" <%= customer.wants_gst_invoice ? 'checked' : '' %> />
     I need a GST invoice
   </label>
 
@@ -47,14 +47,4 @@
 
   <button type="submit">Save billing details</button>
 </form>
-
-<script>
-  (function () {
-    var checkbox = document.getElementById('wantsGst');
-    var fields = document.getElementById('gstFields');
-    function sync() { fields.style.display = checkbox.checked ? 'flex' : 'none'; }
-    checkbox.addEventListener('change', sync);
-    sync();
-  })();
-</script>
 <%- include('partials/footer') %>
