@@ -105,9 +105,13 @@ Not behind `TRUSTED_ADMIN_IPS` (customers sign up from anywhere).
   key, plan limits, activations used vs. the license's activation limit,
   amount paid, payment status, issue/expiry dates, last verified time.
 - **Billing** (`/portal/billing`) — billing name/address/city/state/zip/
-  country, and an "I need a GST invoice" checkbox that reveals GST number,
-  GST address and GST state fields. **The GST state must match the billing
-  state** — enforced server-side, not just in the UI.
+  country, and an "I need a GST invoice" checkbox that reveals GST number
+  and GST address fields. There's no separate "GST state" field to fill
+  in — the state is derived from the GST number itself (the first 2 digits
+  of an Indian GSTIN encode the registered state, `src/utils/gstStates.js`)
+  and must match the billing address state, checked server-side. The GST
+  number is also format-validated (15-character GSTIN pattern) before its
+  state is even looked up.
 
 ## License verification API
 

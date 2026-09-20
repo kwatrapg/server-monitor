@@ -10,6 +10,7 @@ const { requireCustomerAuth, redirectIfCustomerAuthed } = require('../middleware
 const { csrfToken, csrfProtect } = require('../middleware/csrf');
 const { generateLicenseKey } = require('../utils/licenseKey');
 const { logAction } = require('../utils/audit');
+const { isValidGstFormat, stateForGst, statesMatch } = require('../utils/gstStates');
 
 const router = express.Router();
 
@@ -265,21 +266,29 @@ router.post(
     body('billing_state').trim().isLength({ min: 1, max: 100 }),
     body('billing_zip').trim().isLength({ min: 1, max: 20 }),
     body('billing_country').trim().isLength({ min: 1, max: 100 }),
-    body('gst_number').optional({ checkFalsy: true }).trim().isLength({ max: 30 }),
+    body('gst_number').optional({ checkFalsy: true }).trim().isLength({ max: 15 }),
     body('gst_address').optional({ checkFalsy: true }).trim().isLength({ max: 500 }),
-    body('gst_state').optional({ checkFalsy: true }).trim().isLength({ max: 100 }),
   ],
   csrfProtect,
   (req, res) => {
     const errors = validationResult(req).array();
     const wantsGst = Boolean(req.body.wants_gst_invoice);
-    const { billing_name, billing_address, billing_city, billing_state, billing_zip, billing_country, gst_number, gst_address, gst_state } = req.body;
+    const { billing_name, billing_address, billing_city, billing_state, billing_zip, billing_country, gst_address } = req.body;
+    const gst_number = String(req.body.gst_number || '').toUpperCase().trim();
+    let gst_state = '';
 
     if (wantsGst) {
-      if (!gst_number || !gst_address || !gst_state) {
-        errors.push({ msg: 'GST number, GST address and GST state are all required for a GST invoice.' });
-      } else if (gst_state.trim().toLowerCase() !== (billing_state || '').trim().toLowerCase()) {
-        errors.push({ msg: 'The GST address state must be the same as the billing address state.' });
+      if (!gst_number || !gst_address) {
+        errors.push({ msg: 'GST number and GST address are required for a GST invoice.' });
+      } else if (!isValidGstFormat(gst_number)) {
+        errors.push({ msg: 'That does not look like a valid 15-character GST number (GSTIN).' });
+      } else {
+        gst_state = stateForGst(gst_number);
+        if (!gst_state) {
+          errors.push({ msg: 'The state code in this GST number is not recognized.' });
+        } else if (!statesMatch(gst_state, billing_state)) {
+          errors.push({ msg: `This GST number is registered in ${gst_state}, which doesn't match your billing address state (${billing_state || 'not set'}).` });
+        }
       }
     }
 
