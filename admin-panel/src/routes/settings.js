@@ -45,29 +45,44 @@ router.post(
   }
 );
 
-function loadGateways() {
-  const rows = db.prepare('SELECT * FROM payment_gateways').all();
-  const byProvider = Object.fromEntries(rows.map((r) => [r.provider, r]));
-
-  return Object.entries(PROVIDERS).map(([key, meta]) => {
-    const row = byProvider[key];
-    let config = {};
-    if (row && row.config_encrypted) {
-      try { config = JSON.parse(decryptSecret(row.config_encrypted)); } catch (e) { config = {}; }
-    }
-    return {
-      key,
-      label: meta.label,
-      fields: meta.fields,
-      enabled: row ? Boolean(row.enabled) : false,
-      mode: row ? row.mode : 'test',
-      config, // decrypted, only ever rendered as masked placeholders in the view
-    };
-  });
+function loadGatewaySummaries() {
+  const rows = db.prepare('SELECT provider, enabled FROM payment_gateways').all();
+  const enabledByProvider = Object.fromEntries(rows.map((r) => [r.provider, Boolean(r.enabled)]));
+  return Object.entries(PROVIDERS).map(([key, meta]) => ({
+    key,
+    label: meta.label,
+    enabled: enabledByProvider[key] || false,
+  }));
 }
 
+function loadGateway(provider) {
+  const meta = PROVIDERS[provider];
+  if (!meta) return null;
+  const row = db.prepare('SELECT * FROM payment_gateways WHERE provider = ?').get(provider);
+  let config = {};
+  if (row && row.config_encrypted) {
+    try { config = JSON.parse(decryptSecret(row.config_encrypted)); } catch (e) { config = {}; }
+  }
+  return {
+    key: provider,
+    label: meta.label,
+    fields: meta.fields,
+    enabled: row ? Boolean(row.enabled) : false,
+    mode: row ? row.mode : 'test',
+    config, // decrypted, only ever rendered as masked placeholders in the view
+  };
+}
+
+const FIRST_PROVIDER = Object.keys(PROVIDERS)[0];
+
 router.get('/payment-gateways', requireAuth, (req, res) => {
-  res.render('settings/payment-gateways', { gateways: loadGateways() });
+  res.redirect(`/settings/payment-gateways/${FIRST_PROVIDER}`);
+});
+
+router.get('/payment-gateways/:provider', requireAuth, (req, res) => {
+  const gateway = loadGateway(req.params.provider);
+  if (!gateway) return res.status(404).send('Unknown payment gateway');
+  res.render('settings/payment-gateways', { gateway, gateways: loadGatewaySummaries() });
 });
 
 router.post('/payment-gateways/:provider', requireAuth, csrfProtect, (req, res) => {
@@ -102,7 +117,7 @@ router.post('/payment-gateways/:provider', requireAuth, csrfProtect, (req, res) 
   ).run({ provider, enabled, mode, config: encrypted });
 
   logAction(req, 'update', 'payment_gateway', null, { provider, enabled: Boolean(enabled), mode });
-  res.redirect('/settings/payment-gateways');
+  res.redirect(`/settings/payment-gateways/${provider}`);
 });
 
 router.get('/invoice', requireAuth, (req, res) => {

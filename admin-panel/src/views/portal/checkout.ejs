@@ -6,6 +6,7 @@
     <div class="plan-price">Free for <%= plan.trial_days %> days</div>
   <% } else { %>
     <div class="plan-price"><%= (plan.price_cents / 100).toFixed(2) %> <%= plan.currency %> <span class="muted">/ <%= plan.billing_interval %></span></div>
+    <span class="muted"><%= plan.gst_type === 'inclusive' ? 'GST included in this price' : 'GST will be added on top, if applicable' %></span>
   <% } %>
   <ul class="plan-limits">
     <li><%= plan.max_servers %> servers</li>

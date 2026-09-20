@@ -50,4 +50,6 @@ if (!hasDemoPlan) {
   ).run();
 }
 
+addColumnIfMissing('saas_plans', 'gst_type', "gst_type TEXT NOT NULL DEFAULT 'exclusive'");
+
 module.exports = db;

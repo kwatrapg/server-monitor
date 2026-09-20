@@ -11,6 +11,7 @@ const { csrfToken, csrfProtect } = require('../middleware/csrf');
 const { generateLicenseKey } = require('../utils/licenseKey');
 const { logAction } = require('../utils/audit');
 const { isValidGstFormat, stateForGst, statesMatch } = require('../utils/gstStates');
+const { createInvoiceForPurchase } = require('../utils/invoicing');
 
 const router = express.Router();
 
@@ -218,7 +219,10 @@ router.post('/checkout/:planId', requireCustomerAuth, csrfProtect, (req, res) =>
     )
     .run(licenseKey, req.session.customerId, plan.id, expiresAt, plan.price_cents);
 
-  logAction(req, 'checkout', 'license', result.lastInsertRowid, { customerId: req.session.customerId, plan: plan.slug });
+  const customer = db.prepare('SELECT * FROM saas_customers WHERE id = ?').get(req.session.customerId);
+  const invoiceId = createInvoiceForPurchase({ customer, plan, licenseId: result.lastInsertRowid });
+
+  logAction(req, 'checkout', 'license', result.lastInsertRowid, { customerId: req.session.customerId, plan: plan.slug, invoiceId });
   res.redirect(`/portal/dashboard?new=${result.lastInsertRowid}`);
 });
 

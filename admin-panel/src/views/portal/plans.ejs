@@ -8,6 +8,7 @@
       <div class="plan-price">Free for <%= p.trial_days %> days</div>
     <% } else { %>
       <div class="plan-price"><%= (p.price_cents / 100).toFixed(2) %> <%= p.currency %> <span class="muted">/ <%= p.billing_interval %></span></div>
+      <span class="muted">GST <%= p.gst_type %></span>
     <% } %>
     <p class="muted"><%= p.description %></p>
     <ul class="plan-limits">

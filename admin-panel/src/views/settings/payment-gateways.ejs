@@ -1,4 +1,4 @@
-<%- include('../partials/header', { title: 'Payment Gateways' }) %>
+<%- include('../partials/header', { title: gateway.label + ' Gateway' }) %>
 <div class="page-header">
   <h1>Settings</h1>
 </div>
@@ -10,40 +10,46 @@
 
 <p class="muted">Store credentials for one or more payment gateways here. This saves and encrypts credentials only — wiring up an actual checkout/webhook flow for a gateway is a separate integration.</p>
 
-<% gateways.forEach(function(gw) { %>
+<div class="tabs">
+  <% gateways.forEach(function(gw) { %>
+  <a href="/settings/payment-gateways/<%= gw.key %>" class="tab <%= gw.key === gateway.key ? 'active' : '' %>">
+    <%= gw.label %> <span class="badge <%= gw.enabled ? 'badge-active' : 'badge-suspended' %>"><%= gw.enabled ? 'on' : 'off' %></span>
+  </a>
+  <% }); %>
+</div>
+
 <div class="gateway-card">
-  <form method="post" action="/settings/payment-gateways/<%= gw.key %>" class="form">
+  <form method="post" action="/settings/payment-gateways/<%= gateway.key %>" class="form">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <div class="gateway-header">
-      <h3><%= gw.label %></h3>
-      <span class="badge <%= gw.enabled ? 'badge-active' : 'badge-suspended' %>"><%= gw.enabled ? 'enabled' : 'disabled' %></span>
+      <h3><%= gateway.label %></h3>
+      <span class="badge <%= gateway.enabled ? 'badge-active' : 'badge-suspended' %>"><%= gateway.enabled ? 'enabled' : 'disabled' %></span>
     </div>
 
     <label class="checkbox">
-      <input type="checkbox" name="enabled" value="1" <%= gw.enabled ? 'checked' : '' %> />
+      <input type="checkbox" name="enabled" value="1" <%= gateway.enabled ? 'checked' : '' %> />
       Enabled
     </label>
 
     <label>Mode
       <select name="mode">
-        <option value="test" <%= gw.mode === 'test' ? 'selected' : '' %>>Test</option>
-        <option value="live" <%= gw.mode === 'live' ? 'selected' : '' %>>Live</option>
+        <option value="test" <%= gateway.mode === 'test' ? 'selected' : '' %>>Test</option>
+        <option value="live" <%= gateway.mode === 'live' ? 'selected' : '' %>>Live</option>
       </select>
     </label>
 
-    <% gw.fields.forEach(function(f) { %>
+    <% gateway.fields.forEach(function(f) { %>
       <label><%= f.label %>
         <input
           type="<%= f.secret ? 'password' : 'text' %>"
           name="<%= f.name %>"
           autocomplete="off"
-          placeholder="<%= gw.config[f.name] ? 'Leave blank to keep the saved value' : f.label %>"
+          placeholder="<%= gateway.config[f.name] ? 'Leave blank to keep the saved value' : f.label %>"
         />
       </label>
     <% }); %>
 
-    <button type="submit">Save <%= gw.label %></button>
+    <button type="submit">Save <%= gateway.label %></button>
   </form>
 </div>
-<% }); %>
 <%- include('../partials/footer') %>

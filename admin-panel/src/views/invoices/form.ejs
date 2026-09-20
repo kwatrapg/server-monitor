@@ -1,0 +1,76 @@
+<%- include('../partials/header', { title: 'Invoice ' + invoice.invoice_number }) %>
+<h1>Invoice <code><%= invoice.invoice_number %></code></h1>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<div class="gateway-card">
+  <h3>Bill to</h3>
+  <p><%= invoice.customer_name %> &lt;<%= invoice.customer_email %>&gt;</p>
+  <p class="muted"><%= invoice.billing_address %><% if (invoice.billing_city) { %>, <%= invoice.billing_city %><% } %><% if (invoice.billing_state) { %>, <%= invoice.billing_state %><% } %><% if (invoice.billing_country) { %>, <%= invoice.billing_country %><% } %></p>
+  <% if (invoice.gst_number) { %>
+  <p class="muted">GSTIN: <%= invoice.gst_number %> (<%= invoice.gst_state %>)<br><%= invoice.gst_address %></p>
+  <% } %>
+
+  <h3>From</h3>
+  <p><%= invoice.company_name || '(company name not set — Settings > Invoice)' %></p>
+  <p class="muted"><%= invoice.company_address %><% if (invoice.company_state) { %>, <%= invoice.company_state %><% } %></p>
+  <% if (invoice.company_gst_number) { %><p class="muted">GSTIN: <%= invoice.company_gst_number %></p><% } %>
+
+  <p class="muted">Plan: <%= invoice.plan_name %> · Price basis: <%= invoice.gst_type %> of GST · Issued: <%= invoice.created_at %></p>
+</div>
+
+<form method="post" action="/invoices/<%= invoice.id %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Status
+    <select name="status">
+      <% ['paid','void','refunded'].forEach(function(s) { %>
+      <option value="<%= s %>" <%= invoice.status === s ? 'selected' : '' %>><%= s %></option>
+      <% }); %>
+    </select>
+  </label>
+
+  <div class="form-row">
+    <label>Subtotal (before tax)
+      <input type="number" name="subtotal" min="0" step="0.01" value="<%= (invoice.subtotal_cents / 100).toFixed(2) %>" required />
+    </label>
+    <label>Tax type
+      <select name="tax_type">
+        <option value="none" <%= invoice.tax_type === 'none' ? 'selected' : '' %>>None</option>
+        <option value="cgst_sgst" <%= invoice.tax_type === 'cgst_sgst' ? 'selected' : '' %>>CGST + SGST (same state)</option>
+        <option value="igst" <%= invoice.tax_type === 'igst' ? 'selected' : '' %>>IGST (different state)</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>CGST rate (%)
+      <input type="number" name="cgst_rate" min="0" max="100" step="0.01" value="<%= invoice.cgst_rate %>" />
+    </label>
+    <label>SGST rate (%)
+      <input type="number" name="sgst_rate" min="0" max="100" step="0.01" value="<%= invoice.sgst_rate %>" />
+    </label>
+    <label>IGST rate (%)
+      <input type="number" name="igst_rate" min="0" max="100" step="0.01" value="<%= invoice.igst_rate %>" />
+    </label>
+  </div>
+  <p class="hint">Only the rate(s) matching the selected tax type are applied when you save — the others are ignored.</p>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td>Subtotal</td><td><%= (invoice.subtotal_cents / 100).toFixed(2) %> <%= invoice.currency %></td></tr>
+      <tr><td>CGST</td><td><%= (invoice.cgst_cents / 100).toFixed(2) %> <%= invoice.currency %></td></tr>
+      <tr><td>SGST</td><td><%= (invoice.sgst_cents / 100).toFixed(2) %> <%= invoice.currency %></td></tr>
+      <tr><td>IGST</td><td><%= (invoice.igst_cents / 100).toFixed(2) %> <%= invoice.currency %></td></tr>
+      <tr><td><strong>Total</strong></td><td><strong><%= (invoice.total_cents / 100).toFixed(2) %> <%= invoice.currency %></strong></td></tr>
+    </tbody>
+  </table>
+  <p class="muted">The breakdown above reflects the last saved values — save the form to recompute it from the fields above.</p>
+
+  <label>Notes
+    <textarea name="notes" maxlength="2000"><%= invoice.notes || '' %></textarea>
+  </label>
+
+  <button type="submit">Save invoice</button>
+</form>
+<%- include('../partials/footer') %>

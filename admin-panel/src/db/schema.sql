@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS saas_plans (
   is_active INTEGER NOT NULL DEFAULT 1,
   is_demo INTEGER NOT NULL DEFAULT 0,
   trial_days INTEGER, -- only meaningful when is_demo = 1; license expiry is set to approval time + trial_days
+  gst_type TEXT NOT NULL DEFAULT 'exclusive', -- exclusive (GST added on top of price) | inclusive (price already includes GST)
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -101,6 +102,51 @@ CREATE TABLE IF NOT EXISTS payment_gateways (
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- Invoices are immutable snapshots at the time of purchase — customer
+-- billing/GST details and company invoice details are copied in at
+-- creation time rather than joined live, so editing a customer's address
+-- or the company's invoice settings later never rewrites past invoices.
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  invoice_number TEXT NOT NULL UNIQUE,
+  customer_id INTEGER NOT NULL REFERENCES saas_customers(id) ON DELETE RESTRICT,
+  license_id INTEGER REFERENCES saas_licenses(id) ON DELETE SET NULL,
+  plan_name TEXT NOT NULL DEFAULT '',
+
+  customer_name TEXT NOT NULL DEFAULT '',
+  customer_email TEXT NOT NULL DEFAULT '',
+  billing_address TEXT NOT NULL DEFAULT '',
+  billing_city TEXT NOT NULL DEFAULT '',
+  billing_state TEXT NOT NULL DEFAULT '',
+  billing_country TEXT NOT NULL DEFAULT '',
+  gst_number TEXT NOT NULL DEFAULT '',
+  gst_address TEXT NOT NULL DEFAULT '',
+  gst_state TEXT NOT NULL DEFAULT '',
+
+  company_name TEXT NOT NULL DEFAULT '',
+  company_address TEXT NOT NULL DEFAULT '',
+  company_state TEXT NOT NULL DEFAULT '',
+  company_gst_number TEXT NOT NULL DEFAULT '',
+
+  currency TEXT NOT NULL DEFAULT 'USD',
+  gst_type TEXT NOT NULL DEFAULT 'exclusive', -- inclusive | exclusive, snapshot of the plan at purchase time
+  tax_type TEXT NOT NULL DEFAULT 'none', -- none | cgst_sgst | igst
+  cgst_rate REAL NOT NULL DEFAULT 0,
+  sgst_rate REAL NOT NULL DEFAULT 0,
+  igst_rate REAL NOT NULL DEFAULT 0,
+  subtotal_cents INTEGER NOT NULL DEFAULT 0, -- amount before tax
+  cgst_cents INTEGER NOT NULL DEFAULT 0,
+  sgst_cents INTEGER NOT NULL DEFAULT 0,
+  igst_cents INTEGER NOT NULL DEFAULT 0,
+  total_cents INTEGER NOT NULL DEFAULT 0,
+
+  status TEXT NOT NULL DEFAULT 'paid', -- paid | void | refunded
+  notes TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_invoices_customer ON invoices(customer_id);
 CREATE INDEX IF NOT EXISTS idx_licenses_customer ON saas_licenses(customer_id);
 CREATE INDEX IF NOT EXISTS idx_licenses_plan ON saas_licenses(plan_id);
 CREATE INDEX IF NOT EXISTS idx_licenses_status ON saas_licenses(status);
