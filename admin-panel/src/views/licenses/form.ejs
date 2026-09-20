@@ -37,7 +37,7 @@
     <input type="hidden" name="status" value="revoked" />
     <button type="submit" class="btn-danger" <%= license.status === 'revoked' ? 'disabled' : '' %>>Revoke</button>
   </form>
-  <form method="post" action="/licenses/<%= license.id %>/regenerate-key" class="inline-form" onsubmit="return confirm('Regenerate the license key? The old key will stop working immediately.');">
+  <form method="post" action="/licenses/<%= license.id %>/regenerate-key" class="inline-form" data-confirm="Regenerate the license key? The old key will stop working immediately.">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <button type="submit">Regenerate key</button>
   </form>
