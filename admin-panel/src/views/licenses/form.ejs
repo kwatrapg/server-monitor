@@ -60,6 +60,9 @@
     <label>Expires at (optional)
       <input type="date" name="expires_at" value="<%= license && license.expires_at ? license.expires_at.substring(0,10) : '' %>" />
     </label>
+    <label>Amount charged (optional)
+      <input type="number" name="amount" step="0.01" min="0" value="<%= license && license.amount_cents != null ? (license.amount_cents / 100).toFixed(2) : '' %>" placeholder="0.00" />
+    </label>
   </div>
 
   <button type="submit">Save license</button>

@@ -51,6 +51,11 @@ router.post(
       return res.status(401).render('login', { error: 'Invalid credentials.' });
     }
 
+    if (user.paused) {
+      logAction(req, 'login_paused', 'admin_user', user.id, { username });
+      return res.status(403).render('login', { error: 'This account has been paused. Contact another administrator.' });
+    }
+
     req.session.regenerate((err) => {
       if (err) return res.status(500).render('login', { error: 'Login failed. Try again.' });
       req.session.adminUserId = user.id;

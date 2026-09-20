@@ -1,0 +1,24 @@
+<%- include('../partials/header', { title: user && user.id ? 'Edit admin user' : 'New admin user' }) %>
+<h1><%= user && user.id ? 'Edit admin user' : 'New admin user' %></h1>
+
+<% errors.forEach(function(e) { %><p class="alert alert-error"><%= e.msg %></p><% }); %>
+
+<form method="post" action="<%= user && user.id ? '/admin-users/' + user.id : '/admin-users' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+  <label>Username
+    <input type="text" name="username" value="<%= user ? user.username : '' %>" required maxlength="60" pattern="[a-zA-Z0-9._-]+" />
+  </label>
+
+  <label>Email
+    <input type="email" name="email" value="<%= user ? user.email : '' %>" required maxlength="255" />
+  </label>
+
+  <label><%= user && user.id ? 'New Password (leave blank to keep current)' : 'Password' %>
+    <input type="password" name="password" autocomplete="new-password" minlength="12" <%= user && user.id ? '' : 'required' %> />
+    <span class="hint">At least 12 characters.</span>
+  </label>
+
+  <button type="submit">Save user</button>
+</form>
+<%- include('../partials/footer') %>

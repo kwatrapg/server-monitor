@@ -14,6 +14,9 @@ module.exports = {
   dbPath: path.resolve(process.cwd(), process.env.DB_PATH || './data/admin.sqlite'),
   sessionSecret: required('SESSION_SECRET', 'dev-only-insecure-session-secret'),
   licenseHmacSecret: required('LICENSE_HMAC_SECRET', 'dev-only-insecure-hmac-secret'),
+  // 64 hex chars (32 bytes), used only to encrypt payment gateway secrets at
+  // rest (AES-256-GCM). Generate the same way as SESSION_SECRET.
+  encryptionKey: required('ENCRYPTION_KEY', 'dev-only-insecure-encryption-key-not-32-bytes'),
   trustedAdminIps: (process.env.TRUSTED_ADMIN_IPS || '')
     .split(',')
     .map((ip) => ip.trim())

@@ -1,0 +1,48 @@
+<%- include('../partials/header', { title: 'Payment Gateways' }) %>
+<div class="page-header">
+  <h1>Settings</h1>
+</div>
+<div class="tabs">
+  <a href="/settings" class="tab">General</a>
+  <a href="/settings/payment-gateways" class="tab active">Payment Gateways</a>
+</div>
+
+<p class="muted">Store credentials for one or more payment gateways here. This saves and encrypts credentials only — wiring up an actual checkout/webhook flow for a gateway is a separate integration.</p>
+
+<% gateways.forEach(function(gw) { %>
+<div class="gateway-card">
+  <form method="post" action="/settings/payment-gateways/<%= gw.key %>" class="form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div class="gateway-header">
+      <h3><%= gw.label %></h3>
+      <span class="badge <%= gw.enabled ? 'badge-active' : 'badge-suspended' %>"><%= gw.enabled ? 'enabled' : 'disabled' %></span>
+    </div>
+
+    <label class="checkbox">
+      <input type="checkbox" name="enabled" value="1" <%= gw.enabled ? 'checked' : '' %> />
+      Enabled
+    </label>
+
+    <label>Mode
+      <select name="mode">
+        <option value="test" <%= gw.mode === 'test' ? 'selected' : '' %>>Test</option>
+        <option value="live" <%= gw.mode === 'live' ? 'selected' : '' %>>Live</option>
+      </select>
+    </label>
+
+    <% gw.fields.forEach(function(f) { %>
+      <label><%= f.label %>
+        <input
+          type="<%= f.secret ? 'password' : 'text' %>"
+          name="<%= f.name %>"
+          autocomplete="off"
+          placeholder="<%= gw.config[f.name] ? 'Leave blank to keep the saved value' : f.label %>"
+        />
+      </label>
+    <% }); %>
+
+    <button type="submit">Save <%= gw.label %></button>
+  </form>
+</div>
+<% }); %>
+<%- include('../partials/footer') %>

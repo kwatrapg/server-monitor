@@ -1,8 +1,16 @@
 const config = require('../config');
+const db = require('../db');
 
 function requireAuth(req, res, next) {
-  if (req.session && req.session.adminUserId) return next();
-  return res.redirect('/login');
+  if (!req.session || !req.session.adminUserId) return res.redirect('/login');
+
+  // Re-check on every request (not just at login) so pausing/deleting an
+  // admin takes effect immediately, not just after their session expires.
+  const user = db.prepare('SELECT id, paused FROM admin_users WHERE id = ?').get(req.session.adminUserId);
+  if (!user || user.paused) {
+    return req.session.destroy(() => res.redirect('/login'));
+  }
+  return next();
 }
 
 function redirectIfAuthed(req, res, next) {

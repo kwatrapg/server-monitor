@@ -12,4 +12,17 @@ db.pragma('foreign_keys = ON');
 const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
 db.exec(schema);
 
+// CREATE TABLE IF NOT EXISTS above only helps fresh databases. For a database
+// created before a column existed, add it here — guarded so re-running on an
+// already-migrated database is a no-op.
+function addColumnIfMissing(table, column, ddl) {
+  const existing = db.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
+  if (!existing.includes(column)) {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${ddl}`);
+  }
+}
+
+addColumnIfMissing('admin_users', 'paused', 'paused INTEGER NOT NULL DEFAULT 0');
+addColumnIfMissing('saas_licenses', 'amount_cents', 'amount_cents INTEGER');
+
 module.exports = db;
