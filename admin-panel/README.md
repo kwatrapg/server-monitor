@@ -44,8 +44,9 @@ entirely (no working admin account), update `password_hash` directly in
   precision, converted at the form boundary, never shown or entered as raw
   cents), currency (dropdown, `src/utils/currencies.js` — new plans default
   to Settings > General's configured currency), billing interval, usage
-  limits (max servers/websites/checks) that map to the main monitor app's
-  plan tiers, and a **GST Inclusive / Exclusive** toggle — shown on the
+  limits (max servers/websites/checks/domains/SSL — matching all five
+  resource types the main monitor app actually tracks) that map to the
+  main monitor app's plan tiers, and a **GST Inclusive / Exclusive** toggle — shown on the
   plan card in both the admin list and the customer-facing plan picker, so
   it's clear whether GST is already baked into the price or gets added at
   checkout.

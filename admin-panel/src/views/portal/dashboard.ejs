@@ -28,6 +28,8 @@
       <tr><td>Servers limit</td><td><%= l.max_servers %></td></tr>
       <tr><td>Websites limit</td><td><%= l.max_websites %></td></tr>
       <tr><td>Checks limit</td><td><%= l.max_checks %></td></tr>
+      <tr><td>Domains limit</td><td><%= l.max_domains %></td></tr>
+      <tr><td>SSL limit</td><td><%= l.max_ssl %></td></tr>
       <tr><td>Activations used</td><td><%= activationCounts[l.id] || 0 %> / <%= l.activation_limit %></td></tr>
       <tr><td>Amount paid</td><td><%= l.amount_cents != null ? (l.amount_cents / 100).toFixed(2) + ' ' + l.currency : '—' %></td></tr>
       <tr><td>Payment status</td><td><%= l.payment_status %></td></tr>

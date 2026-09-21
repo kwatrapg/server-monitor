@@ -53,6 +53,12 @@
     <label>Max checks
       <input type="number" name="max_checks" min="0" value="<%= plan ? plan.max_checks : 10 %>" required />
     </label>
+    <label>Max domains
+      <input type="number" name="max_domains" min="0" value="<%= plan ? plan.max_domains : 1 %>" required />
+    </label>
+    <label>Max SSL
+      <input type="number" name="max_ssl" min="0" value="<%= plan ? plan.max_ssl : 1 %>" required />
+    </label>
   </div>
 
   <% if (plan && plan.id) { %>

@@ -33,7 +33,7 @@ router.post(
     const { license_key, domain, fingerprint } = req.body;
     const license = db
       .prepare(
-        `SELECT l.*, p.slug AS plan_slug, p.name AS plan_name, p.max_servers, p.max_websites, p.max_checks
+        `SELECT l.*, p.slug AS plan_slug, p.name AS plan_name, p.max_servers, p.max_websites, p.max_checks, p.max_domains, p.max_ssl
          FROM saas_licenses l JOIN saas_plans p ON p.id = l.plan_id
          WHERE l.license_key = ?`
       )
@@ -89,6 +89,8 @@ router.post(
           max_servers: license.max_servers,
           max_websites: license.max_websites,
           max_checks: license.max_checks,
+          max_domains: license.max_domains,
+          max_ssl: license.max_ssl,
         },
         expires_at: license.expires_at,
         checked_at: checkedAt,

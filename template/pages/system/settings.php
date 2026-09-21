@@ -485,6 +485,8 @@
 										<tr><td><?php _e('Servers'); ?></td><td><?php echo (int) $licenseUsage['max_servers']['used']; ?></td><td><?php echo $licenseUsage['max_servers']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_servers']['limit']; ?></td></tr>
 										<tr><td><?php _e('Websites'); ?></td><td><?php echo (int) $licenseUsage['max_websites']['used']; ?></td><td><?php echo $licenseUsage['max_websites']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_websites']['limit']; ?></td></tr>
 										<tr><td><?php _e('Checks'); ?></td><td><?php echo (int) $licenseUsage['max_checks']['used']; ?></td><td><?php echo $licenseUsage['max_checks']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_checks']['limit']; ?></td></tr>
+										<tr><td><?php _e('Domains'); ?></td><td><?php echo (int) $licenseUsage['max_domains']['used']; ?></td><td><?php echo $licenseUsage['max_domains']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_domains']['limit']; ?></td></tr>
+										<tr><td><?php _e('SSL'); ?></td><td><?php echo (int) $licenseUsage['max_ssl']['used']; ?></td><td><?php echo $licenseUsage['max_ssl']['limit'] === null ? __('Unlimited') : (int) $licenseUsage['max_ssl']['limit']; ?></td></tr>
 									</tbody>
 								</table>
 							<?php endif; ?>

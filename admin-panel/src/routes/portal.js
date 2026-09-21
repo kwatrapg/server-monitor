@@ -231,7 +231,7 @@ router.post('/checkout/:planId', requireCustomerAuth, csrfProtect, (req, res) =>
 router.get('/dashboard', requireCustomerAuth, (req, res) => {
   const licenses = db
     .prepare(
-      `SELECT l.*, p.name AS plan_name, p.max_servers, p.max_websites, p.max_checks, p.currency
+      `SELECT l.*, p.name AS plan_name, p.max_servers, p.max_websites, p.max_checks, p.max_domains, p.max_ssl, p.currency
        FROM saas_licenses l JOIN saas_plans p ON p.id = l.plan_id
        WHERE l.customer_id = ? ORDER BY l.created_at DESC`
     )
