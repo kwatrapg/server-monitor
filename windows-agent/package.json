@@ -1,0 +1,18 @@
+{
+  "name": "sentruo-agent-windows",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sentruo monitoring agent for Windows.",
+  "main": "agent.js",
+  "bin": "agent.js",
+  "dependencies": {
+    "systeminformation": "^5.23.5"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^5.15.0"
+  },
+  "pkg": {
+    "targets": ["node18-win-x64"],
+    "outputPath": "dist"
+  }
+}
