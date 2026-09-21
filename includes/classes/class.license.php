@@ -27,6 +27,8 @@ class License extends App {
         'max_servers'  => 2,
         'max_websites' => 2,
         'max_checks'   => 5,
+        'max_domains'  => 1,
+        'max_ssl'      => 1,
     ];
 
     public static function isEnabled() {
@@ -109,6 +111,8 @@ class License extends App {
             'max_servers'  => self::nullableInt(getConfigValue('license_max_servers')),
             'max_websites' => self::nullableInt(getConfigValue('license_max_websites')),
             'max_checks'   => self::nullableInt(getConfigValue('license_max_checks')),
+            'max_domains'  => self::nullableInt(getConfigValue('license_max_domains')),
+            'max_ssl'      => self::nullableInt(getConfigValue('license_max_ssl')),
         ];
         $checkedAt = (int) getConfigValue('license_last_checked_at');
         return [
@@ -201,6 +205,8 @@ class License extends App {
         Settings::update('license_max_servers', isset($limits['max_servers']) ? (string) $limits['max_servers'] : '');
         Settings::update('license_max_websites', isset($limits['max_websites']) ? (string) $limits['max_websites'] : '');
         Settings::update('license_max_checks', isset($limits['max_checks']) ? (string) $limits['max_checks'] : '');
+        Settings::update('license_max_domains', isset($limits['max_domains']) ? (string) $limits['max_domains'] : '');
+        Settings::update('license_max_ssl', isset($limits['max_ssl']) ? (string) $limits['max_ssl'] : '');
         Settings::update('license_expires_at', (string) ($data['expires_at'] ?? ''));
         Settings::update('license_last_checked_at', (string) $now);
 
@@ -216,6 +222,8 @@ class License extends App {
                 'max_servers' => $limits['max_servers'] ?? null,
                 'max_websites' => $limits['max_websites'] ?? null,
                 'max_checks' => $limits['max_checks'] ?? null,
+                'max_domains' => $limits['max_domains'] ?? null,
+                'max_ssl' => $limits['max_ssl'] ?? null,
             ] : self::TRIAL_LIMITS,
             'expires_at' => $data['expires_at'] ?? null,
             'checked_at' => date('Y-m-d H:i:s', $now),
@@ -234,10 +242,12 @@ class License extends App {
             'max_servers'  => ['used' => countTable('app_servers'),  'limit' => $limits['max_servers']],
             'max_websites' => ['used' => countTable('app_websites'), 'limit' => $limits['max_websites']],
             'max_checks'   => ['used' => countTable('app_checks'),   'limit' => $limits['max_checks']],
+            'max_domains'  => ['used' => countTable('app_domains'),  'limit' => $limits['max_domains']],
+            'max_ssl'      => ['used' => countTable('app_ssl'),      'limit' => $limits['max_ssl']],
         ];
     }
 
-    /** True if another resource of $type ('max_servers'|'max_websites'|'max_checks') can be added. */
+    /** True if another resource of $type ('max_servers'|'max_websites'|'max_checks'|'max_domains'|'max_ssl') can be added. */
     public static function canAdd($type) {
         $limits = self::getLimits();
         $max = $limits[$type] ?? null;
@@ -247,6 +257,8 @@ class License extends App {
             'max_servers' => countTable('app_servers'),
             'max_websites' => countTable('app_websites'),
             'max_checks' => countTable('app_checks'),
+            'max_domains' => countTable('app_domains'),
+            'max_ssl' => countTable('app_ssl'),
             default => 0,
         };
         return $current < (int) $max;

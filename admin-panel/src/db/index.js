@@ -51,5 +51,7 @@ if (!hasDemoPlan) {
 }
 
 addColumnIfMissing('saas_plans', 'gst_type', "gst_type TEXT NOT NULL DEFAULT 'exclusive'");
+addColumnIfMissing('saas_plans', 'max_domains', 'max_domains INTEGER NOT NULL DEFAULT 1');
+addColumnIfMissing('saas_plans', 'max_ssl', 'max_ssl INTEGER NOT NULL DEFAULT 1');
 
 module.exports = db;

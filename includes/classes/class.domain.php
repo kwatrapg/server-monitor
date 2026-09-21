@@ -5,6 +5,7 @@ class Domain extends App {
 
     public static function add($data) {
         global $database;
+        if (!License::canAdd('max_domains')) return "12";
         $lastid = $database->insert("app_domains", [
             "groupid" => $data['groupid'],
             "name" => $data['name'],

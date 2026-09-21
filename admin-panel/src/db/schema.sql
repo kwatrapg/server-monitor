@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS saas_plans (
   max_servers INTEGER NOT NULL DEFAULT 1,
   max_websites INTEGER NOT NULL DEFAULT 1,
   max_checks INTEGER NOT NULL DEFAULT 10,
+  max_domains INTEGER NOT NULL DEFAULT 1,
+  max_ssl INTEGER NOT NULL DEFAULT 1,
   is_active INTEGER NOT NULL DEFAULT 1,
   is_demo INTEGER NOT NULL DEFAULT 0,
   trial_days INTEGER, -- only meaningful when is_demo = 1; license expiry is set to approval time + trial_days
