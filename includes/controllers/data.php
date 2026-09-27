@@ -153,6 +153,8 @@ if ($route == "servers/manage-linux") {
 	checkGroupRedirect($server['groupid']);
 	$alerts = getTableFiltered("app_servers_alerts","serverid",$_GET['id'],"","","*","id","ASC");
 	$incidents = getTableFiltered("app_servers_incidents","serverid",$_GET['id'],"","","*","id","DESC");
+	$alert_actions = getTableFiltered("app_servers_alert_actions","serverid",$_GET['id'],"","","*","id","ASC");
+	$alert_action_runs = $database->select("app_servers_alert_action_runs", "*", [ "serverid" => $_GET['id'], "ORDER" => [ "id" => "DESC" ], "LIMIT" => 50 ]);
 	$unresolved_incidents = getTableFiltered("app_servers_incidents","serverid",$_GET['id'],"status[!]","1","*","id","ASC");
 	$unresolved_status = "primary";
 	foreach($unresolved_incidents as $incident) {
@@ -311,6 +313,8 @@ if ($route == "servers/manage-windows") {
 	checkGroupRedirect($server['groupid']);
 	$alerts = getTableFiltered("app_servers_alerts","serverid",$_GET['id'],"","","*","id","ASC");
 	$incidents = getTableFiltered("app_servers_incidents","serverid",$_GET['id'],"","","*","id","DESC");
+	$alert_actions = getTableFiltered("app_servers_alert_actions","serverid",$_GET['id'],"","","*","id","ASC");
+	$alert_action_runs = $database->select("app_servers_alert_action_runs", "*", [ "serverid" => $_GET['id'], "ORDER" => [ "id" => "DESC" ], "LIMIT" => 50 ]);
 	$unresolved_incidents = getTableFiltered("app_servers_incidents","serverid",$_GET['id'],"status[!]","1","*","id","ASC");
 	$unresolved_status = "primary";
 	foreach($unresolved_incidents as $incident) {

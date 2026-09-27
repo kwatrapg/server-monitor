@@ -241,3 +241,45 @@ printf 'data=%s' "$PAYLOAD" | curl -m 50 -s \
     -H "X-Agent-Timestamp: ${TS}" \
     -H "X-Agent-Signature: ${SIG}" \
     --data-binary @- "$GATEWAY"
+
+
+##################################
+###   ALERT ACTIONS            ###
+##################################
+# Optional and best-effort - the metrics upload above already fully completed
+# by this point, so anything that goes wrong here is skipped, never fatal.
+# Commands queued because an alert fired (Actions tab). Each is handed out once
+# by actionsconfig.php as "<run_id> <timeout> <base64 command>" lines, and
+# reported back as "<run_id> <exit_code> <base64 output>" lines. base64 on both
+# sides means arbitrary command text/output never needs escaping (and no jq).
+
+ACT_BASE=$(echo "$GATEWAY" | sed 's#/agent\.php$##')
+ACT_CONFIG=$(curl -m 30 -s "$ACT_BASE/actionsconfig.php?serverkey=$SERVERKEY")
+ACT_RESULTS=""
+
+while read -r ACT_ID ACT_TIMEOUT ACT_B64; do
+    case "$ACT_ID" in ''|*[!0-9]*) continue ;; esac
+    case "$ACT_TIMEOUT" in ''|*[!0-9]*) ACT_TIMEOUT=30 ;; esac
+
+    ACT_TEXT=$(printf '%s' "$ACT_B64" | openssl base64 -d -A 2>/dev/null) || continue
+    # stdin from /dev/null so a command that reads stdin cannot eat the queue lines
+    ACT_OUTPUT=$(timeout "${ACT_TIMEOUT}" bash -c "$ACT_TEXT" < /dev/null 2>&1)
+    ACT_EXIT=$?
+
+    ACT_OUT_B64=$(printf '%s' "$ACT_OUTPUT" | head -c 1000 | openssl base64 -A)
+    ACT_RESULTS="${ACT_RESULTS}${ACT_ID} ${ACT_EXIT} ${ACT_OUT_B64}
+"
+done <<< "$ACT_CONFIG"
+
+if [ -n "$ACT_RESULTS" ]; then
+    ACT_PAYLOAD=$(printf '%s' "$ACT_RESULTS" | openssl base64 -A | tr '+/' '-_')
+    ACT_TS=$(date +%s)
+    ACT_SIG=$(printf '%s' "${ACT_TS}.${ACT_PAYLOAD}" | openssl dgst -sha256 -hmac "$SIGNING_KEY" -r | cut -d' ' -f1)
+
+    curl -m 50 -s \
+        -H "X-Agent-Timestamp: ${ACT_TS}" \
+        -H "X-Agent-Signature: ${ACT_SIG}" \
+        --data-urlencode "serverkey=${SERVERKEY}" \
+        --data-urlencode "data=${ACT_PAYLOAD}" \
+        "$ACT_BASE/actionresult.php" > /dev/null 2>&1
+fi

@@ -76,6 +76,7 @@ function sm_valid_action($action) {
         'setRange', 'resetRange',
         'addServer', 'editServer', 'deleteServer', 'addServerAlert', 'editServerAlert',
         'deleteServerAlert', 'markServerIncident', 'editServerIncidentComment',
+        'addServerAlertAction', 'editServerAlertAction', 'deleteServerAlertAction',
         'addWebsite', 'editWebsite', 'deleteWebsite', 'addWebsiteAlert', 'editWebsiteAlert',
         'deleteWebsiteAlert', 'markWebsiteIncident', 'editWebsiteIncidentComment',
         'addCheck', 'editCheck', 'deleteCheck', 'addCheckAlert', 'editCheckAlert',
