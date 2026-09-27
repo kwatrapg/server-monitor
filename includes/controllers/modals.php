@@ -63,6 +63,19 @@ switch($_GET['modal']) {
         }
     break;
 
+    case "serveractions/add":
+        $server = getRowById("app_servers",$_GET['routeid']);
+        checkGroupRedirect($server['groupid']);
+        $alerts = getTableFiltered("app_servers_alerts","serverid",$server['id'],"","","*","id","ASC");
+    break;
+
+    case "serveractions/edit":
+        $action = getRowById("app_servers_alert_actions",$_GET['id']);
+        $server = getRowById("app_servers",$action['serverid']);
+        checkGroupRedirect($server['groupid']);
+        $alerts = getTableFiltered("app_servers_alerts","serverid",$server['id'],"","","*","id","ASC");
+    break;
+
     case "serveralerts/editComment":
         $incident = getRowById("app_servers_incidents",$_GET['id']);
     break;
