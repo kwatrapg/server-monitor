@@ -277,19 +277,46 @@ if command -v jq >/dev/null 2>&1; then
 
             i=$((i + 1))
         done
+    else
+        CMD_RESULTS="[]"
+    fi
 
-        if [ "$(echo "$CMD_RESULTS" | jq 'length')" -gt 0 ]; then
+    # Alert actions: commands queued because an alert fired. Each is handed out
+    # once (actionsconfig.php marks it dispatched) and reported back by run_id in
+    # the same signed POST as the custom command results above.
+    ACT_CONFIG=$(curl -m 30 -k -s "$CMD_BASE/actionsconfig.php?serverkey=$SERVERKEY")
 
-            CMD_PAYLOAD=$(echo "$CMD_RESULTS" | jq -c '.' | openssl base64 -A | tr '+/' '-_')
-            CMD_TS=$(date +%s)
-            CMD_SIG=$(printf '%s' "${CMD_TS}.${CMD_PAYLOAD}" | openssl dgst -sha256 -hmac "$SIGNING_KEY" -r | cut -d' ' -f1)
+    if [ -n "$ACT_CONFIG" ] && echo "$ACT_CONFIG" | jq -e 'type == "array"' >/dev/null 2>&1; then
+        ACT_COUNT=$(echo "$ACT_CONFIG" | jq 'length')
 
-            curl -m 50 -k -s \
-                -H "X-Agent-Timestamp: ${CMD_TS}" \
-                -H "X-Agent-Signature: ${CMD_SIG}" \
-                --data-urlencode "serverkey=${SERVERKEY}" \
-                --data-urlencode "data=${CMD_PAYLOAD}" \
-                "$CMD_BASE/commandresult.php" > /dev/null 2>&1
-        fi
+        i=0
+        while [ "$i" -lt "$ACT_COUNT" ]; do
+            ACT_ID=$(echo "$ACT_CONFIG" | jq -r ".[$i].run_id")
+            ACT_TEXT=$(echo "$ACT_CONFIG" | jq -r ".[$i].command")
+            ACT_TIMEOUT=$(echo "$ACT_CONFIG" | jq -r ".[$i].timeout_seconds")
+
+            ACT_OUTPUT=$(timeout "${ACT_TIMEOUT}" bash -c "$ACT_TEXT" 2>&1)
+            ACT_EXIT=$?
+
+            ACT_ENTRY=$(jq -n --argjson run_id "$ACT_ID" --argjson exit_code "$ACT_EXIT" --arg output "$ACT_OUTPUT" \
+                '{run_id: $run_id, exit_code: $exit_code, output: $output}')
+            CMD_RESULTS=$(echo "$CMD_RESULTS" | jq --argjson entry "$ACT_ENTRY" '. + [$entry]')
+
+            i=$((i + 1))
+        done
+    fi
+
+    if [ "$(echo "$CMD_RESULTS" | jq 'length')" -gt 0 ]; then
+
+        CMD_PAYLOAD=$(echo "$CMD_RESULTS" | jq -c '.' | openssl base64 -A | tr '+/' '-_')
+        CMD_TS=$(date +%s)
+        CMD_SIG=$(printf '%s' "${CMD_TS}.${CMD_PAYLOAD}" | openssl dgst -sha256 -hmac "$SIGNING_KEY" -r | cut -d' ' -f1)
+
+        curl -m 50 -k -s \
+            -H "X-Agent-Timestamp: ${CMD_TS}" \
+            -H "X-Agent-Signature: ${CMD_SIG}" \
+            --data-urlencode "serverkey=${SERVERKEY}" \
+            --data-urlencode "data=${CMD_PAYLOAD}" \
+            "$CMD_BASE/commandresult.php" > /dev/null 2>&1
     fi
 fi

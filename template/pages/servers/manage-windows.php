@@ -30,12 +30,15 @@
                         <li <?php if ($section == "network") echo 'class="active"'; ?> ><a href="?route=servers/manage-windows&id=<?php echo $server['id']; ?>&section=network"><?php _e('Network'); ?></a></li>
                         <li <?php if ($section == "processes") echo 'class="active"'; ?> ><a href="?route=servers/manage-windows&id=<?php echo $server['id']; ?>&section=processes"><?php _e('Processes'); ?></a></li>
                         <li <?php if ($section == "alerting") echo 'class="active"'; ?> ><a href="?route=servers/manage-windows&id=<?php echo $server['id']; ?>&section=alerting"><?php _e('Alerting'); ?></a></li>
+                        <li <?php if ($section == "actions") echo 'class="active"'; ?> ><a href="?route=servers/manage-windows&id=<?php echo $server['id']; ?>&section=actions"><?php _e('Actions'); ?></a></li>
 
 						<li <?php if ($section == "incidents") echo 'class="active"'; ?> ><a href="?route=servers/manage-windows&id=<?php echo $server['id']; ?>&section=incidents"><?php _e('Incidents'); ?></a></li>
 
 						<div class="btn-group pull-right" style="padding:6px;">
 							<?php if ($section == "alerting") { ?>
 								<a data-toggle='tooltip' title='Add Alert' class="btn btn-primary btn-flat btn-sm " href="#" onClick='showM("?modal=serveralerts/add&reroute=servers/manage-windows&routeid=<?php echo $server['id']; ?>");return false'><i class="fa fa-plus"></i> ADD ALERT</a>
+							<?php } elseif ($section == "actions" && in_array("editServer",$perms)) { ?>
+								<a data-toggle='tooltip' title='Add Action' class="btn btn-primary btn-flat btn-sm " href="#" onClick='showM("?modal=serveractions/add&reroute=servers/manage-windows&routeid=<?php echo $server['id']; ?>");return false'><i class="fa fa-plus"></i> ADD ACTION</a>
 							<?php } ?>
 
 							<button type="button" class="btn btn-default btn-flat btn-sm  pull-right" id="daterange-btn">
@@ -849,6 +852,12 @@
 
                         </div>
                         <!-- /.tab-pane -->
+
+						<!-- tab-pane -->
+						<div class="tab-pane <?php if ($section == "actions") echo 'active'; ?>" id="actions">
+							<?php $manageRoute = "servers/manage-windows"; include __DIR__ . '/_actions.php'; ?>
+						</div>
+						<!-- /.tab-pane -->
 
 						<!-- tab-pane -->
 						<div class="tab-pane <?php if ($section == "incidents") echo 'active'; ?>" id="incidents">

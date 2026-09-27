@@ -9,7 +9,8 @@
  * both endpoints within the same second.
  *
  * Body: JSON array of {id, exit_code, output} - one per command this server
- * was configured to run (from commandsconfig.php). Never raw shell output
+ * was configured to run (from commandsconfig.php) - plus {run_id, exit_code,
+ * output} for each alert-action command it was handed (from actionsconfig.php). Never raw shell output
  * trusted beyond a length cap; nothing here is ever passed to a shell.
  */
 
@@ -89,7 +90,15 @@ if (!is_array($results)) commandresult_reject(400, "Malformed payload.");
 
 $applied = 0;
 foreach ($results as $r) {
-    if (!is_array($r) || !isset($r['id']) || !isset($r['exit_code'])) continue;
+    if (!is_array($r) || !isset($r['exit_code'])) continue;
+
+    // alert-action runs (from actionsconfig.php) share this channel, keyed by run_id
+    if (isset($r['run_id'])) {
+        ServerAction::reportRun($server['id'], (int) $r['run_id'], (int) $r['exit_code'], substr((string) ($r['output'] ?? ''), 0, 1000));
+        $applied++;
+        continue;
+    }
+    if (!isset($r['id'])) continue;
 
     $commandRow = $database->get("app_servers_commands", "*", [
         "AND" => [ "id" => (int) $r['id'], "serverid" => $server['id'] ],

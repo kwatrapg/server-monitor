@@ -92,6 +92,8 @@ class Server extends App {
         $database->delete("app_servers_alerts", [ "serverid" => $id ]);
         $database->delete("app_servers_history", [ "serverid" => $id ]);
         $database->delete("app_servers_incidents", [ "serverid" => $id ]);
+        $database->delete("app_servers_alert_actions", [ "serverid" => $id ]);
+        $database->delete("app_servers_alert_action_runs", [ "serverid" => $id ]);
     	logSystem("Server Deleted - ID: " . $id);
     	return "30";
     }
@@ -138,6 +140,7 @@ class Server extends App {
     public static function deleteAlert($id) {
         global $database;
         $database->delete("app_servers_alerts", [ "id" => $id ]);
+        foreach ($database->select("app_servers_alert_actions", "id", [ "alertid" => $id ]) as $actionid) ServerAction::deleteAction($actionid);
         logSystem("Server Alert Deleted - ID: " . $id);
         return "30";
     }
@@ -1008,6 +1011,8 @@ class Server extends App {
                             ]);
                             // send notification incident opened
                             App::send_alert_notif('open', 'server', $alert['id']);
+                            // fire any webhook/command actions attached to this alert
+                            ServerAction::trigger($server, $alert, $incident_id);
                         }
 
                     } else {
@@ -1306,7 +1311,7 @@ class Server extends App {
                     if($occured >= $alert['occurrences']) {
                         // check if incident is already opened, if not open a new one
                         if( !$database->has("app_servers_incidents", [ "AND" => [ 'alertid' => $alert['id'], 'status[!]' => 1 ] ] )) {
-                            $database->insert("app_servers_incidents", [
+                            $incident_id = $database->insert("app_servers_incidents", [
                                 "serverid" => $server['id'],
                                 "alertid" => $alert['id'],
                                 "type" => $alert['type'],
@@ -1320,6 +1325,8 @@ class Server extends App {
                             ]);
                             // send notification incident opened
                             App::send_alert_notif('open', 'server', $alert['id']);
+                            // fire any webhook/command actions attached to this alert
+                            ServerAction::trigger($server, $alert, $incident_id);
                         }
 
                     } else {

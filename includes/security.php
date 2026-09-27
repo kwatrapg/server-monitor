@@ -465,6 +465,46 @@ function sm_safe_http_get($url, $timeout = 10, $maxRedirects = 3) {
 }
 
 /**
+ * SSRF-safe HTTP POST with a JSON body, for user-suppliable targets (e.g. alert
+ * action webhooks). Same HostGuard validation + IP pinning as sm_safe_http_get;
+ * never follows redirects (a POST shouldn't be silently re-sent elsewhere).
+ * Requires ext-curl; returns ['status'=>int,'body'=>string,'error'=>?string].
+ */
+function sm_safe_http_post($url, $jsonBody, $timeout = 10) {
+    if (!function_exists('curl_init')) {
+        return ['status' => 0, 'body' => '', 'error' => 'curl unavailable'];
+    }
+    try {
+        [$u, $ip, $host, $port] = HostGuard::assertUrl($url);
+    } catch (\Throwable $ex) {
+        return ['status' => 0, 'body' => '', 'error' => $ex->getMessage()];
+    }
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $u,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => (string) $jsonBody,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json', 'Content-Length: ' . strlen((string) $jsonBody)],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER         => false,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_CONNECTTIMEOUT => min(10, $timeout),
+        CURLOPT_TIMEOUT        => $timeout,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+        CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+        CURLOPT_USERAGENT      => 'Sentruo-Monitor/1.0',
+        CURLOPT_RESOLVE        => ["{$host}:{$port}:{$ip}"],
+    ]);
+    $body   = curl_exec($ch);
+    $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    $err    = curl_errno($ch) ? curl_error($ch) : null;
+    curl_close($ch);
+
+    return ['status' => $status, 'body' => (string) $body, 'error' => $err];
+}
+
+/**
  * HTTP POST with a JSON body to an ADMIN-CONFIGURED, trusted endpoint (e.g.
  * LICENSE_API_URL) — not for user-suppliable targets. Deliberately does not
  * go through HostGuard: unlike check/website probe targets, this URL comes

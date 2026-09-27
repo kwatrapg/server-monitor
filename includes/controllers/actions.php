@@ -52,6 +52,39 @@ switch($_POST['action']) {
 		isAuthorized("editServer"); $status = Server::deleteAlert($_POST['id']);
 	break;
 
+	// server alert actions - scoped to the server's group, and the chosen alert
+	// must belong to that same server
+	case "addServerAlertAction":
+		isAuthorized("editServer");
+		$server = getRowById("app_servers", $_POST['serverid']);
+		checkGroupRedirect($server['groupid']);
+		$alert = getRowById("app_servers_alerts", $_POST['alertid']);
+		if (empty($alert) || $alert['serverid'] != $server['id']) { $status = "11"; break; }
+		// the Windows agent doesn't run commands
+		if ($server['type'] != 'linux' && ($_POST['type'] ?? '') == 'command') { $status = "11"; break; }
+		$status = ServerAction::addAction($_POST);
+	break;
+
+	case "editServerAlertAction":
+		isAuthorized("editServer");
+		$existing = getRowById("app_servers_alert_actions", $_POST['id']);
+		$server = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($server['groupid']);
+		$alert = getRowById("app_servers_alerts", $_POST['alertid']);
+		if (empty($alert) || $alert['serverid'] != $server['id']) { $status = "11"; break; }
+		// the Windows agent doesn't run commands
+		if ($server['type'] != 'linux' && ($_POST['type'] ?? '') == 'command') { $status = "11"; break; }
+		$status = ServerAction::editAction($_POST);
+	break;
+
+	case "deleteServerAlertAction":
+		isAuthorized("editServer");
+		$existing = getRowById("app_servers_alert_actions", $_POST['id']);
+		$server = getRowById("app_servers", $existing['serverid']);
+		checkGroupRedirect($server['groupid']);
+		$status = ServerAction::deleteAction($_POST['id']);
+	break;
+
 	case "markServerIncident":
 		isAuthorized("editServer"); $status = Server::markIncident($_POST['id']);
 	break;
