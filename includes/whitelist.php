@@ -95,6 +95,7 @@ function sm_valid_action($action) {
         'generalSettings', 'monitoringSettings', 'localisationSettings',
         'emailSettings', 'smsSettings', 'twitterSettings', 'pushoverSettings',
         'editNotification', 'testEmailSettings',
+        'reportSettings', 'sendReportNow', 'previewReport',
     ];
     return in_array($action, $actions, true);
 }

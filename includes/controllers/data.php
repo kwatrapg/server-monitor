@@ -907,6 +907,8 @@ if ($route == "system/settings") {
 	$contacts = getTable("app_contacts");
 	$selected_contacts = unserialize((string) getConfigValue("default_contacts"), ['allowed_classes' => false]);
 	if(!$selected_contacts) $selected_contacts = [];
+	$report_contacts = unserialize((string) getConfigValue("report_contacts"), ['allowed_classes' => false]);
+	if(!is_array($report_contacts)) $report_contacts = [];
 	$pageTitle = __("Settings");
 
 	$tzlist = array (

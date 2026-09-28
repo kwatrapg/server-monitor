@@ -158,45 +158,11 @@ class App {
     }
 
 
-    public static function send_alert_notif($action, $assettype, $alertid) {
-        global $database;
-        global $twittercon;
-
-        if($assettype == "website") {
-            $alert = getRowById("app_websites_alerts", $alertid);
-            $asset = getRowById("app_websites", $alert['websiteid']);
-            $database->update("app_websites_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
-
-            $assettype = __('Website');
-        }
-        if($assettype == "check") {
-            $alert = getRowById("app_checks_alerts", $alertid);
-            $asset = getRowById("app_checks", $alert['checkid']);
-            $database->update("app_checks_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
-
-            $assettype = __('Check');
-        }
-        if($assettype == "server") {
-            $alert = getRowById("app_servers_alerts", $alertid);
-            $asset = getRowById("app_servers", $alert['serverid']);
-            $database->update("app_servers_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
-
-            $assettype = __('Server');
-        }
-        if($assettype == "domain") {
-            $alert = getRowById("app_domains_alerts", $alertid);
-            $asset = getRowById("app_domains", $alert['domainid']);
-            $database->update("app_domains_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
-
-            $assettype = __('Domain');
-        }
-        if($assettype == "ssl") {
-            $alert = getRowById("app_ssl_alerts", $alertid);
-            $asset = getRowById("app_ssl", $alert['sslid']);
-            $database->update("app_ssl_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
-
-            $assettype = __('SSL Certificate');
-        }
+    // Human-readable description of an alert rule (or an incident row - they carry
+    // the same type/comparison/comparison_limit columns), e.g. "CPU Usage % >= 90".
+    // Shared by the alert notifications and the scheduled health report.
+    public static function alertTypeString($alert, $typestring = '') {
+        $alert += [ 'type' => '', 'comparison' => '', 'comparison_limit' => '' ];
 
         //websites
         if($alert['type'] == "responsecode") $typestring = __('HTTP Response Code') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
@@ -250,6 +216,61 @@ class App {
         if($alert['type'] == "netdl") $typestring = __('Network Download Speed MB/s') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
         if($alert['type'] == "netup") $typestring = __('Network Upload Speed MB/s') . " " . $alert['comparison'] . " " . $alert['comparison_limit'];
 
+        return $typestring;
+    }
+
+
+    public static function send_alert_notif($action, $assettype, $alertid) {
+        global $database;
+        global $twittercon;
+        $assetkey = $assettype; // $assettype is replaced by its display label below
+
+        if($assettype == "website") {
+            $alert = getRowById("app_websites_alerts", $alertid);
+            $asset = getRowById("app_websites", $alert['websiteid']);
+            $database->update("app_websites_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $assettype = __('Website');
+        }
+        if($assettype == "check") {
+            $alert = getRowById("app_checks_alerts", $alertid);
+            $asset = getRowById("app_checks", $alert['checkid']);
+            $database->update("app_checks_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $assettype = __('Check');
+        }
+        if($assettype == "server") {
+            $alert = getRowById("app_servers_alerts", $alertid);
+            $asset = getRowById("app_servers", $alert['serverid']);
+            $database->update("app_servers_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $assettype = __('Server');
+        }
+        if($assettype == "domain") {
+            $alert = getRowById("app_domains_alerts", $alertid);
+            $asset = getRowById("app_domains", $alert['domainid']);
+            $database->update("app_domains_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $assettype = __('Domain');
+        }
+        if($assettype == "ssl") {
+            $alert = getRowById("app_ssl_alerts", $alertid);
+            $asset = getRowById("app_ssl", $alert['sslid']);
+            $database->update("app_ssl_incidents", [ "last_notification" => date('Y-m-d H:i:s') ], [ "AND" => [ 'alertid'=> $alertid, 'status[!]' => 1 ] ]);
+
+            $assettype = __('SSL Certificate');
+        }
+
+        $typestring = self::alertTypeString($alert, $typestring ?? '');
+
+        // deep link for the "View in dashboard" button of the HTML email
+        $routes = [ "website" => "websites/manage", "check" => "checks/manage", "domain" => "domains/manage", "ssl" => "ssl/manage" ];
+        if (isset($routes[$assetkey])) {
+            $link = "?route=" . $routes[$assetkey] . "&id=" . $asset['id'];
+        } else { // server
+            $link = "?route=servers/manage-" . $asset['type'] . "&id=" . $asset['id'];
+        }
+
 
 
         if($action == "open") {
@@ -274,19 +295,21 @@ class App {
             $twittercon = new \DG\Twitter\Twitter(getConfigValue("twitter_apikey"), getConfigValue("twitter_apisecret"), getConfigValue("twitter_token"), getConfigValue("twitter_tokensecret"));
         }
 
-        $contactids = unserialize((string) $alert['contacts'], ['allowed_classes' => false]); if(empty($contacts)) $contacts = [];
+        $contactids = unserialize((string) $alert['contacts'], ['allowed_classes' => false]); if(empty($contactids)) $contactids = [];
 
 
         foreach($contactids as $contactid) {
             $contact = getRowById("app_contacts", $contactid);
 
             if($contact['email'] != "") {
+                // email gets the designed HTML card; SMS/push/tweets below keep the plain one-liner
+                $html = MailTemplate::incident($action, $assettype, $asset['name'], $typestring, $contact['name'], $link);
 
                 if($action == "unresolved") {
-                    Notification::incidentUnresolvedAlert($contact['email'], $contact['name'], $subject, $message);
+                    Notification::incidentUnresolvedAlert($contact['email'], $contact['name'], $subject, $html);
 
                 } else {
-                    Notification::incidentAlert($contact['email'], $contact['name'], $subject, $message);
+                    Notification::incidentAlert($contact['email'], $contact['name'], $subject, $html);
                 }
 
 
