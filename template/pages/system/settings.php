@@ -29,6 +29,7 @@
 						<li <?php if ($section == "pushover") echo 'class="active"'; ?> ><a href="#pushover" data-toggle="tab"><?php _e('Pushover'); ?></a></li>
 						<li <?php if ($section == "license") echo 'class="active"'; ?> ><a href="#license" data-toggle="tab"><?php _e('License'); ?></a></li>
 						<li <?php if ($section == "templates") echo 'class="active"'; ?> ><a href="#templates" data-toggle="tab"><?php _e('Notifications'); ?></a></li>
+						<li <?php if ($section == "reports") echo 'class="active"'; ?> ><a href="#reports" data-toggle="tab"><?php _e('Reports'); ?></a></li>
 						<li <?php if ($section == "crons") echo 'class="active"'; ?> ><a href="#crons" data-toggle="tab"><?php _e('Cron Jobs'); ?></a></li>
                     </ul>
                     <div class="tab-content">
@@ -502,12 +503,77 @@
 
 								<h3>Alerts</h3>
 								<a onClick='showM("?modal=notifications/edit&id=3&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Incident Alert'); ?></a>
-								<a onClick='showM("?modal=notifications/edit&id=3&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Incident Unresolved'); ?></a>
+								<a onClick='showM("?modal=notifications/edit&id=4&reroute=system/settings&section=templates");return false' data-toggle="modal" class="btn btn-flat btn-primary btn-sm"><?php _e('Incident Unresolved'); ?></a>
 							</div>
 							<br>
 
 
                         </div><!-- /.tab-pane -->
+
+
+						<div class="tab-pane <?php if ($section == "reports") echo 'active'; ?>" id="reports">
+							<p class="text-muted"><?php _e('Emails a health report on a schedule: overall status, open issues and the current state of every server, website, check, domain and SSL certificate.'); ?></p>
+
+							<form role="form" action="" method="post" id="reportSettingsForm">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="report_enabled" class="control-label"><?php _e('Scheduled Report'); ?></label>
+											<select class="form-control select2" id="report_enabled" name="report_enabled" style="width: 100%;">
+												<option value="false" <?php if (getConfigValue("report_enabled") !== "true") echo 'selected'; ?>><?php _e('Disabled'); ?></option>
+												<option value="true" <?php if (getConfigValue("report_enabled") === "true") echo 'selected'; ?>><?php _e('Enabled'); ?></option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="report_interval" class="control-label"><?php _e('Send'); ?></label>
+											<select class="form-control select2" id="report_interval" name="report_interval" style="width: 100%;">
+												<?php foreach (HealthReport::INTERVALS as $hours => $label) { ?>
+													<option value="<?php echo $hours; ?>" <?php if ((int) getConfigValue("report_interval") == $hours) echo 'selected'; ?>><?php echo e(ucfirst(__($label))); ?></option>
+												<?php } ?>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="report_contacts"><?php _e('Recipients'); ?> <i class="fa fa-info-circle fa-fw" data-toggle="tooltip" title="<?php _e('Contacts with an email address receive the report.'); ?>"></i></label>
+									<select class="form-control select2tags select2-hidden-accessible" id="report_contacts" name="report_contacts[]" style="width: 100%;" multiple>
+										<?php foreach ($contacts as $contact) { ?>
+											<option value='<?php echo $contact['id']; ?>' <?php if (in_array($contact['id'], $report_contacts)) echo "selected"; ?>><?php echo e($contact['name']); ?><?php if ($contact['email'] != "") echo ' (' . e($contact['email']) . ')'; ?></option>
+										<?php } ?>
+									</select>
+									<p class="help-block">
+										<?php _e('Last sent:'); ?> <?php echo getConfigValue("report_last_sent") ? e(dateTimeDisplay(getConfigValue("report_last_sent"))) : __('never'); ?>
+									</p>
+								</div>
+
+								<div class="form-group">
+									<div class="pull-right" style="margin:10px 0px;"><button type='submit' class="btn btn-flat btn-success"><?php _e('Save Changes'); ?></button></div>
+								</div>
+								<div style="clear:both;"></div>
+
+								<input type="hidden" name="action" value="reportSettings">
+								<input type="hidden" name="route" value="system/settings">
+								<input type="hidden" name="section" value="reports">
+							</form>
+
+							<hr>
+
+							<h4><?php _e('Preview & Test'); ?></h4>
+							<p class="text-muted"><?php _e('Preview shows the report as it would look right now. Send Now emails it immediately to the saved recipients (save your changes first).'); ?></p>
+							<form role="form" action="" method="post" target="_blank" style="display:inline;">
+								<input type="hidden" name="action" value="previewReport">
+								<button type="submit" class="btn btn-flat btn-default"><i class="fa fa-eye"></i> <?php _e('Preview Report'); ?></button>
+							</form>
+							<form role="form" action="" method="post" style="display:inline;">
+								<input type="hidden" name="action" value="sendReportNow">
+								<input type="hidden" name="route" value="system/settings">
+								<input type="hidden" name="section" value="reports">
+								<button type="submit" class="btn btn-flat btn-primary"><i class="fa fa-paper-plane-o"></i> <?php _e('Send Report Now'); ?></button>
+							</form>
+						</div><!-- /.tab-pane -->
 
 
 						<div class="tab-pane <?php if ($section == "crons") echo 'active'; ?>" id="crons">

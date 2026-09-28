@@ -361,6 +361,27 @@ switch($_POST['action']) {
 		$status = 40;
 	break;
 
+	case "reportSettings":
+		isAuthorized("manageSettings");
+		Settings::update("report_enabled", ($_POST['report_enabled'] ?? '') === "true" ? "true" : "false");
+		$interval = (int) ($_POST['report_interval'] ?? 24);
+		Settings::update("report_interval", isset(HealthReport::INTERVALS[$interval]) ? $interval : 24);
+		Settings::update("report_contacts", serialize(array_values(array_filter((array) ($_POST['report_contacts'] ?? []), 'ctype_digit'))));
+		$status = 40;
+	break;
+
+	case "sendReportNow":
+		isAuthorized("manageSettings");
+		[$sent] = HealthReport::send();
+		$status = $sent > 0 ? 44 : 45;
+	break;
+
+	case "previewReport":
+		isAuthorized("manageSettings");
+		header('Content-Type: text/html; charset=utf-8');
+		echo MailTemplate::report(HealthReport::build());
+		exit;
+
 	case "localisationSettings":
 		isAuthorized("manageSettings");
 		Settings::update("week_start", $_POST['week_start']);
