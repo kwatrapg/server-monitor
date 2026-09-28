@@ -98,6 +98,7 @@ function sm_valid_action($action) {
         'emailSettings', 'smsSettings', 'twitterSettings', 'pushoverSettings',
         'licenseSettings',
         'editNotification', 'testEmailSettings',
+        'reportSettings', 'sendReportNow', 'previewReport',
         'addLogSource', 'editLogSource', 'deleteLogSource',
         'addLogAlert', 'editLogAlert', 'deleteLogAlert',
         'markLogIncident', 'editLogIncidentComment',

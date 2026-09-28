@@ -188,6 +188,10 @@ $result .= "Sent $unresolved_command_incidents unresolved command incidents.<br>
 
 
 
+// scheduled health report
+$sent_reports = HealthReport::sendIfDue();
+if ($sent_reports) $result .= "<br>Sent health report to $sent_reports recipients.<br>";
+
 // update geodata
 //App::updateGeoData();
 
